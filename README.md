@@ -3,5 +3,5 @@
 
 [OPEN FROM HERE](https://arkt-7.github.io/woawin)
 
-<img align="center" src="https://github.com/ArKT-7/WIN-ARM-DOWNLOADER/blob/main/assets/demo-preview.gif" width="480" alt="Preview">
+<img align="center" <a href="https://arkt-7.github.io/woawin/">src="https://github.com/ArKT-7/WIN-ARM-DOWNLOADER/blob/main/assets/demo-preview.gif" width="480" alt="Preview">
 
