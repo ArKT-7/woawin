@@ -9,7 +9,8 @@ Welcome to our **ARM64 Windows 11 Downloader**! If you're looking to get your ha
 - **22621.1702**
 - **22000.318**
 
-All the download links you'll find here are straight from official Microsoft sources, so you can be confident that you're getting the real deal—no worries about security or authenticity.
+Each download link provided here is sourced directly from official Microsoft repositories, ensuring you access the genuine Windows 11 images needed for your ARM devices.
+only the latest version is build using uupdump and uploaded here!
 
 ### 🛠️ What Are These For?
 
