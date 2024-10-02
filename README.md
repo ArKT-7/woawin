@@ -18,8 +18,8 @@
 
 ---
 
-**Happy downloading!**
+### ** Happy Downloading ⬇️**
 
 
-<p align="center"><a href="https://arkt-7.github.io/woawin"><img src="https://github.com/ArKT-7/WIN-ARM-DOWNLOADER/blob/main/assets/demo-preview.gif" width="480"></a></p>
+<p align="center"><a href="https://arkt-7.github.io/woawin"><img src="https://github.com/ArKT-7/WIN-ARM-DOWNLOADER/blob/main/assets/demo-new.gif" width="480"></a></p>
 
