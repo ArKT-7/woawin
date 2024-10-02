@@ -308,34 +308,37 @@
                 }
 
                 function updateLanguages() {
-                    const selectedBuild = document.getElementById('buildNumber').value;
-                    const languageSelect = document.getElementById('language');
-                    const selectedEdition = 'Professional'; // Assuming 'Professional' is default
-                    const languages = Object.keys(editions[selectedBuild][selectedEdition]);
+                const selectedBuild = document.getElementById('buildNumber').value;
+                const languageSelect = document.getElementById('language');
+                const selectedEdition = 'Professional'; // Assuming 'Professional' is default
+                let languages = Object.keys(editions[selectedBuild][selectedEdition]);
 
-                    languageSelect.innerHTML = '';  // Clear existing options
+                // Sort the languages alphabetically
+                languages.sort();
 
-                    let defaultLanguageSelected = false;
-                    languages.forEach(language => {
-                        const option = document.createElement('option');
-                        option.value = language;
-                        option.text = language;
-                        languageSelect.appendChild(option);
+                languageSelect.innerHTML = '';  // Clear existing options
 
-                        // Automatically select "English (United States)" if available
-                        if (language === "English (United States)") {
-                            option.selected = true;
-                            defaultLanguageSelected = true;
-                        }
-                    });
-
-                    if (!defaultLanguageSelected && languages.length > 0) {
-                        // Select the first available language if "English (United States)" is not found
-                        languageSelect.options[0].selected = true;
-                    }
-
-                    updateFileInfo();  // Update file info based on new language
+                let defaultLanguageSelected = false;
+                languages.forEach(language => {
+                const option = document.createElement('option');
+                option.value = language;
+                option.text = language;
+                languageSelect.appendChild(option);
+        
+                // Automatically select "English (United States)" if available
+                if (language === "English (United States)") {
+                    option.selected = true;
+                    defaultLanguageSelected = true;
                 }
+            });
+        
+            if (!defaultLanguageSelected && languages.length > 0) {
+                // Select the first available language if "English (United States)" is not found
+                languageSelect.options[0].selected = true;
+            }
+        
+            updateFileInfo();  // Update file info based on new language
+        }
 
                 function updateFileInfo() {
                     const selectedBuild = document.getElementById('buildNumber').value;
