@@ -33,16 +33,18 @@
         }
 
         .container {
-            background: linear-gradient(135deg, #1c1f24, #3a3f44);
+             background: linear-gradient(135deg, #e0e6ed, #c8d0d8); /* Slightly darker gradient */
+   	    background-size: 200% 200%; /* Increase size for smoother movement */
             border-radius: 16px;
             padding: 30px;
-            box-shadow: 0px 15px 40px rgba(0, 0, 0, 0.3);
             max-width: 400px;
             width: 90%;
             text-align: center;
             position: relative;
             transition: all 0.5s ease; /* Smoothly adjust all properties */
             overflow: hidden;
+		animation: backgroundMove 20s linear infinite; /* Linear for smooth infinite animation */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Added shadow for better visibility */
         }
 
         h2 {
