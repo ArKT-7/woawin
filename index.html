@@ -12,15 +12,9 @@
     <title>Windows 11 ARM64 Download</title>
     <link rel="icon" href="https://img.icons8.com/fluency/48/windows-95.png" type="image/png">
     <style>
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #202124, #18191A);
+            background: linear-gradient(135deg, #1c1f24, #18191A);    
             color: #e8eaed;
             margin: 0;
             padding: 0;
@@ -29,144 +23,150 @@
             align-items: center;
             height: 100vh;
             animation: pulse 5s infinite;
-	    background-color: #202124;
+            background-color: #1c1f24;
         }
 
         .container {
-            background: linear-gradient(135deg, #1c1f24, #3a3f44);
+            background: linear-gradient(135deg, #15181d, #24262b);
             border-radius: 16px;
             padding: 30px;
             box-shadow: 0px 15px 40px rgba(0, 0, 0, 0.3);
-            max-width: 400px;
+            max-width: 390px;
             width: 90%;
             text-align: center;
             position: relative;
-            transition: all 0.5s ease; /* Smoothly adjust all properties */
+            transition: all 0.5s ease; 
             overflow: hidden;
         }
 
         h2 {
-            color: #f8f9fa;
-			margin-top: 5px;
-            margin-bottom: 5px;
-            font-size: 24px;
+            color: transparent; 
+            margin-top: 1px;
+            margin-bottom: 3px;
+            font-size: 27px;
             text-transform: uppercase;
             letter-spacing: 2px;
-            background: linear-gradient(135deg, #00d1ff, #0052cc);
-            -webkit-background-clip: text;
-            color: transparent;
-            animation: textGlow 3s ease-in-out infinite;
+            background: linear-gradient(135deg, #007bff, #00d4ff); 
+            -webkit-background-clip: text; 
+            background-clip: text;
         }
-		
-		h5 {
+
+        h5 {
             color: #f8f9fa;
-			margin-top: 5px;
+            margin-top: 7px;
             margin-bottom: 5px;
-            font-size: 20px;
+            font-size: 18px;
             text-transform: uppercase;
             letter-spacing: 2px;
-            background: linear-gradient(135deg, #00d1ff, #0052cc);
             -webkit-background-clip: text;
-            color: transparent;
-            animation: textGlow 3s ease-in-out infinite;
         }
 
         .logo-text-container {
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 24px;
-            margin-top: 14px;
+            margin-bottom: 16px;
+            margin-top: 12px;
             animation: pulse 3s infinite;
         }
 
-       @keyframes shimmerGradient {
-		0% {
-        background-position: 0% 0%;
-		}
-		50% {
-        background-position: 100% 100%;
-		}
-		100% {
-        background-position: 0% 0%;
-		}
-		}
+        @keyframes shimmerGradient {
+            0% {
+                background-position: 0% 0%;
+            }
+            50% {
+                background-position: 100% 100%;
+            }
+            100% {
+                background-position: 0% 0%;
+            }
+        }
 
-		.logo-text-container .text {
-		display: flex;
-		align-items: center;
-		font-size: 24px;
-		font-weight: bold;
-		background: linear-gradient(135deg, #00d1ff, #00ffff, #00d1ff);
-		background-size: 200% 200%; /* Ensure enough space for the gradient to animate */
-		-webkit-background-clip: text;
-		color: transparent;
-		animation: shimmerGradient 3s ease-in-out infinite;
-		}
+        .logo-text-container .text {
+            display: flex;
+            align-items: center;
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            background: linear-gradient(135deg, #00d1ff, #0052cc);
+            -webkit-background-clip: text;
+            color: transparent;
+            color: #f8f9fa;
+        }
 
+        @keyframes textGlow {
+            0%, 100% {
+                text-shadow: 
+                    0 0 8px rgba(0, 82, 204, 0.8), 
+                    0 0 20px rgba(0, 209, 255, 0.5);
+            }
+            50% {
+                text-shadow: 
+                    0 0 16px rgba(0, 82, 204, 0.8), 
+                    0 0 30px rgba(0, 209, 255, 0.5);
+            }
+        }
 
         .logo-text-container img {
-            margin: 0 10px;
-            width: 36px;
-            height: 36px;
-            animation: spin 10s linear infinite;
+            margin: 0 3px;
+            width: 42px;
+            height: 42px;
         }
 
         select, button {
-		width: 100%;
-		padding: 12px 20px;
-		margin: 8px 0;
-		border-radius: 12px;
-		border: none;
-		font-size: 18px;
-		font-weight: bold;
-		box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
-		transition: all 0.3s ease;
-		text-align: center; /* Center text horizontally */
-		display: inline-block; /* Ensure centering works */
-		}
+            width: 100%;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border-radius: 18px;
+            border: none;
+            font-size: 18px;
+            font-weight: bold;
+            box-shadow: 0px 2px 50px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            text-align: center; 
+            display: inline-block; 
+        }
 
+        select {
+            background-color: #ffffff;
+            font-size: 16px;
+            background: linear-gradient(135deg, #24262b, #2e2e2e);
+            color: #f8f9fa;
+            text-align: center;
+            -webkit-appearance: none;
+            -moz-appearance: none; 
+            appearance: none;
+            position: relative;
+        }
 
-		select {
-		background-color: #ffffff;
-		font-size: 16px;
-		color: #00FFFF;
-		background: linear-gradient(135deg, #333, #444); /* Gradient background */
-		color: #00FFFF; /* Text color */
-		text-align: center; /* Center text horizontally */
-		-webkit-appearance: none; /* Remove default styling */
-		-moz-appearance: none; /* Remove default styling */
-		appearance: none; /* Remove default styling */
-		padding-right: 30px; /* Space for custom arrow (if any) */
-		position: relative;
-		}
-
-		select::-ms-expand {
-		display: none;
-		}
-
-		select::after {
-		content: '\25BC'; /* Unicode for down arrow */
-		position: absolute;
-		right: 10px;
-		top: 50%;
-		transform: translateY(-50%);
-		color: #00FFFF; /* Arrow color */
-		pointer-events: none; /* Prevent interaction with the arrow */
-		}
-
-		select option {
-		background-color: #444; /* Background color of options */
-		color: #00FFFF; /* Text color of options */
-		text-align: center; /* Center text within options */
-		}
         
-		button {
-            background: linear-gradient(135deg, #0052cc, #3f87ff);
+
+        select::-ms-expand {
+            display: none;
+        }
+
+        select::after {
+            content: '\25BC';
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none; 
+        }
+
+        select option {
+            background-color:#24262b; 
+            color: #f8f9fa;
+            text-align: center; 
+            
+        }
+
+        button {
+            background: linear-gradient(135deg, #008cff, #0064fa);
             color: #fff;
             cursor: pointer;
             animation: buttonGlow 2s ease-in-out infinite alternate;
-			margin-top: 20px;
+            margin-top: 18px;
         }
 
         select:hover, button:hover {
@@ -181,7 +181,7 @@
         button:active {
             transform: scale(1);
         }
-	
+
         .note {
             font-size: 14px;
             color: #f1f1f1;
@@ -195,12 +195,12 @@
         }
 
         .notification {
-            color: #00FFFF;
+            color: #00ff6a;
             font-size: 14px;
             font-weight: bold;
             margin-top: 10px;
             display: none;
-            animation: glow 1s ease-out;
+            animation: glow 2s ease-out;
         }
 
         @keyframes glow {
@@ -231,72 +231,68 @@
         <div class="logo-text-container">
             <div class="text">
                 <span>Windows 11</span>
-                <img src="https://img.icons8.com/nolan/64/windows-11.png" alt="Windows 11 Logo">
-                <span>Arm64</span>
+                <img src="https://raw.githubusercontent.com/ArKT-7/woawin/main/assets/windows-11-64.png" alt="Windows 11 Logo">
+               <span>Arm 64</span>
             </div>
         </div>
 
+        <h5>Select Build Number</h5>
+        <select id="buildNumber">
+            <option value="22631.4391 Latest">22631.4391 (23H2) Latest</option>
+            <option value="22631" selected>22631.2861 (23H2)</option>
+            <option value="22621.4391 Latest">22621.4391 (22H2) Latest</option>
+            <option value="22621">22621.1702 (22H2)</option>
+            <option value="22000">22000.318 (21H2)</option>
+        </select>
 
-
-        <h5>Select Build Number:</h5>
-            <select id="buildNumber">
-<option value="22631.4391 Latest">22631.4391 (23H2) Latest</option> -->
-<option value="22631" selected>22631.2861 (23H2)</option>
-<option value="22621.4391 Latest">22621.4391 (22H2) Latest</option>
-<option value="22621">22621.1702 (22H2)</option>
-<option value="22000">22000.318 (21H2)</option>
-
-            </select>
-
-            <h5>Select Language:</h5>
-            <select id="language">
-    <option value="Chinese (Simplified, China)">Chinese (Simplified, China)</option>
-<option value="Finnish (Finland)">Finnish (Finland)</option>
-<option value="Chinese (Traditional, Taiwan)">Chinese (Traditional, Taiwan)</option>
-<option value="English (United States)" selected>English (United States)</option>
-<option value="Hebrew (Israel)">Hebrew (Israel)</option>
-<option value="Arabic (Saudi Arabia)">Arabic (Saudi Arabia)</option>
-<option value="Spanish (Spain, International Sort)">Spanish (Spain, International Sort)</option>
-<option value="Czech (Czechia)">Czech (Czechia)</option>
-<option value="English (United Kingdom)">English (United Kingdom)</option>
-<option value="Spanish (Mexico)">Spanish (Mexico)</option>
-<option value="French (Canada)">French (Canada)</option>
-<option value="Greek (Greece)">Greek (Greece)</option>
-<option value="Dutch (Netherlands)">Dutch (Netherlands)</option>
-<option value="Latvian (Latvia)">Latvian (Latvia)</option>
-<option value="Swedish (Sweden)">Swedish (Sweden)</option>
-<option value="French (France)">French (France)</option>
-<option value="Thai (Thailand)">Thai (Thailand)</option>
-<option value="Slovenian (Slovenia)">Slovenian (Slovenia)</option>
-<option value="Japanese (Japan)">Japanese (Japan)</option>
-<option value="Turkish (Turkey)">Turkish (Turkey)</option>
-<option value="Estonian (Estonia)">Estonian (Estonia)</option>
-<option value="Italian (Italy)">Italian (Italy)</option>
-<option value="Hungarian (Hungary)">Hungarian (Hungary)</option>
-<option value="Portuguese (Brazil)">Portuguese (Brazil)</option>
-<option value="German (Germany)">German (Germany)</option>
-<option value="Ukrainian (Ukraine)">Ukrainian (Ukraine)</option>
-<option value="Croatian (Croatia)">Croatian (Croatia)</option>
-<option value="Bulgarian (Bulgaria)">Bulgarian (Bulgaria)</option>
-<option value="Portuguese (Portugal)">Portuguese (Portugal)</option>
-<option value="Slovak (Slovakia)">Slovak (Slovakia)</option>
-<option value="Korean (Korea)">Korean (Korea)</option>
-<option value="Romanian (Romania)">Romanian (Romania)</option>
-<option value="Russian (Russia)">Russian (Russia)</option>
-<option value="Lithuanian (Lithuania)">Lithuanian (Lithuania)</option>
-<option value="Serbian (Latin, Serbia)">Serbian (Latin, Serbia)</option>
-<option value="Polish (Poland)">Polish (Poland)</option>
-<option value="Norwegian Bokmal (Norway)">Norwegian Bokmal (Norway)</option>
-<option value="Danish (Denmark)">Danish (Denmark)</option>
-
-            </select>
+        <h5>Select Language</h5>
+        <select id="language">
+            <option value="Chinese (Simplified, China)">Chinese (Simplified, China)</option>
+            <option value="Finnish (Finland)">Finnish (Finland)</option>
+            <option value="Chinese (Traditional, Taiwan)">Chinese (Traditional, Taiwan)</option>
+            <option value="English (United States)" selected>English (United States)</option>
+            <option value="Hebrew (Israel)">Hebrew (Israel)</option>
+            <option value="Arabic (Saudi Arabia)">Arabic (Saudi Arabia)</option>
+            <option value="Spanish (Spain, International Sort)">Spanish (Spain, International Sort)</option>
+            <option value="Czech (Czechia)">Czech (Czechia)</option>
+            <option value="English (United Kingdom)">English (United Kingdom)</option>
+            <option value="Spanish (Mexico)">Spanish (Mexico)</option>
+            <option value="French (Canada)">French (Canada)</option>
+            <option value="Greek (Greece)">Greek (Greece)</option>
+            <option value="Dutch (Netherlands)">Dutch (Netherlands)</option>
+            <option value="Latvian (Latvia)">Latvian (Latvia)</option>
+            <option value="Swedish (Sweden)">Swedish (Sweden)</option>
+            <option value="French (France)">French (France)</option>
+            <option value="Thai (Thailand)">Thai (Thailand)</option>
+            <option value="Slovenian (Slovenia)">Slovenian (Slovenia)</option>
+            <option value="Japanese (Japan)">Japanese (Japan)</option>
+            <option value="Turkish (Turkey)">Turkish (Turkey)</option>
+            <option value="Estonian (Estonia)">Estonian (Estonia)</option>
+            <option value="Italian (Italy)">Italian (Italy)</option>
+            <option value="Hungarian (Hungary)">Hungarian (Hungary)</option>
+            <option value="Portuguese (Brazil)">Portuguese (Brazil)</option>
+            <option value="German (Germany)">German (Germany)</option>
+            <option value="Ukrainian (Ukraine)">Ukrainian (Ukraine)</option>
+            <option value="Croatian (Croatia)">Croatian (Croatia)</option>
+            <option value="Bulgarian (Bulgaria)">Bulgarian (Bulgaria)</option>
+            <option value="Portuguese (Portugal)">Portuguese (Portugal)</option>
+            <option value="Slovak (Slovakia)">Slovak (Slovakia)</option>
+            <option value="Korean (Korea)">Korean (Korea)</option>
+            <option value="Romanian (Romania)">Romanian (Romania)</option>
+            <option value="Russian (Russia)">Russian (Russia)</option>
+            <option value="Lithuanian (Lithuania)">Lithuanian (Lithuania)</option>
+            <option value="Serbian (Latin, Serbia)">Serbian (Latin, Serbia)</option>
+            <option value="Polish (Poland)">Polish (Poland)</option>
+            <option value="Norwegian Bokmal (Norway)">Norwegian Bokmal (Norway)</option>
+            <option value="Danish (Denmark)">Danish (Denmark)</option>
+        </select>
             
-            <button onclick="downloadLink()">Download</button>
-            <p class="note">If the download does not start, you can <span style="color:#3f87ff; cursor:pointer;" onclick="copyLink()">copy the download link</span> and paste it in your browser's address bar.</p>
-            <div class="file-info" id="fileInfo">
-                <!-- File size and SHA-1 will be displayed here -->
-            </div>
-            <div class="notification" id="notification"><strong>Download link copied to clipboard</strong></div>
+        <button onclick="downloadLink()">Download</button>
+        <p class="note">If the download does not start, you can <span style="color:#3f87ff; cursor:pointer;" onclick="copyLink()">copy the download link</span> and paste it in your browser's address bar.</p>
+        <div class="file-info" id="fileInfo">
+        <!-- File size and SHA-1 will be displayed here -->
+        </div>
+        <div class="notification" id="notification"><strong>Download link copied to clipboard</strong></div>
 
 
             <script>
@@ -336,9 +332,8 @@
                 // Select the first available language if "English (United States)" is not found
                 languageSelect.options[0].selected = true;
             }
-        
             updateFileInfo();  // Update file info based on new language
-        }
+            }
 
                 function updateFileInfo() {
                     const selectedBuild = document.getElementById('buildNumber').value;
