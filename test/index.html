@@ -206,11 +206,11 @@
         .switchx {
 	    font-size: 17px;
 	    position: absolute;
-	    top: 7px; /* Adjust for positioning */
-	    right: 7px; /* Adjust for positioning */
+	    top: 7px;
+	    right: 7px;
 	    display: inline-block;
-	    width: 40px; /* Reduced width */
-	    height: 22px; /* Reduced height */
+	    width: 40px;
+	    height: 22px;
 	}
 	
 	.switchx input {
@@ -218,7 +218,7 @@
 	    width: 0;
 	    height: 0;
 	}
-	
+
 	.slider {
 	    position: absolute;
 	    cursor: pointer;
@@ -226,31 +226,31 @@
 	    left: 0;
 	    right: 0;
 	    bottom: 0;
-	    background: linear-gradient(135deg, #e0e6ed, #c8d0d8); /* Light mode gradient */
+	    background: linear-gradient(135deg, #3a3f44, #50575d); /* Dark mode background */
 	    transition: 0.4s;
-	    border-radius: 15px; /* Smaller border radius */
-	    box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.2), 0 3px 6px rgba(0, 0, 0, 0.1); /* Adjusted depth effect */
+	    border-radius: 15px;
+	    box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.5), 0 3px 6px rgba(0, 0, 0, 0.2);
 	}
 	
 	.slider:before {
 	    position: absolute;
 	    content: "";
-	    height: 18px; /* Smaller knob */
-	    width: 18px; /* Smaller knob */
-	    border-radius: 50%; /* Circular knob */
+	    height: 18px;
+	    width: 18px;
+	    border-radius: 50%;
 	    left: 2px;
 	    bottom: 2px;
 	    z-index: 2;
-	    background-color: #e8e8e8;
+	    background-color: #e8e8e8; /* White knob */
 	    transition: 0.4s;
-	    box-shadow: 0 3px 4px rgba(0, 0, 0, 0.2); /* Adjusted shadow for the smaller knob */
+	    box-shadow: 0 3px 4px rgba(0, 0, 0, 0.3);
 	}
 	
 	/* Adjusted sun icon for smaller size */
 	.sun svg {
 	    position: absolute;
 	    top: 4px; /* Adjusted position */
-	    left: 24px; /* Adjusted to fit smaller toggle */
+	    left: 4px; /* Move sun to the left */
 	    z-index: 1;
 	    width: 14px; /* Smaller size */
 	    height: 14px; /* Smaller size */
@@ -261,22 +261,22 @@
 	    fill: #73C0FC;
 	    position: absolute;
 	    top: 4px; /* Adjusted position */
-	    left: 4px; /* Adjusted to fit smaller toggle */
+	    left: 24px; /* Adjusted to fit smaller toggle */
 	    z-index: 1;
 	    width: 14px; /* Smaller size */
 	    height: 14px; /* Smaller size */
 	}
 	
-	/* When slider is checked (dark mode) */
+	/* Light mode when the switch is checked */
 	input:checked + .slider {
-	    background: linear-gradient(135deg, #3a3f44, #50575d); /* Dark mode gradient with better contrast */
-	    box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.5), 0 3px 6px rgba(0, 0, 0, 0.2); /* Dark mode depth */
+	    background: linear-gradient(135deg, #e0e6ed, #c8d0d8); /* Light mode gradient */
+	    box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.2), 0 3px 6px rgba(0, 0, 0, 0.1);
 	}
 	
 	input:checked + .slider:before {
-	    background-color: #ffffff; /* Keep the knob white in dark mode */
-	    transform: translateX(18px); /* Adjust translation for smaller slider */
-	    box-shadow: 0 3px 4px rgba(0, 0, 0, 0.3); /* Knob shadow in dark mode */
+	    background-color: #ffffff; /* Knob in light mode */
+	    transform: translateX(18px);
+	    box-shadow: 0 3px 4px rgba(0, 0, 0, 0.2);
 	}
 	
 	.inputx:focus + .slider {
@@ -307,7 +307,7 @@
 </head>
 <body>
     <div class="container">
-         <label class="switchx">
+          <label class="switchx">
             <span class="sun">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                     <g fill="#ffd43b">
