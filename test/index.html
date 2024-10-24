@@ -241,9 +241,9 @@
 	    left: 2px;
 	    bottom: 2px;
 	    z-index: 2;
-	    background-color: #161617; /* White knob */
+	    background: linear-gradient(145deg, #2d2d2d, #1a1a1a); /* Dark gradient for depth */
 	    transition: 0.4s;
-	    box-shadow: 0 3px 4px rgba(0, 0, 0, 0.3);
+	    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(255, 255, 255, 0.1) inset; /* Outer shadow + subtle inner light */
 	}
 	
 	/* Adjusted sun icon for smaller size */
@@ -274,7 +274,7 @@
 	}
 	
 	input:checked + .slider:before {
-	    background-color: #ffffff; /* Knob in light mode */
+	    background-color: #2d2d2d; /* Knob in light mode */
 	    transform: translateX(18px);
 	    box-shadow: 0 3px 4px rgba(0, 0, 0, 0.2);
 	}
