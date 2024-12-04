@@ -403,26 +403,31 @@
 
             <script>
 
-                const buildNumberDropdown = document.getElementById("buildNumber");
-    const warningMessage = document.getElementById("warningMessage");
-
-    // Event listener to detect changes in the dropdown
-    buildNumberDropdown.addEventListener("change", function () {
-        if (buildNumberDropdown.value === "26100") {
-            warningMessage.style.display = "block"; // Show warning
-        } else {
-            warningMessage.style.display = "none"; // Hide warning
+        const buildNumberDropdown = document.getElementById("buildNumber");
+        const warningMessage = document.getElementById("warningMessage");
+        
+        // Array of build numbers that should trigger the warning
+        const warningBuildNumbers = ["26100", "26100.2454 Latest"];
+        
+        // Event listener to detect changes in the dropdown
+        buildNumberDropdown.addEventListener("change", function () {
+            if (warningBuildNumbers.includes(buildNumberDropdown.value)) {
+                warningMessage.style.display = "block"; // Show warning
+            } else {
+                warningMessage.style.display = "none"; // Hide warning
+            }
+        });
+        
+        // Optional: Show warning if a pre-selected build number is in the warning list
+        if (warningBuildNumbers.includes(buildNumberDropdown.value)) {
+            warningMessage.style.display = "block";
         }
-    });
-
-    // Optional: Show warning if "24H2" is pre-selected on page load
-    if (buildNumberDropdown.value === "26100") {
-        warningMessage.style.display = "block";
-    }
-                               window.onload = function() {
+        
+        window.onload = function() {
             const toggleInput = document.getElementById('toggle-input');
             toggleInput.checked = false;
         };
+
 
         function redirectToUrl() {
             const toggleInput = document.getElementById('toggle-input');
