@@ -389,6 +389,8 @@
             <option value="Norwegian Bokmal (Norway)">Norwegian Bokmal (Norway)</option>
             <option value="Danish (Denmark)">Danish (Denmark)</option>
         </select>
+
+        <div id="warningMessage" style="color: #FF6347; font-size: 14px; font-weight: bold; font-style: italic; margin-top: 10px; display: none;">⚠️ 24H2 selected. Make sure your device supports it ⚠️</div>
             
         <button onclick="downloadLink()">Download</button>
         <p class="note">If the download does not start, you can <span style="color:#3f87ff; cursor:pointer;" onclick="copyLink()">copy the download link</span> and paste it in your browser's address bar.</p>
@@ -399,6 +401,23 @@
 
 
             <script>
+
+                const buildNumberDropdown = document.getElementById("buildNumber");
+    const warningMessage = document.getElementById("warningMessage");
+
+    // Event listener to detect changes in the dropdown
+    buildNumberDropdown.addEventListener("change", function () {
+        if (buildNumberDropdown.value === "26100") {
+            warningMessage.style.display = "block"; // Show warning
+        } else {
+            warningMessage.style.display = "none"; // Hide warning
+        }
+    });
+
+    // Optional: Show warning if "24H2" is pre-selected on page load
+    if (buildNumberDropdown.value === "26100") {
+        warningMessage.style.display = "block";
+    }
                                window.onload = function() {
             const toggleInput = document.getElementById('toggle-input');
             toggleInput.checked = false;
