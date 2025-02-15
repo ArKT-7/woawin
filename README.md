@@ -6,7 +6,7 @@
 
 - **26100.3194 (24H2) Latest - only EN-US**
 - **22631.4969 (23H2) Latest - only EN-US**
-- **22621.4602 (22H2) Latest - only EN-US**
+<!--- **22621.4602 (22H2) Latest - only EN-US**-->
 - **26100.2033 (24H2) - All Languages**
 - **22631.2861 (23H2) - All Languages**
 - **22621.1702 (22H1) - All Languages**
