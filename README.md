@@ -4,7 +4,7 @@
 
 ### 📥 Available Versions
 
-- **26100.3915 (24H2) Latest - EN-US and RU-RU**
+- **26100.4061 (24H2) Latest - EN-US and RU-RU**
 - **22631.5262 (23H2) Latest - EN-US and RU-RU**
 <!--- **22621.4602 (22H2) Latest - only EN-US**-->
 - **26100.2033 (24H2) - All Languages**
