@@ -4,7 +4,7 @@
 
 ### 📥 Available Versions
 
-- **26100.4061 (24H2) Latest - EN-US and RU-RU**
+- **26100.4351 (24H2) Latest - EN-US, RU-RU and ZH-CN**
 - **22631.5409 (23H2) Latest - EN-US and RU-RU**
 <!--- **22621.4602 (22H2) Latest - only EN-US**-->
 - **26100.2033 (24H2) - All Languages**
@@ -12,7 +12,7 @@
 - **22621.1702 (22H2) - All Languages**
 - **22000.318  (21H2) - All Languages**
 
-### Each download link provided here is sourced directly from official Microsoft repositories, ensuring you access the genuine Windows 11 images needed for your ARM devices. only the latest version is build using uupdump and uploaded here!
+### Each download link provided here is sourced directly from official Microsoft repositories, ensuring you access the genuine Windows 11 images needed for your ARM devices. only the latest version is build using [uupdump](https://uupdump.net/) and uploaded here!
 
 ### 🛠️ What Are These For?
 
