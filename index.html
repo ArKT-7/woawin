@@ -390,19 +390,6 @@
             background-position: right 14px center;
         }
 
-        select::-ms-expand {
-            display: none;
-        }
-
-        select::after {
-            content: '\25BC';
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            pointer-events: none; 
-        }
-
         button {
             background: linear-gradient(135deg, #008cff, #0064fa);
             color: #fff;
@@ -411,13 +398,27 @@
             margin-top: 16px;
         }
 
-        select:hover, button:hover {
-            transform: scale(1.1);
+        button:hover {
+            transform: scale(1.04);
         }
 
-        select:focus, button:focus {
+        button:focus {
             outline: none;
-            transform: scale(1.1);
+            transform: scale(1.04);
+        }
+
+        select {
+            transition:
+                box-shadow 0.25s cubic-bezier(.7,.2,.1,1),
+                outline-offset 0.25s cubic-bezier(.7,.2,.1,1);
+        }
+
+        select:hover,
+        select:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px #33adff;
+            outline-offset: 2px;
+            transition: box-shadow 0.3s ease, outline-offset 0.3s ease;
         }
 
         button:active {
@@ -516,14 +517,22 @@
         }
         }
 		
-	.seo-text {
-	position: absolute;
-	left: -9999px;
-	top: -9999px;
-	height: 0;
-	width: 0;
-	overflow: hidden;
-	}
+        .seo-text {
+        position: absolute;
+        left: -9999px;
+        top: -9999px;
+        height: 0;
+        width: 0;
+        overflow: hidden;
+        }
+
+        .note span {
+            color: #3f87ff;
+            cursor: pointer;
+            transition: font-weight 0.15s, font-style 0.15s;
+            font-weight: bold;
+            font-style: italic;
+        }
     </style>
 </head>
 <body>
