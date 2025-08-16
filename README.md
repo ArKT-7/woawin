@@ -4,8 +4,8 @@
 
 ### 📥 Available Versions
 
-- **26100.4762 (24H2) Latest - EN-US, RU-RU and ZH-CN**
-- **22631.5696 (23H2) Latest - EN-US, RU-RU and ZH-CN**
+- **26100.5061 (24H2) Latest - EN-US, RU-RU and ZH-CN**
+- **22631.5837 (23H2) Latest - EN-US, RU-RU and ZH-CN**
 <!--- **22621.4602 (22H2) Latest - only EN-US**-->
 - **26100.2033 (24H2) - All Languages**
 - **22631.2861 (23H2) - All Languages**
