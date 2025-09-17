@@ -5,7 +5,7 @@
 ### 📥 Available Versions
 
 - **26200.6713 (25H2) Latest - EN-US, RU-RU and ZH-CN**
-- **26100.5061 (24H2) Latest - EN-US, RU-RU and ZH-CN**
+- **26100.6713 (24H2) Latest - EN-US, RU-RU ~~and ZH-CN~~**
 - **22631.5837 (23H2) Latest - EN-US, RU-RU and ZH-CN**
 <!--- **22621.4602 (22H2) Latest - only EN-US**-->
 - **26100.4349 (24H2) - All Languages**
