@@ -109,6 +109,20 @@ jobs:
           $isoBaseName = [System.IO.Path]::GetFileNameWithoutExtension($iso.Name)
           "iso_base_name=$isoBaseName" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
 
+      - name: Get checksums of ISO
+        id: iso_hashes
+        shell: powershell
+        run: |
+          $isoPath = "${{ steps.find_iso.outputs.iso_path }}"
+          # Calculate checksums
+          Write-Host "Calculating MD5, SHA1, SHA256 for: $isoPath"
+          $md5 = (Get-FileHash $isoPath -Algorithm MD5).Hash.ToLower()
+          $sha1 = (Get-FileHash $isoPath -Algorithm SHA1).Hash.ToLower()
+          $sha256 = (Get-FileHash $isoPath -Algorithm SHA256).Hash.ToLower()
+          "iso_md5=$md5" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+          "iso_sha1=$sha1" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+          "iso_sha256=$sha256" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+
       - name: Generate release tag
         id: gen_tag
         shell: powershell
@@ -168,10 +182,16 @@ jobs:
           $sizeGB = [Math]::Round($isoSize / 1073741824, 2)
           $partsSizeGB = [Math]::Round($totalPartsSize / 1073741824, 2)
           $compressionRatio = [Math]::Round(($isoSize - $totalPartsSize) / $isoSize * 100, 2)
+          $isoMd5 = "${{ steps.iso_hashes.outputs.iso_md5 }}"
+          $isoSha1 = "${{ steps.iso_hashes.outputs.iso_sha1 }}"
+          $isoSha256 = "${{ steps.iso_hashes.outputs.iso_sha256 }}"
           
           $desc = @"
           ### ISO Details:
           - **Name**: ``$isoName``
+          - **MD5**: ``$isoMd5``
+          - **SHA1**: ``$isoSha1``
+          - **SHA256**: ``$isoSha256``
           - **Size**: ``$sizeGB GB ($isoSize bytes)``
           - **Build Date**: ``$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')``
           
