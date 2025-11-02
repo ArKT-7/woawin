@@ -1,0 +1,242 @@
+name: UUP to ISO Builder
+
+on:
+  workflow_dispatch:
+    inputs:
+      download_url:
+        description: 'Download URL for UUP dump ZIP file'
+        required: true
+        type: string
+
+env:
+  WORK_DIR: woawin
+  COMPRESSION_LEVEL: 6
+
+jobs:
+  build-iso:
+    runs-on: windows-latest
+    permissions:
+      contents: write
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup working directory
+        shell: powershell
+        run: |
+          $workDir = "${{ runner.temp }}\${{ env.WORK_DIR }}"
+          New-Item -ItemType Directory -Path $workDir -Force | Out-Null
+          Write-Host "Working directory created: $workDir"
+          "WORK_DIR=$workDir" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+
+      - name: Download UUP dump ZIP from link
+        shell: powershell
+        run: |
+          $downloadUrl = "${{ github.event.inputs.download_url }}"
+          Write-Host "Downloading from: $downloadUrl"
+          [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+          $ProgressPreference = 'SilentlyContinue'
+          $outputPath = "${{ env.WORK_DIR }}\uup.zip"
+          try {
+            Invoke-WebRequest -Uri $downloadUrl -OutFile $outputPath -UseBasicParsing
+            $fileSize = (Get-Item $outputPath).Length
+            Write-Host "Download complete: $outputPath"
+            Write-Host "File size: $([Math]::Round($fileSize / 1MB, 2)) MB"
+          } catch {
+            Write-Host "ERROR: Failed to download file: $_"
+            exit 1
+          }
+
+      - name: Extract UUP dump ZIP
+        shell: powershell
+        run: |
+          $zipPath = "${{ env.WORK_DIR }}\uup.zip"
+          $extractPath = "${{ env.WORK_DIR }}\uup-extract"
+          try {
+            Write-Host "Extracting to: $extractPath"
+            Expand-Archive -Path $zipPath -DestinationPath $extractPath -Force
+            Write-Host "Extraction complete"
+          } catch {
+            Write-Host "ERROR: Failed to extract: $_"
+            exit 1
+          }
+
+      - name: Run conversion script
+        shell: powershell
+        run: |
+          $extractPath = "${{ env.WORK_DIR }}\uup-extract"
+          $scriptPath = Join-Path $extractPath "uup_download_windows.cmd"
+            if (Test-Path $scriptPath) {
+              Write-Host "Running script: $scriptPath"
+              Push-Location $extractPath
+              try {
+                & .\uup_download_windows.cmd
+                $exitCode = $LASTEXITCODE
+                if ($exitCode -ne 0) {
+                  Write-Host "WARNING: Script exited with code: $exitCode"
+                }
+              } catch {
+                Write-Host "ERROR: Failed to execute script: $_"
+                exit 1
+              } finally {
+                Pop-Location
+              }
+            } else {
+              Write-Host "ERROR: uup_download_windows.cmd not found at $scriptPath"
+              exit 1
+            }
+
+      - name: Find ISO and set output
+        id: find_iso
+        shell: powershell
+        run: |
+          $extractPath = "${{ env.WORK_DIR }}\uup-extract"
+          $isoFiles = Get-ChildItem -Path $extractPath -Filter *.iso -Recurse
+          
+          if ($isoFiles.Count -eq 0) {
+            Write-Host "ERROR: No ISO files found in $extractPath"
+            exit 1
+          }
+          
+          $iso = $isoFiles[0]
+          Write-Host "Found ISO: $($iso.FullName)"
+          Write-Host "Size: $([Math]::Round($iso.Length / 1GB, 2)) GB"
+          
+          "iso_path=$($iso.FullName)" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+          "iso_name=$($iso.Name)" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+          "iso_size=$($iso.Length)" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+
+      - name: Generate release tag
+        id: gen_tag
+        shell: powershell
+        run: |
+          $tag = Get-Date -Format "yyyy-MM-dd_HHmm"
+          $name = Get-Date -Format "MMMM dd, yyyy HH:mm"
+          "release_tag=$tag" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+          "release_name=$name" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+          
+      - name: Split ISO into parts
+        id: split_iso
+        shell: powershell
+        run: |
+          $isoPath = "${{ steps.find_iso.outputs.iso_path }}"
+          $isoSize = [int64]"${{ steps.find_iso.outputs.iso_size }}"
+          $isoName = "${{ steps.find_iso.outputs.iso_name }}"
+          $splitOutputDir = Split-Path $isoPath
+          
+          # Extract base name and create archive name with _parts suffix
+          $isoBaseName = [System.IO.Path]::GetFileNameWithoutExtension($isoName)
+          $splitArchiveName = "${isoBaseName}_parts"
+          $splitArchivePath = Join-Path $splitOutputDir "$splitArchiveName.zip"
+          
+          Write-Host "Splitting ISO into 2000MB parts with compression level ${{ env.COMPRESSION_LEVEL }}..."
+          Write-Host "ISO Path: $isoPath"
+          Write-Host "ISO Size: $([Math]::Round($isoSize / 1073741824, 2)) GB"
+          Write-Host "Archive name: $splitArchiveName"
+          
+          try {
+            & "C:\Program Files\7-Zip\7z.exe" a -tzip -mx=${{ env.COMPRESSION_LEVEL }} -mmt=on $splitArchivePath -v2000m $isoPath
+            
+            if ($LASTEXITCODE -ne 0) {
+              Write-Host "ERROR: 7-Zip compression failed with exit code: $LASTEXITCODE"
+              exit 1
+            }
+          } catch {
+            Write-Host "ERROR: Failed to split ISO: $_"
+            exit 1
+          }
+          
+          $splitPattern = "${splitArchiveName}.zip.00*"
+          $parts = Get-ChildItem -Path $splitOutputDir -Filter $splitPattern | Sort-Object Name
+          
+          if ($parts.Count -eq 0) {
+            Write-Host "ERROR: No split files found with pattern: $splitPattern"
+            exit 1
+          }
+          
+          $totalPartsSize = ($parts | Measure-Object -Property Length -Sum).Sum
+          
+          Write-Host "Split files created:"
+          $parts | ForEach-Object { 
+            Write-Host "  - $($_.Name) ($([Math]::Round($_.Length / 1MB, 2)) MB)"
+          }
+          
+          # Build release description safely        
+          $sizeGB = [Math]::Round($isoSize / 1073741824, 2)
+          $partsSizeGB = [Math]::Round($totalPartsSize / 1073741824, 2)
+          $compressionRatio = [Math]::Round(($isoSize - $totalPartsSize) / $isoSize * 100, 2)
+          
+          $desc = @"
+          ### ISO Details:
+          - **Name**: ``$isoName``
+          - **Size**: ``$sizeGB GB ($isoSize bytes)``
+          - **Build Date**: ``$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')``
+          
+          ### Part List:
+          
+          "@
+          
+          $desc += ($parts | ForEach-Object { "- [``$($_.Name)``](https://github.com/$env:GITHUB_REPOSITORY/releases/download/${{ steps.gen_tag.outputs.release_tag }}/$($_.Name)) **- $([Math]::Round($_.Length / 1MB, 2)) MB**" }) -join "`n"
+          
+          $desc += @"
+          
+          ### Extraction Instructions:
+          - Download all parts
+          - Use 7-Zip or WinRAR to extract: Right-click on ``$($parts[0].Name)`` -> Extract Here
+          - The full ISO will be extracted automatically
+          
+          "@
+          
+                    
+          $descPath = Join-Path $splitOutputDir "release_description.txt"
+          Set-Content -Path $descPath -Value $desc -Encoding utf8
+
+          
+          "split_dir=$splitOutputDir" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+          "split_pattern=$splitPattern" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+          "parts_count=$($parts.Count)" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+
+      - name: Create GitHub Release and upload split parts
+        shell: powershell
+        run: |
+          $splitDir = "${{ steps.split_iso.outputs.split_dir }}"
+          $splitPattern = "${{ steps.split_iso.outputs.split_pattern }}"
+          $releaseTag = "${{ steps.gen_tag.outputs.release_tag }}"
+          $releaseName = "${{ steps.gen_tag.outputs.release_name }}"
+          
+          $parts = Get-ChildItem -Path $splitDir -Filter $splitPattern | Sort-Object Name
+          if ($parts.Count -eq 0) {
+            Write-Host "ERROR: No split files found with pattern: $splitPattern"
+            exit 1
+          }
+          
+          Write-Host "Creating release: $releaseName"
+          Write-Host "Uploading $($parts.Count) split files:"
+          $parts | ForEach-Object { Write-Host "  - $($_.Name)" }
+          
+          $descPath = Join-Path $splitDir "release_description.txt"
+          $body = if (Test-Path $descPath) { Get-Content $descPath -Raw } else { "UUP to ISO Build Release" }
+          
+          $fileArgs = $parts | ForEach-Object { $_.FullName }
+          
+          & gh release create $releaseTag `
+            --title "UUP to ISO Build - $releaseName" `
+            --notes $body `
+            $fileArgs
+          
+          if ($LASTEXITCODE -ne 0) {
+            Write-Host "ERROR: Failed to create release"
+            exit 1
+          }
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload full ISO to artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.find_iso.outputs.iso_basename }}
+          path: ${{ steps.find_iso.outputs.iso_path }}
+          retention-days: 30
+          if-no-files-found: error
+          compression-level: ${{ env.COMPRESSION_LEVEL }}
