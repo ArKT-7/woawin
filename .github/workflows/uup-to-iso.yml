@@ -106,6 +106,8 @@ jobs:
           "iso_path=$($iso.FullName)" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
           "iso_name=$($iso.Name)" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
           "iso_size=$($iso.Length)" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+          $isoBaseName = [System.IO.Path]::GetFileNameWithoutExtension($iso.Name)
+          "iso_base_name=$isoBaseName" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
 
       - name: Generate release tag
         id: gen_tag
@@ -126,7 +128,7 @@ jobs:
           $splitOutputDir = Split-Path $isoPath
           
           # Extract base name and create archive name with _parts suffix
-          $isoBaseName = [System.IO.Path]::GetFileNameWithoutExtension($isoName)
+          $isoBaseName = "${{ steps.find_iso.outputs.iso_base_name }}"
           $splitArchiveName = "${isoBaseName}_parts"
           $splitArchivePath = Join-Path $splitOutputDir "$splitArchiveName.zip"
           
@@ -235,7 +237,7 @@ jobs:
       - name: Upload full ISO to artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ steps.find_iso.outputs.iso_basename }}
+          name: ${{ steps.find_iso.outputs.iso_base_name }}
           path: ${{ steps.find_iso.outputs.iso_path }}
           retention-days: 30
           if-no-files-found: error
