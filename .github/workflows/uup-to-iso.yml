@@ -109,21 +109,250 @@ jobs:
           $isoBaseName = [System.IO.Path]::GetFileNameWithoutExtension($iso.Name)
           "iso_base_name=$isoBaseName" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
 
-      - name: Get checksums of ISO
+      - name: Extract ISO contents to find install image
+        shell: powershell
+        run: |
+          $isoPath = "${{ steps.find_iso.outputs.iso_path }}"
+          $isoExtractDir = Join-Path "${{ env.WORK_DIR }}" "iso_contents"
+          New-Item -ItemType Directory -Path $isoExtractDir -Force | Out-Null
+          Write-Host "Extracting ISO contents..."
+          & "C:\Program Files\7-Zip\7z.exe" x "$isoPath" -o"$isoExtractDir" -y
+          if ($LASTEXITCODE -ne 0) {
+            Write-Host "ERROR: ISO extraction failed"
+            exit 1
+          }
+          Write-Host "ISO extraction complete"
+          echo "ISO_EXTRACT_DIR=$isoExtractDir" >> $env:GITHUB_ENV
+
+      - name: Find install.wim or install.esd
+        id: find_install_file
+        shell: powershell
+        run: |
+          $sourcesDir = Join-Path $env:ISO_EXTRACT_DIR "sources"
+          if (-not (Test-Path $sourcesDir)) {
+            Write-Host "ERROR: Sources directory not found"
+            exit 1
+          }
+          $installWim = Get-ChildItem -Path $sourcesDir -Filter "install.wim" -ErrorAction SilentlyContinue | Select-Object -First 1
+          $installEsd = Get-ChildItem -Path $sourcesDir -Filter "install.esd" -ErrorAction SilentlyContinue | Select-Object -First 1
+          if ($installWim) {
+            Write-Host "Found install.wim ($([Math]::Round($installWim.Length / 1GB, 2)) GB)"
+            echo "install_file=$($installWim.FullName)" >> $env:GITHUB_OUTPUT
+            echo "install_type=wim" >> $env:GITHUB_OUTPUT
+          } elseif ($installEsd) {
+            Write-Host "Found install.esd ($([Math]::Round($installEsd.Length / 1GB, 2)) GB)"
+            echo "install_file=$($installEsd.FullName)" >> $env:GITHUB_OUTPUT
+            echo "install_type=esd" >> $env:GITHUB_OUTPUT
+          } else {
+            Write-Host "ERROR: No install.wim or install.esd found"
+            exit 1
+          }
+
+      - name: Parse editions from install image
+        id: parse_images
+        shell: powershell
+        run: |
+          $installFile = "${{ steps.find_install_file.outputs.install_file }}"
+          Write-Host "Getting image information..."
+          $wimInfo = dism /Get-WimInfo /WimFile:"$installFile" 2>&1 | Out-String
+          Write-Host $wimInfo
+          $indexes = @()
+          $lines = $wimInfo -split "`n"
+          $currentIndex = $null
+          $currentName = $null
+          foreach ($line in $lines) {
+            if ($line -match "Index\s*:\s*(\d+)") {
+              $currentIndex = [int]$matches[1]
+            }
+            if ($line -match "Name\s*:\s*(.+)") {
+              $currentName = $matches[1].Trim()
+              if ($currentIndex -ne $null) {
+                $indexes += [PSCustomObject]@{
+                  Index = $currentIndex
+                  Name = $currentName
+                }
+              }
+            }
+          }
+          $proIndexes = @()
+          $otherIndexes = @()
+          foreach ($idx in $indexes) {
+            if ($idx.Name -like "*Pro*") {
+              $proIndexes += $idx.Index
+            } else {
+              $otherIndexes += $idx.Index
+            }
+          }
+          Write-Host "Pro Edition Indexes: $($proIndexes -join ', ')"
+          Write-Host "Other Edition Indexes: $($otherIndexes -join ', ')"
+          echo "pro_indexes=$($proIndexes -join ',')" >> $env:GITHUB_OUTPUT
+          echo "other_indexes=$($otherIndexes -join ',')" >> $env:GITHUB_OUTPUT
+          echo "pro_count=$($proIndexes.Count)" >> $env:GITHUB_OUTPUT
+          echo "other_count=$($otherIndexes.Count)" >> $env:GITHUB_OUTPUT
+          echo "all_indexes=$($indexes | ConvertTo-Json -Compress)" >> $env:GITHUB_OUTPUT
+
+      - name: Create new ESD with mixed indexes or rename original
+        id: create_mixed_or_rename
+        shell: powershell
+        run: |
+          $installFile = "${{ steps.find_install_file.outputs.install_file }}"
+          $outputEsd = Join-Path $env:WORK_DIR "new_install.esd"
+          $isoBaseName = "${{ steps.find_iso.outputs.iso_base_name }}"
+          $installType = "${{ steps.find_install_file.outputs.install_type }}"
+          $proIndexesStr = "${{ steps.parse_images.outputs.pro_indexes }}"
+          $otherIndexesStr = "${{ steps.parse_images.outputs.other_indexes }}"
+          $proCount = [int]"${{ steps.parse_images.outputs.pro_count }}"
+          $otherCount = [int]"${{ steps.parse_images.outputs.other_count }}"
+          $allIndexesJson = '${{ steps.parse_images.outputs.all_indexes }}'
+          $proIndexes = if ($proIndexesStr) { $proIndexesStr.Split(',') | ForEach-Object { [int]$_ } } else { @() }
+          $otherIndexes = if ($otherIndexesStr) { $otherIndexesStr.Split(',') | ForEach-Object { [int]$_ } } else { @() }
+          $allIndexes = if ($allIndexesJson) { $allIndexesJson | ConvertFrom-Json } else { @() }
+          if ($proCount -eq 0) {
+            Write-Host "No Pro editions found. Copying original install file as final named file."
+            $finalName = "${isoBaseName}.$installType"
+            $finalPath = Join-Path $env:WORK_DIR $finalName
+            Copy-Item -Path $installFile -Destination $finalPath -Force
+            if (-not (Test-Path $finalPath)) {
+              Write-Host "ERROR: Failed to copy original install file."
+              exit 1
+            }
+            echo "final_esd_path=$finalPath" >> $env:GITHUB_OUTPUT
+            echo "final_esd_name=$finalName" >> $env:GITHUB_OUTPUT
+            exit 0
+          }
+          $sourceProIndex = $proIndexes[0]
+          if ($otherCount -eq 0) {
+            Write-Host "Pro edition(s) found but no other editions. Exporting Pro to all 6 indexes."
+            for ($targetIndex = 1; $targetIndex -le 6; $targetIndex++) {
+              Write-Host "Exporting Pro edition to index $targetIndex"
+              dism /Export-Image /SourceImageFile:"$installFile" /SourceIndex:$sourceProIndex /DestinationImageFile:"$outputEsd" /Compress:recovery /CheckIntegrity
+              if ($LASTEXITCODE -ne 0) {
+                Write-Host "ERROR: Export failed at index $targetIndex"
+                exit 1
+              }
+            }
+          }
+          else {
+            Write-Host "Both Pro and other editions found. Export Pro to 1,2,3,5,6 and Other (prefer Home) to index 4."
+            $homeIndex = $null
+            foreach ($idx in $allIndexes) {
+              if ($idx.Name -like "*Home*") {
+                $homeIndex = $idx.Index
+                Write-Host "Found Home edition at index $homeIndex"
+                break
+              }
+            }
+            $index4 = if ($homeIndex) { $homeIndex } else { $otherIndexes[0] }
+            Write-Host "Using index $index4 for index 4"
+            $exportSequence = @(
+              @{Index=1; Source=$sourceProIndex},
+              @{Index=2; Source=$sourceProIndex},
+              @{Index=3; Source=$sourceProIndex},
+              @{Index=4; Source=$index4},
+              @{Index=5; Source=$sourceProIndex},
+              @{Index=6; Source=$sourceProIndex}
+            )
+            for ($i=0; $i -lt $exportSequence.Count; $i++) {
+              $seq = $exportSequence[$i]
+              $targetIndex = $seq.Index
+              Write-Host "Exporting source index $($seq.Source) to target index $targetIndex"
+              dism /Export-Image /SourceImageFile:"$installFile" /SourceIndex:$($seq.Source) /DestinationImageFile:"$outputEsd" /Compress:recovery /CheckIntegrity
+              if ($LASTEXITCODE -ne 0) {
+                Write-Host "ERROR: Export failed at target index $targetIndex"
+                exit 1
+              }
+            }
+          }
+          $fileSize = (Get-Item $outputEsd).Length
+          Write-Host "New ESD created: $([Math]::Round($fileSize / 1GB, 2)) GB"
+          echo "new_esd_size=$fileSize" >> $env:GITHUB_OUTPUT
+          echo "new_esd_path=$outputEsd" >> $env:GITHUB_OUTPUT
+
+      - name: Set fallback ESD path if new not created
+        id: set_esd_path
+        shell: powershell
+        run: |
+          $finalEsdPath = "${{ steps.create_mixed_or_rename.outputs.final_esd_path }}"
+          $newEsdPath = "${{ steps.create_mixed_or_rename.outputs.new_esd_path }}"
+          $originalEsd = "${{ steps.find_install_file.outputs.install_file }}"
+          if (-not $finalEsdPath) {
+            if ($newEsdPath -and (Test-Path $newEsdPath)) {
+              $finalEsdPath = $newEsdPath
+            } else {
+              Write-Host "Neither final nor new ESD path set; falling back to original install file."
+              $finalEsdPath = $originalEsd
+            }
+          } else {
+            if (-not (Test-Path $finalEsdPath)) {
+              Write-Host "Final ESD path does not exist; falling back to original install file."
+              $finalEsdPath = $originalEsd
+            }
+          }
+          Write-Host "Final ESD path is: $finalEsdPath"
+          echo "final_esd_path=$finalEsdPath" >> $env:GITHUB_OUTPUT
+
+      - name: Rename ESD to ISO basename and get size
+        id: rename_esd
+        shell: powershell
+        run: |
+          $esdFile = "${{ steps.set_esd_path.outputs.final_esd_path }}"
+          if (-not (Test-Path $esdFile)) {
+            Write-Host "ERROR: ESD file not found at $esdFile"
+            exit 1
+          }
+          $isoBaseName = "${{ steps.find_iso.outputs.iso_base_name }}"
+          $currentName = Split-Path -Leaf $esdFile
+          $ext = [System.IO.Path]::GetExtension($currentName)
+          $renameTo = "${isoBaseName}${ext}"
+          $finalPath = Join-Path (Split-Path -Parent $esdFile) $renameTo
+          Rename-Item -Path $esdFile -NewName $renameTo -Force
+          if (-not (Test-Path $finalPath)) {
+            Write-Host "ERROR: Renamed ESD not found at $finalPath"
+            exit 1
+          }
+          $fileObj = Get-Item $finalPath
+          $fileSize = $fileObj.Length
+          $fileSizeGB = [Math]::Round($fileSize / 1GB, 2)
+          $fileSizeMB = [Math]::Round($fileSize / 1MB, 2)
+          Write-Host "Renamed to: $renameTo"
+          Write-Host "ESD size: $fileSizeGB GB ($fileSizeMB MB)"
+          echo "final_esd_path=$finalPath" >> $env:GITHUB_OUTPUT
+          echo "final_esd_name=$renameTo" >> $env:GITHUB_OUTPUT
+          echo "final_esd_size=$fileSize" >> $env:GITHUB_OUTPUT
+          echo "final_esd_size_gb=$fileSizeGB" >> $env:GITHUB_OUTPUT
+          echo "final_esd_size_mb=$fileSizeMB" >> $env:GITHUB_OUTPUT
+
+      - name: Calculate ISO checksums
         id: iso_hashes
         shell: powershell
         run: |
           $isoPath = "${{ steps.find_iso.outputs.iso_path }}"
-          # Calculate checksums
-          Write-Host "Calculating MD5, SHA1, SHA256 for: $isoPath"
+          Write-Host "Calculating MD5, SHA1, SHA256 for ISO: $isoPath"
           $md5 = (Get-FileHash $isoPath -Algorithm MD5).Hash.ToLower()
           $sha1 = (Get-FileHash $isoPath -Algorithm SHA1).Hash.ToLower()
           $sha256 = (Get-FileHash $isoPath -Algorithm SHA256).Hash.ToLower()
-          "iso_md5=$md5" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
-          "iso_sha1=$sha1" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
-          "iso_sha256=$sha256" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
-
-      - name: Generate release tag
+          "md5=$md5" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+          "sha1=$sha1" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+          "sha256=$sha256" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+          
+      - name: Calculate ESD checksums
+        id: esd_hashes
+        shell: powershell
+        run: |
+          $esdPath = "${{ steps.rename_esd.outputs.final_esd_path }}"
+          if (-not (Test-Path $esdPath)) {
+            Write-Host "ERROR: ESD file not found at $esdPath"
+            exit 1
+          }
+          Write-Host "Calculating MD5, SHA1, SHA256 for ESD: $esdPath"
+          $md5 = (Get-FileHash $esdPath -Algorithm MD5).Hash.ToLower()
+          $sha1 = (Get-FileHash $esdPath -Algorithm SHA1).Hash.ToLower()
+          $sha256 = (Get-FileHash $esdPath -Algorithm SHA256).Hash.ToLower()
+          "esd_md5=$md5" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+          "esd_sha1=$sha1" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+          "esd_sha256=$sha256" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+          
+      - name: Generate release tag and date
         id: gen_tag
         shell: powershell
         run: |
@@ -131,122 +360,110 @@ jobs:
           $name = Get-Date -Format "MMMM dd, yyyy HH:mm"
           "release_tag=$tag" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
           "release_name=$name" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
-          
-      - name: Split ISO into parts
-        id: split_iso
+
+      - name: Split ESD into parts
+        id: split_esd
         shell: powershell
         run: |
-          $isoPath = "${{ steps.find_iso.outputs.iso_path }}"
-          $isoSize = [int64]"${{ steps.find_iso.outputs.iso_size }}"
-          $isoName = "${{ steps.find_iso.outputs.iso_name }}"
-          $splitOutputDir = Split-Path $isoPath
-          
-          # Extract base name and create archive name with _parts suffix
-          $isoBaseName = "${{ steps.find_iso.outputs.iso_base_name }}"
-          $splitArchiveName = "${isoBaseName}_parts"
+          $esdPath = "${{ steps.rename_esd.outputs.final_esd_path }}"
+          if (-not (Test-Path $esdPath)) {
+            Write-Host "ERROR: ESD file not found at $esdPath"
+            exit 1
+          }
+          $esdSize = (Get-Item $esdPath).Length
+          $esdName = "${{ steps.rename_esd.outputs.final_esd_name }}"
+          $splitOutputDir = Split-Path $esdPath
+          $esdBaseName = [System.IO.Path]::GetFileNameWithoutExtension($esdName)
+          $splitArchiveName = "${esdBaseName}_parts"
           $splitArchivePath = Join-Path $splitOutputDir "$splitArchiveName.zip"
-          
-          Write-Host "Splitting ISO into 2000MB parts with compression level ${{ env.COMPRESSION_LEVEL }}..."
-          Write-Host "ISO Path: $isoPath"
-          Write-Host "ISO Size: $([Math]::Round($isoSize / 1073741824, 2)) GB"
+          Write-Host "Splitting ESD into 2000MB parts..."
+          Write-Host "ESD Path: $esdPath"
+          Write-Host "ESD Size: $([Math]::Round($esdSize / 1073741824, 2)) GB"
           Write-Host "Archive name: $splitArchiveName"
-          
           try {
-            & "C:\Program Files\7-Zip\7z.exe" a -tzip -mx=${{ env.COMPRESSION_LEVEL }} -mmt=on $splitArchivePath -v2000m $isoPath
-            
+            & "C:\Program Files\7-Zip\7z.exe" a -tzip -mx=${{ env.COMPRESSION_LEVEL }} -mmt=on $splitArchivePath -v2000m $esdPath
             if ($LASTEXITCODE -ne 0) {
               Write-Host "ERROR: 7-Zip compression failed with exit code: $LASTEXITCODE"
               exit 1
             }
           } catch {
-            Write-Host "ERROR: Failed to split ISO: $_"
+            Write-Host "ERROR: Failed to split ESD: $_"
             exit 1
           }
-          
           $splitPattern = "${splitArchiveName}.zip.00*"
           $parts = Get-ChildItem -Path $splitOutputDir -Filter $splitPattern | Sort-Object Name
-          
           if ($parts.Count -eq 0) {
             Write-Host "ERROR: No split files found with pattern: $splitPattern"
             exit 1
           }
-          
-          $totalPartsSize = ($parts | Measure-Object -Property Length -Sum).Sum
-          
-          Write-Host "Split files created:"
-          $parts | ForEach-Object { 
-            Write-Host "  - $($_.Name) ($([Math]::Round($_.Length / 1MB, 2)) MB)"
-          }
-          
-          # Build release description safely        
-          $sizeGB = [Math]::Round($isoSize / 1073741824, 2)
-          $partsSizeGB = [Math]::Round($totalPartsSize / 1073741824, 2)
-          $compressionRatio = [Math]::Round(($isoSize - $totalPartsSize) / $isoSize * 100, 2)
-          $isoMd5 = "${{ steps.iso_hashes.outputs.iso_md5 }}"
-          $isoSha1 = "${{ steps.iso_hashes.outputs.iso_sha1 }}"
-          $isoSha256 = "${{ steps.iso_hashes.outputs.iso_sha256 }}"
-          
+          Write-Host "Split ESD parts created:"
+          $parts | ForEach-Object { Write-Host " - $($_.Name) ($([Math]::Round($_.Length / 1MB, 2)) MB)" }
+          $sizeGB = [Math]::Round($esdSize / 1073741824, 2)
+          $isoSizeBytes = [int64] "${{ steps.find_iso.outputs.iso_size }}"
+          $isoSizeGB = [Math]::Round($isoSizeBytes / 1GB, 2)
+          $workflowRunUrl = "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+
           $desc = @"
-          ### ISO Details:
-          - **Name**: ``$isoName``
-          - **MD5**: ``$isoMd5``
-          - **SHA1**: ``$isoSha1``
-          - **SHA256**: ``$isoSha256``
-          - **Size**: ``$sizeGB GB ($isoSize bytes)``
-          - **Build Date**: ``$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')``
+
+          ### **Build Date**: ``$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')``
+          ### **Complete ISO/ESD in one file (temporary link)**: [``Download from this build Action Run``]($workflowRunUrl)
           
-          ### Part List:
+          ### ISO File Details:
+          - **Name**: ``"${{ steps.find_iso.outputs.iso_name }}"``
+          - **MD5**: ``${{ steps.iso_hashes.outputs.md5 }}``
+          - **SHA1**: ``${{ steps.iso_hashes.outputs.sha1 }}``
+          - **SHA256**: ``${{ steps.iso_hashes.outputs.sha256 }}``
+          - **Size**: ``$isoSizeGB GB ($isoSizeBytes bytes)``
+          
+          ### ESD File Details:
+          - **Name**: ``$esdName``
+          - **MD5**: ``${{ steps.esd_hashes.outputs.esd_md5 }}``
+          - **SHA1**: ``${{ steps.esd_hashes.outputs.esd_sha1 }}``
+          - **SHA256**: ``${{ steps.esd_hashes.outputs.esd_sha256 }}``
+          - **Size**: ``$sizeGB GB ($esdSize bytes)``
+          
+          ### ESD Part List:
           
           "@
           
-          $desc += ($parts | ForEach-Object { "- [``$($_.Name)``](https://github.com/$env:GITHUB_REPOSITORY/releases/download/${{ steps.gen_tag.outputs.release_tag }}/$($_.Name)) **- $([Math]::Round($_.Length / 1MB, 2)) MB**" }) -join "`n"
+          $desc += ($parts | ForEach-Object { "- [``$($_.Name)``](https://github.com/$env:GITHUB_REPOSITORY/releases/download/${{ steps.gen_tag.outputs.release_tag }}/$($_.Name)) - $([Math]::Round($_.Length / 1MB, 2)) MB" }) -join "`n"
           
           $desc += @"
           
           ### Extraction Instructions:
-          - Download all parts
+          - Download all ESD parts
           - Use 7-Zip or WinRAR to extract: Right-click on ``$($parts[0].Name)`` -> Extract Here
-          - The full ISO will be extracted automatically
-          
+          - The full ESD will be extracted automatically
+
           "@
           
-                    
           $descPath = Join-Path $splitOutputDir "release_description.txt"
           Set-Content -Path $descPath -Value $desc -Encoding utf8
+          echo "split_dir=$splitOutputDir" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+          echo "split_pattern=$splitPattern" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+          echo "parts_count=$($parts.Count)" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
 
-          
-          "split_dir=$splitOutputDir" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
-          "split_pattern=$splitPattern" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
-          "parts_count=$($parts.Count)" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
-
-      - name: Create GitHub Release and upload split parts
+      - name: Create GitHub Release and upload split ESD parts
         shell: powershell
         run: |
-          $splitDir = "${{ steps.split_iso.outputs.split_dir }}"
-          $splitPattern = "${{ steps.split_iso.outputs.split_pattern }}"
+          $splitDir = "${{ steps.split_esd.outputs.split_dir }}"
+          $splitPattern = "${{ steps.split_esd.outputs.split_pattern }}"
           $releaseTag = "${{ steps.gen_tag.outputs.release_tag }}"
           $releaseName = "${{ steps.gen_tag.outputs.release_name }}"
-          
           $parts = Get-ChildItem -Path $splitDir -Filter $splitPattern | Sort-Object Name
           if ($parts.Count -eq 0) {
-            Write-Host "ERROR: No split files found with pattern: $splitPattern"
+            Write-Host "ERROR: No split files found"
             exit 1
           }
-          
           Write-Host "Creating release: $releaseName"
-          Write-Host "Uploading $($parts.Count) split files:"
-          $parts | ForEach-Object { Write-Host "  - $($_.Name)" }
-          
+          Write-Host "Uploading $($parts.Count) ESD parts"
           $descPath = Join-Path $splitDir "release_description.txt"
-          $body = if (Test-Path $descPath) { Get-Content $descPath -Raw } else { "UUP to ISO Build Release" }
-          
+          $body = if (Test-Path $descPath) { Get-Content $descPath -Raw } else { "Build Release" }
           $fileArgs = $parts | ForEach-Object { $_.FullName }
-          
           & gh release create $releaseTag `
-            --title "UUP to ISO Build - $releaseName" `
+            --title "Build - $releaseName" `
             --notes $body `
             $fileArgs
-          
           if ($LASTEXITCODE -ne 0) {
             Write-Host "ERROR: Failed to create release"
             exit 1
@@ -254,11 +471,20 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Upload full ISO to artifacts
+      - name: Upload original ISO to artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ steps.find_iso.outputs.iso_base_name }}
+          name: ISO_${{ steps.find_iso.outputs.iso_base_name }}
           path: ${{ steps.find_iso.outputs.iso_path }}
+          retention-days: 30
+          if-no-files-found: error
+          compression-level: ${{ env.COMPRESSION_LEVEL }}
+
+      - name: Upload new ESD to artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ESD_${{ steps.rename_esd.outputs.final_esd_name }}
+          path: ${{ steps.rename_esd.outputs.final_esd_path }}
           retention-days: 30
           if-no-files-found: error
           compression-level: ${{ env.COMPRESSION_LEVEL }}
