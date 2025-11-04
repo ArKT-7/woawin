@@ -4,7 +4,7 @@
 
 ### 📥 Available Versions
 
-- **26200.6899 (25H2) Latest - EN-US, RU-RU and ZH-CN**
+- **26200.7019 (25H2) Latest - EN-US, RU-RU and ZH-CN**
 - **26100.6899 (24H2) Latest - EN-US, RU-RU and ZH-CN**
 - **22631.6130 (23H2) Latest - EN-US, RU-RU and ZH-CN**
 <!--- **22621.4602 (22H2) Latest - only EN-US**-->
