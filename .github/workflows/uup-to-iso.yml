@@ -422,18 +422,18 @@ jobs:
           - **SHA256**: ``${{ steps.esd_hashes.outputs.esd_sha256 }}``
           - **Size**: ``$sizeGB GB ($esdSize bytes)``
           
-          ### ESD Part List:
+          ## ESD Part List (Download from here):
           
           "@
           
-          $desc += ($parts | ForEach-Object { "- [``$($_.Name)``](https://github.com/$env:GITHUB_REPOSITORY/releases/download/${{ steps.gen_tag.outputs.release_tag }}/$($_.Name)) - $([Math]::Round($_.Length / 1MB, 2)) MB" }) -join "`n"
+          $desc += ($parts | ForEach-Object { "- **[``$($_.Name)``](https://github.com/$env:GITHUB_REPOSITORY/releases/download/${{ steps.gen_tag.outputs.release_tag }}/$($_.Name)) - $([Math]::Round($_.Length / 1MB, 2)) MB**" }) -join "`n"
           
           $desc += @"
           
-          ### Extraction Instructions:
-          - Download all ESD parts
-          - Use 7-Zip or WinRAR to extract: Right-click on ``$($parts[0].Name)`` -> Extract Here
-          - The full ESD will be extracted automatically
+          ## Extraction Instructions:
+          - ### Download all ESD parts
+          - ### Use 7-Zip or WinRAR to extract: Right-click on ``$($parts[0].Name)`` -> Extract Here
+          - ### The full ESD will be extracted automatically
 
           "@
           
@@ -483,7 +483,7 @@ jobs:
       - name: Upload new ESD to artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: ESD_${{ steps.rename_esd.outputs.final_esd_name }}
+          name: ESD_${{ steps.find_iso.outputs.iso_base_name }}
           path: ${{ steps.rename_esd.outputs.final_esd_path }}
           retention-days: 30
           if-no-files-found: error
