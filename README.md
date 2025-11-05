@@ -5,8 +5,8 @@
 ### 📥 Available Versions
 
 - **26200.7019 (25H2) Latest - EN-US, RU-RU and ZH-CN**
-- **26100.6899 (24H2) Latest - EN-US, RU-RU and ZH-CN**
-- **22631.6130 (23H2) Latest - EN-US, RU-RU and ZH-CN**
+- **26100.7019 (24H2) Latest - EN-US, RU-RU and ZH-CN**
+- **22631.6133 (23H2) Latest - EN-US, RU-RU and ZH-CN**
 <!--- **22621.4602 (22H2) Latest - only EN-US**-->
 - **26100.4349 (24H2) - All Languages**
 - **22631.2861 (23H2) - All Languages**
