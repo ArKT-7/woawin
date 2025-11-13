@@ -91,11 +91,11 @@
         .file-info {
             margin-top: 20px;
             font-size: 14px;
-            color: #07eb07;
+            color: #006aff;
         }
 
         .notification {
-            color: #07eb07;
+            color: #006aff;
             font-size: 14px;
             font-weight: bold;
             margin-top: 10px;
@@ -161,9 +161,26 @@
       	}
 
         @keyframes glow {
-            0% { text-shadow: 0 0 5px rgba(7, 235, 7, 0.8); }
-            50% { text-shadow: 0 0 15px rgba(7, 235, 7, 1); }
-            100% { text-shadow: 0 0 5px rgba(7, 235, 7, 0.8); }
+            0% { text-shadow: 0 0 5px rgba(0, 106, 255, 0.5); }
+            50% { text-shadow: 0 0 12px rgba(0, 106, 255, 0.9); }
+            100% { text-shadow: 0 0 5px rgba(0, 106, 255, 0.5); }
+        }
+
+        .custom-menu {
+            background: linear-gradient(135deg, #f0f4f8, #dfe7ee);
+            backdrop-filter: blur(6px);
+            border: 1px solid rgba(0,0,0,0.08);
+            box-shadow: 0 12px 32px rgba(0,0,0,0.15);
+            color: #000000;
+        }
+        .custom-menu::-webkit-scrollbar-thumb {background: rgba(0,0,0,0.12);}
+        .custom-menu .menu-item:hover,
+        .custom-menu .menu-item.frozen-item,
+        .custom-menu.prehover .menu-item[aria-selected="true"] {
+            color: #ffffff !important;
+        }
+        .custom-menu .menu-item {
+            transition: background 120ms ease, color 0ms linear !important;
         }
     </style>
     <style id="dark">
@@ -320,6 +337,15 @@
             50% { text-shadow: 0 0 10px #00ff00; }
             100% { text-shadow: 0 0 5px #00ff00; }
         }
+
+        .custom-menu {
+            background: linear-gradient(135deg, #1c1f24, #18191A);
+            backdrop-filter: blur(6px);
+            border: 1px solid rgba(255,255,255,0.08);
+            box-shadow: 0 14px 40px rgba(0,0,0,0.45);
+            color: #ffffff;
+        }
+        .custom-menu::-webkit-scrollbar-thumb {background: rgba(255,255,255,0.08);}
     </style>
     <style>
         h2 {
@@ -533,6 +559,63 @@
             font-weight: bold;
             font-style: italic;
         }
+
+        .dropdown-backdrop {
+          position: fixed;
+          inset: 0;
+          background: rgba(0,0,0,0);
+          z-index: 999;
+        }
+
+        .custom-menu {
+          position: absolute;
+          box-sizing: border-box;
+          overflow-y: auto;
+          border-radius: 16px;
+          padding: 4px;
+          margin: 0;
+          opacity: 0;
+          transform: translateY(-6px);
+          transition: opacity 160ms ease, transform 160ms ease;
+          z-index: 1000;
+          -webkit-overflow-scrolling: touch;
+          touch-action: pan-y;
+        }
+
+        .custom-menu.open {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
+        .custom-menu .menu-item {
+          padding: 6px 8px;
+          border-radius: 10px;
+          font-size: 19px;
+          text-align: center;
+          cursor: pointer;
+          transition: background-color 120ms ease, color 120ms ease;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          line-height: 1.1;
+        }
+        
+        .custom-menu .menu-item:hover{
+            background: linear-gradient(135deg, #008cff, #0064fa);
+        }
+
+        .custom-menu.prehover .menu-item[aria-selected="true"] {
+            background: linear-gradient(135deg, #008cff, #0064fa);
+            color: #ffffff;
+        }
+
+        .custom-menu.frozen .menu-item.frozen-item {
+            background: linear-gradient(135deg, #008cff, #0064fa);
+            color: #ffffff !important;
+        }
+        .custom-menu::-webkit-scrollbar { width: 8px;}
+        .custom-menu::-webkit-scrollbar-thumb { border-radius: 6px; }
+
     </style>
 </head>
 <body>
@@ -572,11 +655,11 @@
         <h5>Select Build Number</h5>
 
         <select id="buildNumber">
-            <option value="26200.7019 Latest" selected>26200.7019 (25H2) Latest</option>
+            <option value="26200.7171 Latest" selected>26200.7171 (25H2) Latest</option>
             <option value="26200">26200.6899 (25H2)</option>
-            <option value="26100.7019 Latest">26100.7019 (24H2) Latest</option>
+            <option value="26100.7171 Latest">26100.7171 (24H2) Latest</option>
             <option value="26100">26100.4349 (24H2)</option>
-            <option value="22631.6133 Latest">22631.6133 (23H2) Latest</option>
+            <option value="22631.6199 Latest">22631.6199 (23H2) Latest</option>
             <option value="22631">22631.2861 (23H2)</option>
             <option value="22621">22621.1702 (22H2)</option>
             <option value="22000">22000.318 (21H2)</option>
@@ -594,11 +677,266 @@
         <div class="notification" id="notification"><strong>Download link copied to clipboard</strong></div>
 
         <script>
+            function createBackdrop(){ const b = document.createElement('div'); b.className='dropdown-backdrop'; b.tabIndex=-1; return b; }
+            function createMenu(){ const m = document.createElement('div'); m.className='custom-menu'; return m; }
+
+            function buildMenuFromSelect(selectEl, menuEl) {
+            menuEl.innerHTML = '';
+            Array.from(selectEl.options).forEach(opt => {
+                const item = document.createElement('div');
+                item.className = 'menu-item';
+                item.textContent = opt.text;
+                item.dataset.value = opt.value;
+                item.setAttribute('role','option');
+                item.setAttribute('aria-selected', selectEl.value === opt.value ? 'true' : 'false');
+                menuEl.appendChild(item);
+            });
+            }
+
+            function positionMenu(fauxRect, menuEl) {
+            const rect = fauxRect;
+            const vw = Math.max(document.documentElement.clientWidth||0, window.innerWidth||0);
+            const vh = Math.max(document.documentElement.clientHeight||0, window.innerHeight||0);
+            const margin = 8;
+
+            const desired = Math.max(rect.width, 160);
+            const maxAllowed = Math.min(420, vw - margin*2);
+            const finalW = Math.min(desired, maxAllowed);
+            menuEl.style.width = finalW + 'px';
+
+            let left = rect.left;
+            if (left + finalW > vw - margin) left = Math.max(margin, vw - margin - finalW);
+            if (left < margin) left = margin;
+            menuEl.style.left = left + 'px';
+
+            const spaceBelow = vh - rect.bottom;
+            const spaceAbove = rect.top;
+            const prefHeight = Math.min(260, Math.max(120, menuEl.scrollHeight || 160));
+            if (spaceBelow >= Math.min(prefHeight,220) || spaceBelow >= spaceAbove) {
+                const top = Math.min(rect.bottom + margin, vh - margin - 40);
+                menuEl.style.top = top + 'px';
+                const maxH = Math.min(260, vh - rect.bottom - margin - 16);
+                menuEl.style.maxHeight = Math.max(80, maxH) + 'px';
+            } else {
+                const top = Math.max(margin, rect.top - margin - Math.min(prefHeight,260));
+                menuEl.style.top = top + 'px';
+                const maxH = Math.min(260, rect.top - margin - 16);
+                menuEl.style.maxHeight = Math.max(80, maxH) + 'px';
+            }
+
+            menuEl.style.boxSizing = 'border-box';
+            }
+
+            let activeBackdrop = null;
+            let activeMenu = null;
+            let activeSelect = null;
+            let activeRect = null;
+            let lastOpenAt = 0;
+
+            function closeActiveMenu() {
+            if (activeMenu) {
+                activeMenu.classList.remove('open');
+                if (activeMenu.parentNode) activeMenu.parentNode.removeChild(activeMenu);
+                if (activeMenu.__keyHandler) document.removeEventListener('keydown', activeMenu.__keyHandler);
+                if (activeMenu.__scrollCapture) document.removeEventListener('scroll', activeMenu.__scrollCapture, true);
+                activeMenu = null;
+            }
+            if (activeBackdrop) {
+                if (activeBackdrop.parentNode) activeBackdrop.parentNode.removeChild(activeBackdrop);
+                activeBackdrop = null;
+            }
+            activeSelect = null;
+            activeRect = null;
+            lastOpenAt = 0;
+            }
+
+            function applySelectionToSelect(selectEl, value) {
+            if (!selectEl) return;
+            selectEl.value = value;
+            selectEl.dispatchEvent(new Event('change', { bubbles: true }));
+            }
+
+            function openMenuFor(selectEl, fauxRect) {
+            closeActiveMenu();
+            activeBackdrop = createBackdrop();
+            activeMenu = createMenu();
+
+            try {
+                if (document.body.classList.contains('theme-dark') || (window.getComputedStyle(document.querySelector('.container')).backgroundColor.indexOf('rgb(24') === 0)) {
+                activeMenu.classList.add('dark');
+                }
+            } catch (e) {}
+
+            document.body.appendChild(activeBackdrop);
+            document.body.appendChild(activeMenu);
+            buildMenuFromSelect(selectEl, activeMenu);
+
+            requestAnimationFrame(() => {
+                positionMenu(fauxRect, activeMenu);
+                activeMenu.classList.add('open');
+                activeMenu.classList.add("prehover");
+            });
+
+            activeSelect = selectEl;
+            activeRect = fauxRect;
+            lastOpenAt = Date.now();
+
+            activeMenu.addEventListener('click', (e) => {
+                const item = e.target.closest('.menu-item');
+                if (!item) return;
+                applySelectionToSelect(activeSelect, item.dataset.value);
+                Array.from(activeMenu.querySelectorAll('.menu-item')).forEach(mi => mi.setAttribute('aria-selected', 'false'));
+                item.setAttribute('aria-selected', 'true');
+                closeActiveMenu();
+            });
+
+            activeBackdrop.addEventListener('click', (e) => {
+                e.stopPropagation();
+                closeActiveMenu();
+            });
+
+            let items = activeMenu.querySelectorAll('.menu-item');
+            let hovered = Array.from(items).findIndex(i => i.getAttribute('aria-selected') === 'true');
+            items.forEach((it, idx) => it.addEventListener('mouseenter', () => hovered = idx));
+
+            function highlight(idx) {
+                if (!items[idx]) return;
+                items.forEach(i => {
+                    i.classList.remove("hover");
+                    i.style.background = "";
+                    i.style.color = "";
+                });
+                activeMenu.classList.remove("prehover");
+                items[idx].classList.add("hover");
+                items[idx].style.background = "linear-gradient(135deg, #008cff, #0064fa)";
+                items[idx].style.color = "#ffffff";
+                items[idx].scrollIntoView({ block: "nearest" });
+            }
+
+            let typed = "";
+            let lastTypeTime = 0;
+
+            function onKey(e) {
+                if (!activeMenu) return;
+
+                const now = Date.now();
+                if (now - lastTypeTime > 500) typed = "";
+                lastTypeTime = now;
+
+                items = activeMenu.querySelectorAll(".menu-item");
+
+                if (e.key === "Escape") {
+                    e.preventDefault();
+                    closeActiveMenu();
+                    return;
+                }
+
+                if (e.key === "ArrowDown") {
+                    e.preventDefault();
+                    hovered = Math.min(items.length - 1, hovered + 1);
+                    highlight(hovered);
+                    return;
+                }
+
+                if (e.key === "ArrowUp") {
+                    e.preventDefault();
+                    hovered = Math.max(0, hovered - 1);
+                    highlight(hovered);
+                    return;
+                }
+
+                if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    if (items[hovered]) items[hovered].click();
+                    return;
+                }
+
+                if (/^[a-z0-9]$/i.test(e.key)) {
+                    typed += e.key.toLowerCase();
+
+                    const matchIndex = Array.from(items).findIndex(i =>
+                        i.textContent.trim().toLowerCase().startsWith(typed)
+                    );
+
+                    if (matchIndex >= 0) {
+                        hovered = matchIndex;
+                        highlight(hovered);
+                    }
+                }
+            }
+
+            document.addEventListener('keydown', onKey);
+            activeMenu.__keyHandler = onKey;
+
+            function onScrollCapture(e) {
+                if (!activeMenu) return;
+                if (activeMenu.contains(e.target)) {
+                return;
+                }
+                closeActiveMenu();
+            }
+            document.addEventListener('scroll', onScrollCapture, true);
+            activeMenu.__scrollCapture = onScrollCapture;
+
+            activeMenu.addEventListener('wheel', (ev) => {
+                ev.stopPropagation();
+            }, { passive: false });
+
+            let lastHoveredItem = null;
+            activeMenu.addEventListener("mousemove", (e) => {
+                const item = e.target.closest(".menu-item");
+                if (!item) return;
+                activeMenu.classList.remove("prehover");
+                activeMenu.classList.remove("frozen");
+                activeMenu.querySelectorAll(".menu-item").forEach(mi => mi.classList.remove("frozen-item"));
+                lastHoveredItem = item;
+            });
+
+            activeMenu.addEventListener("mouseleave", () => {
+                if (!lastHoveredItem) return;
+                activeMenu.classList.add("frozen");
+                lastHoveredItem.classList.add("frozen-item");
+            });
+            }
+
+            document.addEventListener('DOMContentLoaded', () => {
+            const buildSelect = document.getElementById('buildNumber');
+            const languageSelect = document.getElementById('language');
+
+            [buildSelect, languageSelect].forEach((sel) => {
+                if (!sel) return;
+                sel.addEventListener('mousedown', (e) => {
+                if (e.button !== 0 && e.type === 'mousedown') return;
+                e.preventDefault();
+                e.stopPropagation();
+                const rect = sel.getBoundingClientRect();
+                openMenuFor(sel, rect);
+                });
+
+                sel.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ' || e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    const rect = sel.getBoundingClientRect();
+                    openMenuFor(sel, rect);
+                }
+                });
+            });
+
+            document.addEventListener('click', (e) => {
+                if (lastOpenAt && (Date.now() - lastOpenAt) < 120) return;
+                if (activeMenu && !activeMenu.contains(e.target) && ! (e.target instanceof HTMLSelectElement)) closeActiveMenu();
+            });
+
+            window.addEventListener('resize', () => { if (activeMenu) closeActiveMenu(); });
+            });
+
+        </script>
+        <script>
             const buildNumberDropdown = document.getElementById("buildNumber");
             const warningMessage = document.getElementById("warningMessage");
             
             // Array of build numbers that should trigger the warning
-            const warningBuildNumbers = ["26100", "26100.7019 Latest", "26200", "26200.7019 Latest"];
+            const warningBuildNumbers = ["26100", "26100.7171 Latest", "26200", "26200.7171 Latest"];
             
             // Event listener to detect changes in the dropdown
             function updateWarning() {
@@ -655,11 +993,13 @@
                             lightStyle.disabled = false;
                             darkStyle.disabled = true;
                             currentTheme = 'light';
+                            document.body.classList.remove('theme-dark');
                         } else {
                             // Switch to dark
                             lightStyle.disabled = true;
                             darkStyle.disabled = false;
                             currentTheme = 'dark';
+                            document.body.classList.add('theme-dark');
                         }
                     }, 200);
 
@@ -687,11 +1027,11 @@
                 // map URL hash values to corresponding <option> values in the select dropdown
                 const buildMap = {
                     '#25h2': '26200',
-                    '#25h2l': '26200.7019 Latest',
+                    '#25h2l': '26200.7171 Latest',
                     '#24h2': '26100',
-                    '#24h2l': '26100.7019 Latest',
+                    '#24h2l': '26100.7171 Latest',
                     '#23h2': '22631',
-                    '#23h2l': '22631.6133 Latest',
+                    '#23h2l': '22631.6199 Latest',
                     '#22h2': '22621',
                     '#21h2': '22000'
                 };
@@ -744,27 +1084,46 @@
                 const selectedBuild = document.getElementById('buildNumber').value;
                 const languageSelect = document.getElementById('language');
                 const selectedEdition = 'Professional'; // Assuming 'Professional' is default
-                let languages = Object.keys(editions[selectedBuild][selectedEdition]);
-                // Sort the languages alphabetically
-                languages.sort();
                 languageSelect.innerHTML = '';  // Clear existing options
-                let defaultLanguageSelected = false;
-                languages.forEach(language => {
-                    const option = document.createElement('option');
-                    option.value = language;
-                    option.text = language;
-                    languageSelect.appendChild(option);
-                    // Automatically select "English (United States)" if available
-                    if (language === "English (United States)") {
-                        option.selected = true;
-                        defaultLanguageSelected = true;
+
+                if (!editions[selectedBuild] || !editions[selectedBuild][selectedEdition]) {
+                    const fallback = Object.keys(editions).find(k => k.startsWith(selectedBuild));
+                    if (fallback && editions[fallback] && editions[fallback][selectedEdition]) {
+                        let languages = Object.keys(editions[fallback][selectedEdition]);
+                        languages.sort();
+                        languages.forEach(language => {
+                            const option = document.createElement('option');
+                            option.value = language;
+                            option.text = language;
+                            languageSelect.appendChild(option);
+                        });
+                    } else {
+                        const opt = document.createElement('option');
+                        opt.value = '';
+                        opt.text = 'No languages';
+                        languageSelect.appendChild(opt);
                     }
-                });
-                if (!defaultLanguageSelected && languages.length > 0) {
-                    // Select the first available language if "English (United States)" is not found
-                    languageSelect.options[0].selected = true;
+                } else {
+                    let languages = Object.keys(editions[selectedBuild][selectedEdition]);
+                    languages.sort();
+                    languages.forEach(language => {
+                        const option = document.createElement('option');
+                        option.value = language;
+                        option.text = language;
+                        languageSelect.appendChild(option);
+                    });
                 }
-                updateFileInfo();  // Update file info based on new language
+
+                // select default
+                const englishOption = Array.from(languageSelect.options).find(o => o.value === "English (United States)");
+                if (englishOption) {
+                    languageSelect.value = "English (United States)";
+                } else if (languageSelect.options.length > 0) {
+                    languageSelect.selectedIndex = 0;
+                }
+
+                // dispatch change so file info updates using existing handler
+                languageSelect.dispatchEvent(new Event('change'));
             }
 
             function updateFileInfo() {
@@ -772,7 +1131,7 @@
                 const selectedLanguage = document.getElementById('language').value;
                 const edition = 'Professional'; // Assuming 'Professional' is default
                 const fileInfoDiv = document.getElementById('fileInfo');
-                const fileData = editions[selectedBuild][edition][selectedLanguage];
+                const fileData = editions[selectedBuild] && editions[selectedBuild][edition] ? editions[selectedBuild][edition][selectedLanguage] : null;
 
                 if (fileData) {
                     const size = formatSize(fileData.size);
@@ -800,7 +1159,7 @@
                 const selectedBuild = document.getElementById('buildNumber').value;
                 const selectedLanguage = document.getElementById('language').value;
                 const edition = 'Professional'; // Assuming 'Professional' is default
-                const fileData = editions[selectedBuild][edition][selectedLanguage];
+                const fileData = editions[selectedBuild] && editions[selectedBuild][edition] ? editions[selectedBuild][edition][selectedLanguage] : null;
 
                 if (fileData) {
                     window.open(fileData.path, '_blank');
@@ -813,7 +1172,7 @@
                 const selectedBuild = document.getElementById('buildNumber').value;
                 const selectedLanguage = document.getElementById('language').value;
                 const edition = 'Professional'; // Assuming 'Professional' is default
-                const fileData = editions[selectedBuild][edition][selectedLanguage];
+                const fileData = editions[selectedBuild] && editions[selectedBuild][edition] ? editions[selectedBuild][edition][selectedLanguage] : null;
 
                 if (fileData) {
                     const textArea = document.createElement('textarea');
@@ -830,10 +1189,15 @@
                 }
             }
 
-            document.getElementById('buildNumber').addEventListener('change', updateLanguages);
-            document.getElementById('language').addEventListener('change', updateFileInfo);
-            // Trigger initial update
-            document.getElementById('buildNumber').dispatchEvent(new Event('change'));
+            document.getElementById('buildNumber').addEventListener('change', function() {
+                updateWarning();
+                updateLanguages();
+                updateFileInfo();
+            });
+
+            document.getElementById('language').addEventListener('change', function() {
+                updateFileInfo();
+            });
         </script>
     </div>
 </body>

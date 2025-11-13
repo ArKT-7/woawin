@@ -1,58 +1,58 @@
 {
-  "22631.6133 Latest": {
+  "22631.6199 Latest": {
     "Professional": {
       "English (United States)": {
-        "path": "https://github.com/ArKT-7/woawin/releases/tag/2025-11-04_2124",
-        "size": 5285357898,
-        "sha1": "d7494c6fdd3966949918f30f6edd690f27b45f05"
+        "path": "https://github.com/ArKT-7/woawin/releases/tag/2025-11-12_1936",
+        "size": 5293182972,
+        "sha1": "4417f9a08cd8aebeaecf72cb1e3677817dd6ce81"
       },
       "Russian (Russia)": {
-        "path": "https://github.com/ArKT-7/woawin/releases/tag/2025-11-04_2122",
-        "size": 5209868234,
-        "sha1": "fc73b9aa96fd6b815bc70e11b2fad561c0f749ec"
+        "path": "https://github.com/ArKT-7/woawin/releases/tag/2025-11-12_2122",
+        "size": 5226002660,
+        "sha1": "51c93f8586144b0a26c770308beb0651f6bcebe0"
       },
       "Chinese (Simplified, China)": {
-        "path": "https://github.com/ArKT-7/woawin/releases/tag/2025-11-04_2343",
-        "size": 5450945308,
-        "sha1": "e16f71d0056da52e2b342d28ec1f16fdeacf24c9"
+        "path": "https://github.com/ArKT-7/woawin/releases/tag/2025-11-12_2010",
+        "size": 5455300768,
+        "sha1": "d183158577d615864f658701e14da1d66e5a380d"
       }
     }
   },
-  "26100.7019 Latest": {
+  "26100.7171 Latest": {
     "Professional": {
       "English (United States)": {
-        "path": "https://github.com/ArKT-7/woawin/releases/tag/2025-11-05_1017",
-        "size": 4793453642,
-        "sha1": "fd247e767a7432157f37e460e63ede86a3f2ae87"
+        "path": "https://github.com/ArKT-7/woawin/releases/tag/2025-11-12_1515",
+        "size": 4815826658,
+        "sha1": "ddf525c7e2c728356ec31cf9c7fc6b40607ae8be"
       },
       "Russian (Russia)": {
-        "path": "https://github.com/ArKT-7/woawin/releases/tag/2025-11-05_1002",
-        "size": 4758892556,
-        "sha1": "cdd553d0cdf860af0551f32cbebf3ea6941bf49b"
+        "path": "https://github.com/ArKT-7/woawin/releases/tag/2025-11-12_1505",
+        "size": 4759618354,
+        "sha1": "e7d2feb84f73e910f17e38b787f9a8eabf70a640"
       },
       "Chinese (Simplified, China)": {
-        "path": "https://github.com/ArKT-7/woawin/releases/tag/2025-11-05_1015",
-        "size": 4949780198,
-        "sha1": "0a7fa9f4816f77d8d5ebf4775f3f2c17025a7c0f"
+        "path": "https://github.com/ArKT-7/woawin/releases/tag/2025-11-12_1504",
+        "size": 4940254890,
+        "sha1": "50243f47447e838c749e93d9f5f532dfc15d1104"
       }
     }
   },
-  "26200.7019 Latest": {
+  "26200.7171 Latest": {
     "Professional": {
       "English (United States)": {
-        "path": "https://github.com/ArKT-7/woawin/releases/tag/2025-11-04_1559",
-        "size": 4816640756,
-        "sha1": "38ce9b67ca8119ffdbbea62f6aa420265381e5f3"
+        "path": "https://github.com/ArKT-7/woawin/releases/tag/2025-11-12_0923",
+        "size": 4829834636,
+        "sha1": "3f7e6e360385daefab51c299994e257229ed1986"
       },
       "Russian (Russia)": {
-        "path": "https://github.com/ArKT-7/woawin/releases/tag/2025-11-04_1600",
-        "size": 4755754370,
-        "sha1": "9c86face00c049b7c6dfb2b0669e58bb72d8ee09"
+        "path": "https://github.com/ArKT-7/woawin/releases/tag/2025-11-12_0941",
+        "size": 4759618354,
+        "sha1": "cbe7ed8268b56028ce4f8298f059e7fa380179fa"
       },
       "Chinese (Simplified, China)": {
-        "path": "https://github.com/ArKT-7/woawin/releases/tag/2025-11-04_1551",
-        "size": 4960605992,
-        "sha1": "802ec4978c73a5b0138bb48345788e806f2a06bd"
+        "path": "https://github.com/ArKT-7/woawin/releases/tag/2025-11-12_0911",
+        "size": 4940254890,
+        "sha1": "7d4e0814ad29d5173790307fa55ed9e3b8f28aff"
       }
     }
   },
