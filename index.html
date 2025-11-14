@@ -815,7 +815,7 @@
                 closeActiveMenu();
             });
 
-            activeBackdrop.addEventListener('click', (e) => {
+            activeBackdrop.addEventListener('mousedown', (e) => {
                 e.stopPropagation();
                 closeActiveMenu();
             });
@@ -931,25 +931,31 @@
             [buildSelect, languageSelect].forEach((sel) => {
                 if (!sel) return;
                 sel.addEventListener('mousedown', (e) => {
-                if (e.button !== 0 && e.type === 'mousedown') return;
-                e.preventDefault();
-                e.stopPropagation();
-                const rect = sel.getBoundingClientRect();
-                openMenuFor(sel, rect);
+                    if (e.button !== 0) return;
+                    e.preventDefault();
+                    e.stopPropagation();
+                    skipNextClick = true;
+                    const rect = sel.getBoundingClientRect();
+                    openMenuFor(sel, rect);
                 });
 
                 sel.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter' || e.key === ' ' || e.key === 'ArrowDown') {
-                    e.preventDefault();
-                    const rect = sel.getBoundingClientRect();
-                    openMenuFor(sel, rect);
-                }
+                    if (e.key === 'Enter' || e.key === ' ' || e.key === 'ArrowDown') {
+                        e.preventDefault();
+                        const rect = sel.getBoundingClientRect();
+                        openMenuFor(sel, rect);
+                    }
                 });
             });
 
             document.addEventListener('click', (e) => {
-                if (lastOpenAt && (Date.now() - lastOpenAt) < 120) return;
-                if (activeMenu && !activeMenu.contains(e.target) && ! (e.target instanceof HTMLSelectElement)) closeActiveMenu();
+                if (skipNextClick) {
+                    skipNextClick = false;
+                    return;
+                }
+                if (activeMenu && !activeMenu.contains(e.target) && !(e.target instanceof HTMLSelectElement)) {
+                    closeActiveMenu();
+                }
             });
 
             window.addEventListener('resize', () => { if (activeMenu) closeActiveMenu(); });
