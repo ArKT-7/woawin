@@ -91,11 +91,11 @@
         .file-info {
             margin-top: 20px;
             font-size: 14px;
-            color: #07eb07;
+            color: #006aff;
         }
 
         .notification {
-            color: #07eb07;
+            color: #006aff;
             font-size: 14px;
             font-weight: bold;
             margin-top: 10px;
@@ -161,9 +161,35 @@
       	}
 
         @keyframes glow {
-            0% { text-shadow: 0 0 5px rgba(7, 235, 7, 0.8); }
-            50% { text-shadow: 0 0 15px rgba(7, 235, 7, 1); }
-            100% { text-shadow: 0 0 5px rgba(7, 235, 7, 0.8); }
+            0% { text-shadow: 0 0 5px rgba(0, 106, 255, 0.5); }
+            50% { text-shadow: 0 0 12px rgba(0, 106, 255, 0.9); }
+            100% { text-shadow: 0 0 5px rgba(0, 106, 255, 0.5); }
+        }
+
+        .custom-menu {
+            background: linear-gradient(135deg, #f0f4f8, #dfe7ee);
+            backdrop-filter: blur(6px);
+            border: 1px solid rgba(0,0,0,0.08);
+            box-shadow: 0 12px 32px rgba(0,0,0,0.15);
+            color: #000000;
+        }
+
+        .custom-menu::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.12);
+        }
+
+        .custom-menu::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .custom-menu .menu-item:hover,
+        .custom-menu .menu-item.frozen-item,
+        .custom-menu.prehover .menu-item[aria-selected="true"] {
+            color: #ffffff !important;
+        }
+
+        .custom-menu .menu-item {
+            transition: background 120ms ease, color 0ms linear !important;
         }
     </style>
     <style id="dark">
@@ -319,6 +345,22 @@
             0% { text-shadow: 0 0 5px #00ff00; }
             50% { text-shadow: 0 0 10px #00ff00; }
             100% { text-shadow: 0 0 5px #00ff00; }
+        }
+
+        .custom-menu {
+            background: linear-gradient(135deg, #1c1f24, #18191A);
+            backdrop-filter: blur(6px);
+            border: 1px solid rgba(255,255,255,0.08);
+            box-shadow: 0 14px 40px rgba(0,0,0,0.45);
+            color: #ffffff;
+        }
+        
+        .custom-menu::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        .custom-menu::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.20);
         }
     </style>
     <style>
@@ -533,6 +575,72 @@
             font-weight: bold;
             font-style: italic;
         }
+
+        .dropdown-backdrop {
+          position: fixed;
+          inset: 0;
+          background: rgba(0,0,0,0);
+          z-index: 999;
+        }
+
+        .custom-menu {
+          position: absolute;
+          box-sizing: border-box;
+          overflow-y: auto;
+          border-radius: 16px;
+          padding: 4px;
+          margin: 0;
+          opacity: 0;
+          transform: translateY(-6px);
+          transition: opacity 160ms ease, transform 160ms ease;
+          z-index: 1000;
+          -webkit-overflow-scrolling: touch;
+          touch-action: pan-y;
+        }
+
+        .custom-menu.open {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
+        .custom-menu .menu-item {
+          padding: 6px 8px;
+          border-radius: 10px;
+          font-size: 19px;
+          text-align: center;
+          cursor: pointer;
+          transition: background-color 120ms ease, color 120ms ease;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          line-height: 1.1;
+        }
+        
+        .custom-menu .menu-item:hover{
+            background: linear-gradient(135deg, #008cff, #0064fa);
+        }
+
+        .custom-menu.prehover .menu-item[aria-selected="true"] {
+            background: linear-gradient(135deg, #008cff, #0064fa);
+            color: #ffffff;
+        }
+
+        .custom-menu.frozen .menu-item.frozen-item {
+            background: linear-gradient(135deg, #008cff, #0064fa);
+            color: #ffffff !important;
+        }
+
+        .custom-menu::-webkit-scrollbar { width: 8px;}
+        .custom-menu::-webkit-scrollbar-thumb { 
+            border-radius: 6px;
+            background-clip: padding-box;
+            border: 2px solid transparent;
+        }
+
+        .custom-menu::-webkit-scrollbar-track {
+            background: transparent;
+            margin: 16px 0;
+        }
     </style>
 </head>
 <body>
@@ -593,6 +701,261 @@
         <div class="file-info" id="fileInfo"></div>
         <div class="notification" id="notification"><strong>Download link copied to clipboard</strong></div>
 
+        <script>
+            function createBackdrop(){ const b = document.createElement('div'); b.className='dropdown-backdrop'; b.tabIndex=-1; return b; }
+            function createMenu(){ const m = document.createElement('div'); m.className='custom-menu'; return m; }
+
+            function buildMenuFromSelect(selectEl, menuEl) {
+            menuEl.innerHTML = '';
+            Array.from(selectEl.options).forEach(opt => {
+                const item = document.createElement('div');
+                item.className = 'menu-item';
+                item.textContent = opt.text;
+                item.dataset.value = opt.value;
+                item.setAttribute('role','option');
+                item.setAttribute('aria-selected', selectEl.value === opt.value ? 'true' : 'false');
+                menuEl.appendChild(item);
+            });
+            }
+
+            function positionMenu(fauxRect, menuEl) {
+            const rect = fauxRect;
+            const vw = Math.max(document.documentElement.clientWidth||0, window.innerWidth||0);
+            const vh = Math.max(document.documentElement.clientHeight||0, window.innerHeight||0);
+            const margin = 8;
+
+            const desired = Math.max(rect.width, 160);
+            const maxAllowed = Math.min(420, vw - margin*2);
+            const finalW = Math.min(desired, maxAllowed);
+            menuEl.style.width = finalW + 'px';
+
+            let left = rect.left;
+            if (left + finalW > vw - margin) left = Math.max(margin, vw - margin - finalW);
+            if (left < margin) left = margin;
+            menuEl.style.left = left + 'px';
+
+            const spaceBelow = vh - rect.bottom;
+            const spaceAbove = rect.top;
+            const prefHeight = Math.min(260, Math.max(120, menuEl.scrollHeight || 160));
+            if (spaceBelow >= Math.min(prefHeight,220) || spaceBelow >= spaceAbove) {
+                const top = Math.min(rect.bottom + margin, vh - margin - 40);
+                menuEl.style.top = top + 'px';
+                const maxH = Math.min(260, vh - rect.bottom - margin - 16);
+                menuEl.style.maxHeight = Math.max(80, maxH) + 'px';
+            } else {
+                const top = Math.max(margin, rect.top - margin - Math.min(prefHeight,260));
+                menuEl.style.top = top + 'px';
+                const maxH = Math.min(260, rect.top - margin - 16);
+                menuEl.style.maxHeight = Math.max(80, maxH) + 'px';
+            }
+
+            menuEl.style.boxSizing = 'border-box';
+            }
+
+            let activeBackdrop = null;
+            let activeMenu = null;
+            let activeSelect = null;
+            let activeRect = null;
+            let lastOpenAt = 0;
+
+            function closeActiveMenu() {
+            if (activeMenu) {
+                activeMenu.classList.remove('open');
+                if (activeMenu.parentNode) activeMenu.parentNode.removeChild(activeMenu);
+                if (activeMenu.__keyHandler) document.removeEventListener('keydown', activeMenu.__keyHandler);
+                if (activeMenu.__scrollCapture) document.removeEventListener('scroll', activeMenu.__scrollCapture, true);
+                activeMenu = null;
+            }
+            if (activeBackdrop) {
+                if (activeBackdrop.parentNode) activeBackdrop.parentNode.removeChild(activeBackdrop);
+                activeBackdrop = null;
+            }
+            activeSelect = null;
+            activeRect = null;
+            lastOpenAt = 0;
+            }
+
+            function applySelectionToSelect(selectEl, value) {
+            if (!selectEl) return;
+            selectEl.value = value;
+            selectEl.dispatchEvent(new Event('change', { bubbles: true }));
+            }
+
+            function openMenuFor(selectEl, fauxRect) {
+            closeActiveMenu();
+            activeBackdrop = createBackdrop();
+            activeMenu = createMenu();
+
+            try {
+                if (document.body.classList.contains('theme-dark') || (window.getComputedStyle(document.querySelector('.container')).backgroundColor.indexOf('rgb(24') === 0)) {
+                activeMenu.classList.add('dark');
+                }
+            } catch (e) {}
+
+            document.body.appendChild(activeBackdrop);
+            document.body.appendChild(activeMenu);
+            buildMenuFromSelect(selectEl, activeMenu);
+
+            requestAnimationFrame(() => {
+                positionMenu(fauxRect, activeMenu);
+                activeMenu.classList.add('open');
+                activeMenu.classList.add("prehover");
+            });
+
+            activeSelect = selectEl;
+            activeRect = fauxRect;
+            lastOpenAt = Date.now();
+
+            activeMenu.addEventListener('click', (e) => {
+                const item = e.target.closest('.menu-item');
+                if (!item) return;
+                applySelectionToSelect(activeSelect, item.dataset.value);
+                Array.from(activeMenu.querySelectorAll('.menu-item')).forEach(mi => mi.setAttribute('aria-selected', 'false'));
+                item.setAttribute('aria-selected', 'true');
+                closeActiveMenu();
+            });
+
+            activeBackdrop.addEventListener('click', (e) => {
+                e.stopPropagation();
+                closeActiveMenu();
+            });
+
+            let items = activeMenu.querySelectorAll('.menu-item');
+            let hovered = Array.from(items).findIndex(i => i.getAttribute('aria-selected') === 'true');
+            items.forEach((it, idx) => it.addEventListener('mouseenter', () => hovered = idx));
+
+            function highlight(idx) {
+                if (!items[idx]) return;
+                items.forEach(i => {
+                    i.classList.remove("hover");
+                    i.style.background = "";
+                    i.style.color = "";
+                });
+                activeMenu.classList.remove("prehover");
+                items[idx].classList.add("hover");
+                items[idx].style.background = "linear-gradient(135deg, #008cff, #0064fa)";
+                items[idx].style.color = "#ffffff";
+                items[idx].scrollIntoView({ block: "nearest" });
+            }
+
+            let typed = "";
+            let lastTypeTime = 0;
+
+            function onKey(e) {
+                if (!activeMenu) return;
+
+                const now = Date.now();
+                if (now - lastTypeTime > 500) typed = "";
+                lastTypeTime = now;
+
+                items = activeMenu.querySelectorAll(".menu-item");
+
+                if (e.key === "Escape") {
+                    e.preventDefault();
+                    closeActiveMenu();
+                    return;
+                }
+
+                if (e.key === "ArrowDown") {
+                    e.preventDefault();
+                    hovered = Math.min(items.length - 1, hovered + 1);
+                    highlight(hovered);
+                    return;
+                }
+
+                if (e.key === "ArrowUp") {
+                    e.preventDefault();
+                    hovered = Math.max(0, hovered - 1);
+                    highlight(hovered);
+                    return;
+                }
+
+                if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    if (items[hovered]) items[hovered].click();
+                    return;
+                }
+
+                if (/^[a-z0-9]$/i.test(e.key)) {
+                    typed += e.key.toLowerCase();
+
+                    const matchIndex = Array.from(items).findIndex(i =>
+                        i.textContent.trim().toLowerCase().startsWith(typed)
+                    );
+
+                    if (matchIndex >= 0) {
+                        hovered = matchIndex;
+                        highlight(hovered);
+                    }
+                }
+            }
+
+            document.addEventListener('keydown', onKey);
+            activeMenu.__keyHandler = onKey;
+
+            function onScrollCapture(e) {
+                if (!activeMenu) return;
+                if (activeMenu.contains(e.target)) {
+                return;
+                }
+                closeActiveMenu();
+            }
+            document.addEventListener('scroll', onScrollCapture, true);
+            activeMenu.__scrollCapture = onScrollCapture;
+
+            activeMenu.addEventListener('wheel', (ev) => {
+                ev.stopPropagation();
+            }, { passive: false });
+
+            let lastHoveredItem = null;
+            activeMenu.addEventListener("mousemove", (e) => {
+                const item = e.target.closest(".menu-item");
+                if (!item) return;
+                activeMenu.classList.remove("prehover");
+                activeMenu.classList.remove("frozen");
+                activeMenu.querySelectorAll(".menu-item").forEach(mi => mi.classList.remove("frozen-item"));
+                lastHoveredItem = item;
+            });
+
+            activeMenu.addEventListener("mouseleave", () => {
+                if (!lastHoveredItem) return;
+                activeMenu.classList.add("frozen");
+                lastHoveredItem.classList.add("frozen-item");
+            });
+            }
+
+            document.addEventListener('DOMContentLoaded', () => {
+            const buildSelect = document.getElementById('buildNumber');
+            const languageSelect = document.getElementById('language');
+
+            [buildSelect, languageSelect].forEach((sel) => {
+                if (!sel) return;
+                sel.addEventListener('mousedown', (e) => {
+                if (e.button !== 0 && e.type === 'mousedown') return;
+                e.preventDefault();
+                e.stopPropagation();
+                const rect = sel.getBoundingClientRect();
+                openMenuFor(sel, rect);
+                });
+
+                sel.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ' || e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    const rect = sel.getBoundingClientRect();
+                    openMenuFor(sel, rect);
+                }
+                });
+            });
+
+            document.addEventListener('click', (e) => {
+                if (lastOpenAt && (Date.now() - lastOpenAt) < 120) return;
+                if (activeMenu && !activeMenu.contains(e.target) && ! (e.target instanceof HTMLSelectElement)) closeActiveMenu();
+            });
+
+            window.addEventListener('resize', () => { if (activeMenu) closeActiveMenu(); });
+            });
+
+        </script>
         <script>
             const buildNumberDropdown = document.getElementById("buildNumber");
             const warningMessage = document.getElementById("warningMessage");
@@ -655,11 +1018,13 @@
                             lightStyle.disabled = false;
                             darkStyle.disabled = true;
                             currentTheme = 'light';
+                            document.body.classList.remove('theme-dark');
                         } else {
                             // Switch to dark
                             lightStyle.disabled = true;
                             darkStyle.disabled = false;
                             currentTheme = 'dark';
+                            document.body.classList.add('theme-dark');
                         }
                     }, 200);
 
