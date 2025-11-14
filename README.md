@@ -6,7 +6,7 @@
 
 - **26200.7171 (25H2) Latest - EN-US, RU-RU and ZH-CN**
 - **26100.7171 (24H2) Latest - EN-US, RU-RU and ZH-CN**
-- **22631.6199 (23H2) Latest - EN-US, RU-RU and ZH-CN**
+- **22631.6269 (23H2) Latest - EN-US, RU-RU and ZH-CN**
 - **26200.6899 (25H2) - All Languages**
 - **26100.4349 (24H2) - All Languages**
 - **22631.2861 (23H2) - All Languages**
