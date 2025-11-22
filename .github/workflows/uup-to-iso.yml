@@ -379,12 +379,12 @@ jobs:
           "esd_sha1=$sha1" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
           "esd_sha256=$sha256" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
           
-      - name: Generate release tag and date
+      - name: Generate unique release tag and date
         id: gen_tag
         shell: powershell
         run: |
-          $tag = Get-Date -Format "yyyy-MM-dd_HHmm"
-          $name = Get-Date -Format "MMMM dd, yyyy HH:mm"
+          $tag = Get-Date -Format "yyyy-MM-dd_HHmmss"
+          $name = Get-Date -Format "MMMM dd, yyyy HH:mm:ss"
           "release_tag=$tag" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
           "release_name=$name" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
 
