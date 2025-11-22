@@ -433,7 +433,7 @@ jobs:
           $desc = @"
 
           ### **Build Date**: ``$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')``
-          ### **Complete ISO/ESD in one file (temporary link)**: [``Download from this build Action Run``]($workflowRunUrl)
+          ### **⚡Complete ISO or ESD in one zip file (need extract)**: [``Download from this build Action Run``]($workflowRunUrl)
           
           ### ISO File Details:
           - **Name**: ``"${{ steps.find_iso.outputs.iso_name }}"``
