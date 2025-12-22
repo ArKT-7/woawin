@@ -515,3 +515,78 @@ jobs:
           retention-days: 30
           if-no-files-found: error
           compression-level: ${{ env.COMPRESSION_LEVEL }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Google API Library
+        run: pip install google-api-python-client google-auth-oauthlib
+
+      - name: Upload Build to Google Drive
+        shell: python
+        env:
+          CLIENT_ID: ${{ secrets.GDRIVE_CLIENT_ID }}
+          CLIENT_SECRET: ${{ secrets.GDRIVE_CLIENT_SECRET }}
+          REFRESH_TOKEN: ${{ secrets.GDRIVE_REFRESH_TOKEN }}
+          PARENT_ID: ${{ secrets.GDRIVE_PARENT_ID }}
+          RELEASE_TAG: ${{ steps.gen_tag.outputs.release_tag }}
+          ISO_PATH: ${{ steps.find_iso.outputs.iso_path }}
+          ESD_PATH: ${{ steps.rename_esd.outputs.final_esd_path }}
+        run: |
+          import os
+          import time
+          from google.oauth2.credentials import Credentials
+          from googleapiclient.discovery import build
+          from googleapiclient.http import MediaFileUpload
+
+          creds = Credentials(None, refresh_token=os.environ['REFRESH_TOKEN'],
+                              client_id=os.environ['CLIENT_ID'],
+                              client_secret=os.environ['CLIENT_SECRET'],
+                              token_uri="https://oauth2.googleapis.com/token")
+          drive = build('drive', 'v3', credentials=creds)
+
+          def make_public(file_id):
+              permission = {'type': 'anyone', 'role': 'reader'}
+              drive.permissions().create(fileId=file_id, body=permission).execute()
+              return drive.files().get(fileId=file_id, fields='webViewLink').execute().get('webViewLink')
+
+          def create_folder(name, parent):
+              meta = {'name': name, 'mimeType': 'application/vnd.google-apps.folder', 'parents': [parent]}
+              return drive.files().create(body=meta, fields='id').execute().get('id')
+
+          def upload_with_progress(path, folder_id):
+              file_name = os.path.basename(path)
+              total_size_mb = os.path.getsize(path) / (1024 * 1024)
+              meta = {'name': file_name, 'parents': [folder_id]}
+              media = MediaFileUpload(path, resumable=True)
+              request = drive.files().create(body=meta, media_body=media, fields='id')
+              
+              print(f"\n[UPLOADING] {file_name} ({total_size_mb:.2f} MB)", flush=True)
+              start_time = time.time()
+              response = None
+              while response is None:
+                  status, response = request.next_chunk()
+                  if status:
+                      elapsed = time.time() - start_time
+                      current_mb = status.resumable_progress / (1024 * 1024)
+                      speed = (current_mb / elapsed) if elapsed > 0 else 0
+                      print(f" >> {status.progress()*100:3.0f}% | {current_mb:7.2f} / {total_size_mb:7.2f} MB | Speed: {speed:6.2f} MB/s", flush=True)
+              return response.get('id')
+
+          release_folder = create_folder(os.environ['RELEASE_TAG'], os.environ['PARENT_ID'])
+          release_link = make_public(release_folder)
+          iso_folder = create_folder("ISO", release_folder)
+          esd_folder = create_folder("ESD", release_folder)
+          time.sleep(7)
+          iso_id = upload_with_progress(os.environ['ISO_PATH'], iso_folder)
+          iso_link = make_public(iso_id)
+          esd_id = upload_with_progress(os.environ['ESD_PATH'], esd_folder)
+          esd_link = make_public(esd_id)
+
+          print("\n" + "="*60)
+          print(f"RELEASE FOLDER:  {release_link}")
+          print(f"ISO DIRECT LINK: {iso_link}")
+          print(f"ESD DIRECT LINK: {esd_link}")
+          print("="*60)
