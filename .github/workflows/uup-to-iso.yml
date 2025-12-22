@@ -388,46 +388,16 @@ jobs:
           "release_tag=$tag" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
           "release_name=$name" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
 
-      - name: Split ESD into parts
-        id: split_esd
+      - name: Generate Release Description
+        id: build_desc
         shell: powershell
         run: |
           $esdPath = "${{ steps.rename_esd.outputs.final_esd_path }}"
-          if (-not (Test-Path $esdPath)) {
-            Write-Host "ERROR: ESD file not found at $esdPath"
-            exit 1
-          }
           $esdSize = (Get-Item $esdPath).Length
           $esdName = "${{ steps.rename_esd.outputs.final_esd_name }}"
-          $splitOutputDir = Split-Path $esdPath
-          $esdBaseName = [System.IO.Path]::GetFileNameWithoutExtension($esdName)
-          $splitArchiveName = "${esdBaseName}_parts"
-          $splitArchivePath = Join-Path $splitOutputDir "$splitArchiveName.zip"
-          Write-Host "Splitting ESD into 2000MB parts..."
-          Write-Host "ESD Path: $esdPath"
-          Write-Host "ESD Size: $([Math]::Round($esdSize / 1073741824, 2)) GB"
-          Write-Host "Archive name: $splitArchiveName"
-          try {
-            & "C:\Program Files\7-Zip\7z.exe" a -tzip -mx=${{ env.COMPRESSION_LEVEL }} -mmt=on $splitArchivePath -v2000m $esdPath
-            if ($LASTEXITCODE -ne 0) {
-              Write-Host "ERROR: 7-Zip compression failed with exit code: $LASTEXITCODE"
-              exit 1
-            }
-          } catch {
-            Write-Host "ERROR: Failed to split ESD: $_"
-            exit 1
-          }
-          $splitPattern = "${splitArchiveName}.zip.00*"
-          $parts = Get-ChildItem -Path $splitOutputDir -Filter $splitPattern | Sort-Object Name
-          if ($parts.Count -eq 0) {
-            Write-Host "ERROR: No split files found with pattern: $splitPattern"
-            exit 1
-          }
-          Write-Host "Split ESD parts created:"
-          $parts | ForEach-Object { Write-Host " - $($_.Name) ($([Math]::Round($_.Length / 1MB, 2)) MB)" }
-          $sizeGB = [Math]::Round($esdSize / 1073741824, 2)
           $isoSizeBytes = [int64] "${{ steps.find_iso.outputs.iso_size }}"
           $isoSizeGB = [Math]::Round($isoSizeBytes / 1GB, 2)
+          $sizeGB = [Math]::Round($esdSize / 1073741824, 2)
           $workflowRunUrl = "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
 
           $desc = @"
@@ -449,52 +419,23 @@ jobs:
           - **SHA256**: ``${{ steps.esd_hashes.outputs.esd_sha256 }}``
           - **Size**: ``$sizeGB GB ($esdSize bytes)``
           
-          ## ESD Part List (Download from here):
-          
+          ---
+          ## ☁️ Google Drive Direct Links:
+          - **📂 [Full Release Folder]**({{GDRIVE_FOLDER}})
+          - **💿 [Direct ISO Link]**({{GDRIVE_ISO}})
+          - **📦 [Direct ESD Link]**({{GDRIVE_ESD}})
           "@
           
-          $desc += ($parts | ForEach-Object { "- **[``$($_.Name)``](https://github.com/$env:GITHUB_REPOSITORY/releases/download/${{ steps.gen_tag.outputs.release_tag }}/$($_.Name)) - $([Math]::Round($_.Length / 1MB, 2)) MB**" }) -join "`n"
-          
-          $desc += @"
-          
-          ## Extraction Instructions:
-          - ### Download all ESD parts
-          - ### Use 7-Zip or WinRAR to extract: Right-click on ``$($parts[0].Name)`` -> Extract Here
-          - ### The full ESD will be extracted automatically
+          $desc | Out-File -FilePath "${{ runner.temp }}\desc.txt" -Encoding utf8
+          echo "desc_path=${{ runner.temp }}\desc.txt" >> $env:GITHUB_OUTPUT
 
-          "@
-          
-          $descPath = Join-Path $splitOutputDir "release_description.txt"
-          Set-Content -Path $descPath -Value $desc -Encoding utf8
-          echo "split_dir=$splitOutputDir" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
-          echo "split_pattern=$splitPattern" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
-          echo "parts_count=$($parts.Count)" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
-
-      - name: Create GitHub Release and upload split ESD parts
+      - name: Create GitHub Release
         shell: powershell
         run: |
-          $splitDir = "${{ steps.split_esd.outputs.split_dir }}"
-          $splitPattern = "${{ steps.split_esd.outputs.split_pattern }}"
           $releaseTag = "${{ steps.gen_tag.outputs.release_tag }}"
           $releaseName = "${{ steps.gen_tag.outputs.release_name }}"
-          $parts = Get-ChildItem -Path $splitDir -Filter $splitPattern | Sort-Object Name
-          if ($parts.Count -eq 0) {
-            Write-Host "ERROR: No split files found"
-            exit 1
-          }
-          Write-Host "Creating release: $releaseName"
-          Write-Host "Uploading $($parts.Count) ESD parts"
-          $descPath = Join-Path $splitDir "release_description.txt"
-          $body = if (Test-Path $descPath) { Get-Content $descPath -Raw } else { "Build Release" }
-          $fileArgs = $parts | ForEach-Object { $_.FullName }
-          & gh release create $releaseTag `
-            --title "Build - $releaseName" `
-            --notes $body `
-            $fileArgs
-          if ($LASTEXITCODE -ne 0) {
-            Write-Host "ERROR: Failed to create release"
-            exit 1
-          }
+          $body = Get-Content "${{ steps.build_desc.outputs.desc_path }}" -Raw
+          & gh release create $releaseTag --title "Build - $releaseName" --notes $body
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -534,6 +475,7 @@ jobs:
           RELEASE_TAG: ${{ steps.gen_tag.outputs.release_tag }}
           ISO_PATH: ${{ steps.find_iso.outputs.iso_path }}
           ESD_PATH: ${{ steps.rename_esd.outputs.final_esd_path }}
+          PYTHONUTF8: 1
         run: |
           import os
           import time
@@ -558,21 +500,34 @@ jobs:
 
           def upload_with_progress(path, folder_id):
               file_name = os.path.basename(path)
-              total_size_mb = os.path.getsize(path) / (1024 * 1024)
-              meta = {'name': file_name, 'parents': [folder_id]}
+              total_size = os.path.getsize(path)
               media = MediaFileUpload(path, resumable=True)
-              request = drive.files().create(body=meta, media_body=media, fields='id')
+              request = drive.files().create(body={'name': file_name, 'parents': [folder_id]}, media_body=media, fields='id')
               
-              print(f"\n[UPLOADING] {file_name} ({total_size_mb:.2f} MB)", flush=True)
+              print(f"\n[UPLOADING] {file_name} ({total_size / (1024*1024):.2f} MB)", flush=True)
               start_time = time.time()
               response = None
+              retries = 0
+              max_retries = 10
+
               while response is None:
-                  status, response = request.next_chunk()
-                  if status:
-                      elapsed = time.time() - start_time
-                      current_mb = status.resumable_progress / (1024 * 1024)
-                      speed = (current_mb / elapsed) if elapsed > 0 else 0
-                      print(f" >> {status.progress()*100:3.0f}% | {current_mb:7.2f} / {total_size_mb:7.2f} MB | Speed: {speed:6.2f} MB/s", flush=True)
+                  try:
+                      status, response = request.next_chunk()
+                      if status:
+                          elapsed = time.time() - start_time
+                          current_mb = status.resumable_progress / (1024 * 1024)
+                          total_mb = total_size / (1024 * 1024)
+                          speed = (current_mb / elapsed) if elapsed > 0 else 0
+                          print(f" >> {status.progress()*100:3.0f}% | {current_mb:7.2f} / {total_mb:7.2f} MB | Speed: {speed:6.2f} MB/s", flush=True)
+                      retries = 0 # Reset retries on successful chunk
+                  except (Exception, socket.timeout) as e:
+                      retries += 1
+                      if retries > max_retries:
+                          print(f"\n[!] FATAL ERROR: Max retries exceeded. {e}", flush=True)
+                          raise e
+                      wait_time = min(2**retries, 60) # Exponential backoff
+                      print(f"\n[!] Network Error ({e}). Retrying in {wait_time}s... ({retries}/{max_retries})", flush=True)
+                      time.sleep(wait_time)
               return response.get('id')
 
           release_folder = create_folder(os.environ['RELEASE_TAG'], os.environ['PARENT_ID'])
@@ -590,3 +545,23 @@ jobs:
           print(f"ISO DIRECT LINK: {iso_link}")
           print(f"ESD DIRECT LINK: {esd_link}")
           print("="*60)
+
+          with open("glinks.env", "w") as f:
+              f.write(f"GDRIVE_FOLDER={release_link}\n")
+              f.write(f"GDRIVE_ISO={iso_link}\n")
+              f.write(f"GDRIVE_ESD={esd_link}\n")
+
+      - name: Finalize Release Notes
+        shell: powershell
+        run: |
+          $releaseTag = "${{ steps.gen_tag.outputs.release_tag }}"
+          $links = Get-Content "glinks.env" | ConvertFrom-StringData
+          $body = Get-Content "${{ steps.build_desc.outputs.desc_path }}" -Raw
+          $body = $body.Replace("{{GDRIVE_FOLDER}}", $links.GDRIVE_FOLDER)
+          $body = $body.Replace("{{GDRIVE_ISO}}", $links.GDRIVE_ISO)
+          $body = $body.Replace("{{GDRIVE_ESD}}", $links.GDRIVE_ESD)
+          # Emoji fix: Ensure final description is saved as UTF8
+          $body | Set-Content "final_desc.txt" -Encoding utf8
+          & gh release edit $releaseTag --notes-file "final_desc.txt"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
