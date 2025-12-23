@@ -390,7 +390,7 @@ jobs:
 
       - name: Generate Release Description
         id: build_desc
-        shell: powershell
+        shell: pwsh
         run: |
           $esdPath = "${{ steps.rename_esd.outputs.final_esd_path }}"
           $esdSize = (Get-Item $esdPath).Length
@@ -401,12 +401,15 @@ jobs:
           $workflowRunUrl = "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
 
           $desc = @"
-
           ### **Build Date**: ``$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')``
           ### **⚡Download Complete ISO or ESD in one zip file (need extract)**: [``from this build Action Run``]($workflowRunUrl)
           
+          > [!IMPORTANT]
+          > **⚠️ MAJOR REQUIREMENT:** You must be **SIGNED INTO GITHUB** to see the **DOWNLOAD ICON** from the above link. If you don't sign in, That's a skill issue, not a bug 💀
+          
+          ---
           ### ISO File Details:
-          - **Name**: ``"${{ steps.find_iso.outputs.iso_name }}"``
+          - **Name**: ``${{ steps.find_iso.outputs.iso_name }}``
           - **MD5**: ``${{ steps.iso_hashes.outputs.md5 }}``
           - **SHA1**: ``${{ steps.iso_hashes.outputs.sha1 }}``
           - **SHA256**: ``${{ steps.iso_hashes.outputs.sha256 }}``
@@ -420,22 +423,26 @@ jobs:
           - **Size**: ``$sizeGB GB ($esdSize bytes)``
           
           ---
-          ## ☁️ Google Drive Direct Links:
-          - **📂 [Full Release Folder]**({{GDRIVE_FOLDER}})
-          - **💿 [Direct ISO Link]**({{GDRIVE_ISO}})
-          - **📦 [Direct ESD Link]**({{GDRIVE_ESD}})
+          ## ☁️ Google Drive Direct Links
+          | 📂 **RELEASE FOLDER** | 💿 **ISO FILE** | 📦 **ESD FILE** |
+          | :---: | :---: | :---: |
+          | [![Open Folder](https://img.shields.io/badge/OPEN_FOLDER-4285F4?style=for-the-badge&logo=googledrive&logoColor=white)]({{GDRIVE_FOLDER}}) | [![Download ISO](https://img.shields.io/badge/DOWNLOAD_ISO-FF5722?style=for-the-badge&logo=idk&logoColor=white)]({{GDRIVE_ISO}}) | [![Download ESD](https://img.shields.io/badge/DOWNLOAD_ESD-8A2BE2?style=for-the-badge&logo=idk&logoColor=white)]({{GDRIVE_ESD}}) |
           "@
           
-          $desc | Out-File -FilePath "${{ runner.temp }}\desc.txt" -Encoding utf8
-          echo "desc_path=${{ runner.temp }}\desc.txt" >> $env:GITHUB_OUTPUT
+          $descPath = "${{ runner.temp }}\desc.txt"
+          [System.IO.File]::WriteAllText($descPath, $desc, [System.Text.Encoding]::UTF8)
+          echo "desc_path=$descPath" >> $env:GITHUB_OUTPUT
 
       - name: Create GitHub Release
-        shell: powershell
+        shell: pwsh
         run: |
           $releaseTag = "${{ steps.gen_tag.outputs.release_tag }}"
           $releaseName = "${{ steps.gen_tag.outputs.release_name }}"
-          $body = Get-Content "${{ steps.build_desc.outputs.desc_path }}" -Raw
-          & gh release create $releaseTag --title "Build - $releaseName" --notes $body
+          $descPath = "${{ steps.build_desc.outputs.desc_path }}"
+          $body = [System.IO.File]::ReadAllText($descPath, [System.Text.Encoding]::UTF8)
+          $cleanBodyPath = "initial_release_body.txt"
+          [System.IO.File]::WriteAllText($cleanBodyPath, $body, [System.Text.Encoding]::UTF8)
+          & gh release create $releaseTag --title "Build - $releaseName" --notes-file $cleanBodyPath
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -463,7 +470,7 @@ jobs:
           python-version: '3.12'
 
       - name: Install Google API Library
-        run: pip install google-api-python-client google-auth-oauthlib
+        run: pip install google-api-python-client google-auth-oauthlib requests
 
       - name: Upload Build to Google Drive
         shell: python
@@ -477,91 +484,151 @@ jobs:
           ESD_PATH: ${{ steps.rename_esd.outputs.final_esd_path }}
           PYTHONUTF8: 1
         run: |
-          import os
-          import time
+          import os, time, sys, io, socket, random
+          sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+          
           from google.oauth2.credentials import Credentials
           from googleapiclient.discovery import build
           from googleapiclient.http import MediaFileUpload
+          from googleapiclient.errors import HttpError
 
-          creds = Credentials(None, refresh_token=os.environ['REFRESH_TOKEN'],
-                              client_id=os.environ['CLIENT_ID'],
-                              client_secret=os.environ['CLIENT_SECRET'],
-                              token_uri="https://oauth2.googleapis.com/token")
-          drive = build('drive', 'v3', credentials=creds)
+          def safe_exit(msg):
+              print(f"\n[WARN] {msg}")
+              print("[INFO] Creating dummy links so Release Notes update doesn't crash.")
+              with open("glinks.env", "w", encoding='utf-8') as f:
+                  f.write(f"GDRIVE_FOLDER=https://drive.google.com/\n")
+                  f.write(f"GDRIVE_ISO=https://drive.google.com/\n")
+                  f.write(f"GDRIVE_ESD=https://drive.google.com/\n")
+              sys.exit(0)
+
+          try:
+              print("Authenticating with Google Drive...", flush=True)
+              creds = Credentials(None, refresh_token=os.environ['REFRESH_TOKEN'],
+                                  client_id=os.environ['CLIENT_ID'],
+                                  client_secret=os.environ['CLIENT_SECRET'],
+                                  token_uri="https://oauth2.googleapis.com/token")
+              drive = build('drive', 'v3', credentials=creds)
+          except Exception as e:
+              safe_exit(f"Authentication Failed: {e}")
+
+          def execute_with_retry(request_object):
+              max_retries = 10
+              last_exception = None
+              
+              for attempt in range(max_retries):
+                  try:
+                      return request_object.execute()
+                  except (HttpError, socket.timeout, Exception) as e:
+                      last_exception = e
+                      
+                      wait = min(2 ** attempt, 30) + random.uniform(0, 1)
+                      print(f"   [Retry {attempt+1}/{max_retries}] API Error: {e}. Waiting {wait:.1f}s...", flush=True)
+                      time.sleep(wait)
+              
+              if last_exception:
+                  raise last_exception
+              raise Exception("Max retries exceeded")
 
           def make_public(file_id):
-              permission = {'type': 'anyone', 'role': 'reader'}
-              drive.permissions().create(fileId=file_id, body=permission).execute()
-              return drive.files().get(fileId=file_id, fields='webViewLink').execute().get('webViewLink')
+              try:
+                  permission = {'type': 'anyone', 'role': 'reader'}
+                  req = drive.permissions().create(fileId=file_id, body=permission, supportsAllDrives=True)
+                  execute_with_retry(req)
+                  
+                  req_link = drive.files().get(fileId=file_id, fields='webViewLink', supportsAllDrives=True)
+                  res = execute_with_retry(req_link)
+                  return res.get('webViewLink')
+              except Exception as e:
+                  print(f"Warning: Could not make file public: {e}")
+                  return "ERROR_GETTING_LINK"
 
           def create_folder(name, parent):
-              meta = {'name': name, 'mimeType': 'application/vnd.google-apps.folder', 'parents': [parent]}
-              return drive.files().create(body=meta, fields='id').execute().get('id')
+              parents_list = [parent] if parent else []
+              meta = {'name': name, 'mimeType': 'application/vnd.google-apps.folder', 'parents': parents_list}
+              req = drive.files().create(body=meta, fields='id', supportsAllDrives=True)
+              file = execute_with_retry(req)
+              return file.get('id')
 
           def upload_with_progress(path, folder_id):
               file_name = os.path.basename(path)
               total_size = os.path.getsize(path)
               media = MediaFileUpload(path, resumable=True)
-              request = drive.files().create(body={'name': file_name, 'parents': [folder_id]}, media_body=media, fields='id')
+              request = drive.files().create(body={'name': file_name, 'parents': [folder_id]}, media_body=media, fields='id', supportsAllDrives=True)
               
               print(f"\n[UPLOADING] {file_name} ({total_size / (1024*1024):.2f} MB)", flush=True)
               start_time = time.time()
               response = None
               retries = 0
-              max_retries = 10
-
+              
               while response is None:
                   try:
                       status, response = request.next_chunk()
                       if status:
                           elapsed = time.time() - start_time
                           current_mb = status.resumable_progress / (1024 * 1024)
-                          total_mb = total_size / (1024 * 1024)
                           speed = (current_mb / elapsed) if elapsed > 0 else 0
-                          print(f" >> {status.progress()*100:3.0f}% | {current_mb:7.2f} / {total_mb:7.2f} MB | Speed: {speed:6.2f} MB/s", flush=True)
-                      retries = 0 # Reset retries on successful chunk
-                  except (Exception, socket.timeout) as e:
+                          print(f" >> {status.progress()*100:3.0f}% | {current_mb:7.2f} MB | {speed:6.2f} MB/s", flush=True)
+                      retries = 0
+                  except Exception as e:
                       retries += 1
-                      if retries > max_retries:
-                          print(f"\n[!] FATAL ERROR: Max retries exceeded. {e}", flush=True)
+                      if retries > 10:
                           raise e
-                      wait_time = min(2**retries, 60) # Exponential backoff
-                      print(f"\n[!] Network Error ({e}). Retrying in {wait_time}s... ({retries}/{max_retries})", flush=True)
-                      time.sleep(wait_time)
+                      print(f" [Chunk Error] {e}. Retrying chunk... ({retries}/10)", flush=True)
+                      time.sleep(min(2**retries, 30))
+                      
               return response.get('id')
 
-          release_folder = create_folder(os.environ['RELEASE_TAG'], os.environ['PARENT_ID'])
-          release_link = make_public(release_folder)
-          iso_folder = create_folder("ISO", release_folder)
-          esd_folder = create_folder("ESD", release_folder)
-          time.sleep(7)
-          iso_id = upload_with_progress(os.environ['ISO_PATH'], iso_folder)
-          iso_link = make_public(iso_id)
-          esd_id = upload_with_progress(os.environ['ESD_PATH'], esd_folder)
-          esd_link = make_public(esd_id)
+          try:
+              parent_id = os.environ['PARENT_ID']
 
-          print("\n" + "="*60)
-          print(f"RELEASE FOLDER:  {release_link}")
-          print(f"ISO DIRECT LINK: {iso_link}")
-          print(f"ESD DIRECT LINK: {esd_link}")
-          print("="*60)
+              try:
+                  print(f"Attempting to create folder in Parent ID: {parent_id}", flush=True)
+                  release_folder = create_folder(os.environ['RELEASE_TAG'], parent_id)
+              except HttpError as e:
+                  if e.resp.status == 404:
+                      print(f"\n[!] 404 Error: The PARENT_ID was not found (after 10 retries).", flush=True)
+                      print("[INFO] Switching to fallback: Uploading to ROOT directory instead.", flush=True)
+                      release_folder = create_folder(f"{os.environ['RELEASE_TAG']}_FALLBACK", None)
+                  else:
+                      raise e
 
-          with open("glinks.env", "w") as f:
-              f.write(f"GDRIVE_FOLDER={release_link}\n")
-              f.write(f"GDRIVE_ISO={iso_link}\n")
-              f.write(f"GDRIVE_ESD={esd_link}\n")
+              release_link = make_public(release_folder)
+              
+              iso_folder = create_folder("ISO", release_folder)
+              esd_folder = create_folder("ESD", release_folder)
+              time.sleep(7)
+              
+              iso_id = upload_with_progress(os.environ['ISO_PATH'], iso_folder)
+              iso_link = make_public(iso_id)
+              
+              esd_id = upload_with_progress(os.environ['ESD_PATH'], esd_folder)
+              esd_link = make_public(esd_id)
+
+              print("\n" + "="*60)
+              print(f"ESD DIRECT LINK: {esd_link}")
+              print(f"ISO DIRECT LINK: {iso_link}")
+              print(f"RELEASE FOLDER:  {release_link}")
+              print("="*60)
+
+              with open("glinks.env", "w", encoding='utf-8') as f:
+                  f.write(f"GDRIVE_FOLDER={release_link}\n")
+                  f.write(f"GDRIVE_ISO={iso_link}\n")
+                  f.write(f"GDRIVE_ESD={esd_link}\n")
+                  
+          except Exception as main_e:
+              safe_exit(f"Critical Script Failure: {main_e}")
 
       - name: Finalize Release Notes
-        shell: powershell
+        shell: pwsh
         run: |
           $releaseTag = "${{ steps.gen_tag.outputs.release_tag }}"
           $links = Get-Content "glinks.env" | ConvertFrom-StringData
-          $body = Get-Content "${{ steps.build_desc.outputs.desc_path }}" -Raw
+          $descPath = "${{ steps.build_desc.outputs.desc_path }}"
+          $body = [System.IO.File]::ReadAllText($descPath, [System.Text.Encoding]::UTF8)
           $body = $body.Replace("{{GDRIVE_FOLDER}}", $links.GDRIVE_FOLDER)
           $body = $body.Replace("{{GDRIVE_ISO}}", $links.GDRIVE_ISO)
           $body = $body.Replace("{{GDRIVE_ESD}}", $links.GDRIVE_ESD)
-          # Emoji fix: Ensure final description is saved as UTF8
-          $body | Set-Content "final_desc.txt" -Encoding utf8
+          [System.IO.File]::WriteAllText("final_desc.txt", $body, [System.Text.Encoding]::UTF8)
           & gh release edit $releaseTag --notes-file "final_desc.txt"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
