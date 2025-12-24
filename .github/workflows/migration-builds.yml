@@ -1,0 +1,171 @@
+name: Manual Release Migration to GDrive
+on:
+  workflow_dispatch:
+
+jobs:
+  migrate:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Google API Library
+        run: pip install google-api-python-client google-auth-oauthlib requests
+
+      - name: Run Manual Migration
+        shell: python
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CLIENT_ID: ${{ secrets.GDRIVE_CLIENT_ID }}
+          CLIENT_SECRET: ${{ secrets.GDRIVE_CLIENT_SECRET }}
+          REFRESH_TOKEN: ${{ secrets.GDRIVE_REFRESH_TOKEN }}
+          PARENT_ID: ${{ secrets.GDRIVE_PARENT_ID }}
+          PYTHONUTF8: 1
+        run: |
+          import os, time, subprocess, json, shutil, re, requests, zipfile, sys, io
+          sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+          
+          from google.oauth2.credentials import Credentials
+          from googleapiclient.discovery import build
+          from googleapiclient.http import MediaFileUpload
+          from googleapiclient.errors import HttpError
+          import socket
+          
+          creds = Credentials(None, refresh_token=os.environ['REFRESH_TOKEN'],
+                              client_id=os.environ['CLIENT_ID'],
+                              client_secret=os.environ['CLIENT_SECRET'],
+                              token_uri="https://oauth2.googleapis.com/token")
+          drive = build('drive', 'v3', credentials=creds)
+          
+          def make_public(file_id):
+              drive.permissions().create(fileId=file_id, body={'type': 'anyone', 'role': 'reader'}).execute()
+              return drive.files().get(fileId=file_id, fields='webViewLink').execute().get('webViewLink')
+          
+          def track_progress(current, total, start_time, label):
+              elapsed = time.time() - start_time
+              current_mb = current / (1024 * 1024)
+              total_mb = total / (1024 * 1024)
+              speed = (current_mb / elapsed) if elapsed > 0 else 0
+              percent = (current / total) * 100
+              print(f" >> {label}: {percent:3.0f}% | {current_mb:7.2f}/{total_mb:7.2f} MB | {speed:6.2f} MB/s", flush=True)
+          
+          def download_artifact_progress(artifact_url, save_path, token):
+              headers = {"Authorization": f"Bearer {token}"}
+              response = requests.get(artifact_url, headers=headers, stream=True)
+              total_size = int(response.headers.get('content-length', 0))
+              print(f"\n[*] Downloading Artifact Zip ({total_size/(1024*1024):.2f} MB)...", flush=True)
+              start_time = time.time()
+              downloaded = 0
+              with open(save_path, 'wb') as f:
+                  for chunk in response.iter_content(chunk_size=1024*1024):
+                      if chunk:
+                          f.write(chunk)
+                          downloaded += len(chunk)
+                          track_progress(downloaded, total_size, start_time, "DOWNLOAD")
+          
+          def upload_with_progress(path, folder_id):
+              file_name = os.path.basename(path)
+              total_size = os.path.getsize(path)
+              media = MediaFileUpload(path, resumable=True)
+              request = drive.files().create(body={'name': file_name, 'parents': [folder_id]}, media_body=media, fields='id')
+              print(f"\n[GDrive] Uploading: {file_name}", flush=True)
+              
+              start_time = time.time()
+              response = None
+              retries = 0
+              max_retries = 10
+              
+              while response is None:
+                  try:
+                      status, response = request.next_chunk()
+                      if status:
+                          track_progress(status.resumable_progress, total_size, start_time, "UPLOAD  ")
+                      retries = 0
+                  except (Exception, socket.timeout) as e:
+                      retries += 1
+                      if retries > max_retries:
+                          print(f"\n[!] FATAL ERROR: Max retries exceeded. {e}", flush=True)
+                          raise e
+                      wait_time = min(2**retries, 60)
+                      print(f"\n[!] Network Error ({e}). Retrying in {wait_time}s... ({retries}/{max_retries})", flush=True)
+                      time.sleep(wait_time)
+                      
+              return response.get('id')
+          
+          all_results = []
+
+          with open('.github/migration.json', 'r') as f:
+                links = json.load(f)
+          
+          for link in links:
+              parts = link.strip('/').split('/')
+              repo_full = f"{parts[3]}/{parts[4]}"
+              tag_name = parts[-1]
+          
+              print("\n" + "#"*60, flush=True)
+              print(f"### MIGRATING: {tag_name}", flush=True)
+              print("#"*60, flush=True)
+          
+              tag_folder = drive.files().create(body={'name': tag_name, 'mimeType': 'application/vnd.google-apps.folder', 'parents': [os.environ['PARENT_ID']]}, fields='id').execute().get('id')
+              tag_link = make_public(tag_folder)
+              iso_f = drive.files().create(body={'name': 'ISO', 'mimeType': 'application/vnd.google-apps.folder', 'parents': [tag_folder]}, fields='id').execute().get('id')
+              esd_f = drive.files().create(body={'name': 'ESD', 'mimeType': 'application/vnd.google-apps.folder', 'parents': [tag_folder]}, fields='id').execute().get('id')
+              
+              print(f"[*] Folders pre-created. Waiting 5s for Drive sync...", flush=True)
+              time.sleep(5)
+          
+              try:
+                  release_info = subprocess.check_output(['gh', 'release', 'view', tag_name, '--repo', repo_full, '--json', 'body']).decode('utf-8')
+                  match = re.search(r'actions/runs/(\d+)', json.loads(release_info).get('body', ''))
+                  if not match: continue
+                  run_id = match.group(1)
+                  art_info = subprocess.check_output(['gh', 'api', f'repos/{repo_full}/actions/runs/{run_id}/artifacts']).decode('utf-8')
+                  artifacts = json.loads(art_info).get('artifacts', [])
+              except Exception: continue
+          
+              temp_dir = f"temp_{tag_name}"
+              os.makedirs(temp_dir, exist_ok=True)
+              for art in artifacts:
+                  zip_path = os.path.join(temp_dir, f"{art['name']}.zip")
+                  download_artifact_progress(art['archive_download_url'], zip_path, os.environ['GH_TOKEN'])
+                  with zipfile.ZipFile(zip_path, 'r') as zip_ref: zip_ref.extractall(temp_dir)
+                  os.remove(zip_path)
+          
+              iso_links = []
+              esd_links = []
+              for root, _, files in os.walk(temp_dir):
+                  for file in files:
+                      file_path = os.path.join(root, file)
+                      if file.lower().endswith('.iso'):
+                          iso_links.append(make_public(upload_with_progress(file_path, iso_f)))
+                      elif file.lower().endswith('.esd'):
+                          esd_links.append(make_public(upload_with_progress(file_path, esd_f)))
+              
+              tag_data = {'tag': tag_name, 'original': link, 'folder': tag_link, 'iso': iso_links, 'esd': esd_links}
+              all_results.append(tag_data)
+              
+              print("\n\n" + "="*65, flush=True)
+              print(f"  RELEASE COMPLETED: {tag_name}", flush=True)
+              print(f"  SOURCE GITHUB:     {link}", flush=True)
+              print(f"  GDRIVE FOLDER:     {tag_link}", flush=True)
+              for i, l in enumerate(iso_links, 1): print(f"  ISO LINK #{i}:       {l}", flush=True)
+              for i, l in enumerate(esd_links, 1): print(f"  ESD LINK #{i}:       {l}", flush=True)
+              print("="*65 + "\n", flush=True)
+              shutil.rmtree(temp_dir)
+
+          print("\n\n" + "!"*75, flush=True)
+          print("!!! ALL MIGRATIONS COMPLETE - FINAL SUMMARY REPORT !!!", flush=True)
+          print("!"*75 + "\n", flush=True)
+          for res in all_results:
+              print("="*65, flush=True)
+              print(f"  RELEASE:      {res['tag']}", flush=True)
+              print(f"  SOURCE GITHUB: {res['original']}", flush=True)
+              print(f"  GDRIVE FOLDER: {res['folder']}", flush=True)
+              for i, l in enumerate(res['iso'], 1): print(f"  ISO LINK #{i}:  {l}", flush=True)
+              for i, l in enumerate(res['esd'], 1): print(f"  ESD LINK #{i}:  {l}", flush=True)
+              print("="*65 + "\n", flush=True)
