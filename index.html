@@ -609,6 +609,7 @@
                 z-index: 1000;
                 -webkit-overflow-scrolling: touch;
                 touch-action: pan-y;
+                overscroll-behavior: contain;
             }
 
             .custom-menu.open {
@@ -802,6 +803,8 @@
                     const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
                     const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
                     const margin = 8;
+                    const scrollX = window.scrollX || window.pageXOffset;
+                    const scrollY = window.scrollY || window.pageYOffset;
 
                     const desired = Math.max(rect.width, 160);
                     const maxAllowed = Math.min(420, vw - margin * 2);
@@ -813,19 +816,19 @@
                         left = Math.max(margin, vw - margin - finalW);
                     if (left < margin)
                         left = margin;
-                    menuEl.style.left = left + 'px';
+                    menuEl.style.left = (left + scrollX) + 'px';
 
                     const spaceBelow = vh - rect.bottom;
                     const spaceAbove = rect.top;
                     const prefHeight = Math.min(260, Math.max(120, menuEl.scrollHeight || 160));
                     if (spaceBelow >= Math.min(prefHeight, 220) || spaceBelow >= spaceAbove) {
                         const top = Math.min(rect.bottom + margin, vh - margin - 40);
-                        menuEl.style.top = top + 'px';
+                        menuEl.style.top = (top + scrollY) + 'px';
                         const maxH = Math.min(260, vh - rect.bottom - margin - 16);
                         menuEl.style.maxHeight = Math.max(80, maxH) + 'px';
                     } else {
                         const top = Math.max(margin, rect.top - margin - Math.min(prefHeight, 260));
-                        menuEl.style.top = top + 'px';
+                        menuEl.style.top = (top + scrollY) + 'px';
                         const maxH = Math.min(260, rect.top - margin - 16);
                         menuEl.style.maxHeight = Math.max(80, maxH) + 'px';
                     }
@@ -839,6 +842,8 @@
                 let activeSelect = null;
                 let activeRect = null;
                 let lastOpenAt = 0;
+                let triggerElement = null;
+                let restoreFocusOnClose = false;
 
                 function closeActiveMenu() {
                     if (activeMenu) {
@@ -847,14 +852,18 @@
                             activeMenu.parentNode.removeChild(activeMenu);
                         if (activeMenu.__keyHandler)
                             document.removeEventListener('keydown', activeMenu.__keyHandler);
-                        if (activeMenu.__scrollCapture)
-                            document.removeEventListener('scroll', activeMenu.__scrollCapture, true);
                         activeMenu = null;
                     }
                     if (activeBackdrop) {
                         if (activeBackdrop.parentNode)
                             activeBackdrop.parentNode.removeChild(activeBackdrop);
                         activeBackdrop = null;
+                    }
+                    if (triggerElement) {
+                        if (restoreFocusOnClose) {
+                            triggerElement.focus();
+                        }
+                        triggerElement = null;
                     }
                     activeSelect = null;
                     activeRect = null;
@@ -872,8 +881,9 @@
 
                 function openMenuFor(selectEl, fauxRect) {
                     closeActiveMenu();
-                    activeBackdrop = createBackdrop();
+                    triggerElement = selectEl;
                     activeMenu = createMenu();
+                    selectEl.blur();
 
                     try {
                         if (document.body.classList.contains('theme-dark') || (window.getComputedStyle(document.querySelector('.container')).backgroundColor.indexOf('rgb(24') === 0)) {
@@ -881,7 +891,6 @@
                         }
                     } catch (e) {}
 
-                    document.body.appendChild(activeBackdrop);
                     document.body.appendChild(activeMenu);
                     buildMenuFromSelect(selectEl, activeMenu);
 
@@ -903,12 +912,6 @@
                         applySelectionToSelect(activeSelect, item.dataset.value);
                         Array.from(activeMenu.querySelectorAll('.menu-item')).forEach(mi => mi.setAttribute('aria-selected', 'false'));
                         item.setAttribute('aria-selected', 'true');
-                        closeActiveMenu();
-                    }
-                    );
-
-                    activeBackdrop.addEventListener('mousedown', (e) => {
-                        e.stopPropagation();
                         closeActiveMenu();
                     }
                     );
@@ -991,17 +994,6 @@
                     document.addEventListener('keydown', onKey);
                     activeMenu.__keyHandler = onKey;
 
-                    function onScrollCapture(e) {
-                        if (!activeMenu)
-                            return;
-                        if (activeMenu.contains(e.target)) {
-                            return;
-                        }
-                        closeActiveMenu();
-                    }
-                    document.addEventListener('scroll', onScrollCapture, true);
-                    activeMenu.__scrollCapture = onScrollCapture;
-
                     activeMenu.addEventListener('wheel', (ev) => {
                         ev.stopPropagation();
                     }
@@ -1057,6 +1049,7 @@
                             e.stopPropagation();
                             skipNextClick = true;
                             const rect = sel.getBoundingClientRect();
+                            restoreFocusOnClose = false;
                             openMenuFor(sel, rect);
                         }
                         );
@@ -1064,7 +1057,9 @@
                         sel.addEventListener('keydown', (e) => {
                             if (e.key === 'Enter' || e.key === ' ' || e.key === 'ArrowDown') {
                                 e.preventDefault();
+                                e.stopPropagation();
                                 const rect = sel.getBoundingClientRect();
+                                restoreFocusOnClose = true;
                                 openMenuFor(sel, rect);
                             }
                         }
@@ -2344,14 +2339,12 @@
                         return;
 
                     closeActiveMenu();
-                    activeBackdrop = createBackdrop();
                     activeMenu = createMenu();
 
                     if (document.body.classList.contains('theme-dark') || (window.getComputedStyle(document.querySelector('.container')).backgroundColor.indexOf('rgb(24') === 0)) {
                         activeMenu.classList.add('dark');
                     }
 
-                    document.body.appendChild(activeBackdrop);
                     document.body.appendChild(activeMenu);
 
                     if (fileData.iso) {
@@ -2384,11 +2377,6 @@
                     }
                     );
 
-                    activeBackdrop.addEventListener('mousedown', (e) => {
-                        e.stopPropagation();
-                        closeActiveMenu();
-                    }
-                    );
                 }
 
                 document.getElementById('buildNumber').addEventListener('change', updateLanguages);
