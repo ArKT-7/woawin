@@ -1,0 +1,184 @@
+name: upload to Gdrive
+on:
+  workflow_dispatch:
+    inputs:
+      run_url:
+        description: 'Full Action Run URL (e.g. https://github.com/User/Repo/actions/runs/123456)'
+        required: true
+        type: string
+      folder_id:
+        description: 'Google Drive Target Folder ID'
+        required: true
+        type: string
+
+jobs:
+  migrate:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Google API Library
+        run: pip install google-api-python-client google-auth-oauthlib requests
+
+      - name: Run Manual Migration
+        shell: python
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CLIENT_ID: ${{ secrets.GDRIVE_CLIENT_ID }}
+          CLIENT_SECRET: ${{ secrets.GDRIVE_CLIENT_SECRET }}
+          REFRESH_TOKEN: ${{ secrets.GDRIVE_REFRESH_TOKEN }}
+          PARENT_ID: ${{ secrets.GDRIVE_PARENT_ID }}
+          INPUT_RUN_URL: ${{ inputs.run_url }}
+          INPUT_FOLDER_ID: ${{ inputs.folder_id }}
+          REPO_CONTEXT: ${{ github.repository }}
+          PYTHONUTF8: 1
+        run: |
+          import os, time, subprocess, json, shutil, requests, sys, io, socket, re
+          from google.oauth2.credentials import Credentials
+          from googleapiclient.discovery import build
+          from googleapiclient.http import MediaFileUpload
+          sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+
+          run_url = os.environ.get('INPUT_RUN_URL', '').strip()
+          target_folder_id = os.environ.get('INPUT_FOLDER_ID')
+          current_repo_context = os.environ.get('REPO_CONTEXT')
+          gh_token = os.environ.get('GH_TOKEN')
+          repo_match = re.search(r'github\.com/([^/]+/[^/]+)/actions', run_url)
+          if repo_match:
+              target_repo = repo_match.group(1)
+              print(f"[*] Detected External Repo: {target_repo}", flush=True)
+          else:
+              target_repo = current_repo_context
+              print(f"[*] URL does not contain repo path. Using current context: {target_repo}", flush=True)
+
+          run_match = re.search(r'actions/runs/(\d+)', run_url)
+          if run_match:
+              run_id = run_match.group(1)
+          else:
+              run_id = run_url.rstrip('/').split('/')[-1]
+              if not run_id.isdigit():
+                  print(f"[!] Error: Could not extract a valid Run ID from: {run_url}")
+                  sys.exit(1)
+
+          print(f"[*] Processing Run ID: {run_id}", flush=True)
+          print(f"[*] Target GDrive Folder: {target_folder_id}", flush=True)
+
+          creds = Credentials(None, refresh_token=os.environ['REFRESH_TOKEN'],
+                              client_id=os.environ['CLIENT_ID'],
+                              client_secret=os.environ['CLIENT_SECRET'],
+                              token_uri="https://oauth2.googleapis.com/token")
+          drive = build('drive', 'v3', credentials=creds)
+
+          def make_public(file_id):
+              try:
+                  drive.permissions().create(fileId=file_id, body={'type': 'anyone', 'role': 'reader'}).execute()
+                  return drive.files().get(fileId=file_id, fields='webViewLink').execute().get('webViewLink')
+              except Exception as e:
+                  print(f" [!] Warning: Could not make public: {e}")
+                  return "N/A"
+
+          def track_progress(current, total, start_time, label):
+              elapsed = time.time() - start_time
+              current_mb = current / (1024 * 1024)
+              total_mb = total / (1024 * 1024)
+              speed = (current_mb / elapsed) if elapsed > 0 else 0
+              percent = (current / total) * 100 if total > 0 else 0
+              print(f" >> {label}: {percent:3.0f}% | {current_mb:7.2f}/{total_mb:7.2f} MB | {speed:6.2f} MB/s", flush=True)
+
+          def download_artifact_progress(artifact_url, save_path, token):
+              headers = {"Authorization": f"Bearer {token}"}
+              response = requests.get(artifact_url, headers=headers, stream=True)
+              total_size = int(response.headers.get('content-length', 0))
+              print(f"\n[*] Downloading Artifact Zip ({total_size/(1024*1024):.2f} MB)...", flush=True)
+              start_time = time.time()
+              downloaded = 0
+              with open(save_path, 'wb') as f:
+                  for chunk in response.iter_content(chunk_size=1024*1024):
+                      if chunk:
+                          f.write(chunk)
+                          downloaded += len(chunk)
+                          track_progress(downloaded, total_size, start_time, "DOWNLOAD")
+
+          def upload_with_progress(path, folder_id):
+              file_name = os.path.basename(path)
+              total_size = os.path.getsize(path)
+              media = MediaFileUpload(path, resumable=True)
+              request = drive.files().create(body={'name': file_name, 'parents': [folder_id]}, media_body=media, fields='id')
+              print(f"\n[GDrive] Uploading: {file_name}", flush=True)
+              
+              start_time = time.time()
+              response = None
+              retries = 0
+              max_retries = 10
+              
+              while response is None:
+                  try:
+                      status, response = request.next_chunk()
+                      if status:
+                          track_progress(status.resumable_progress, total_size, start_time, "UPLOAD  ")
+                      retries = 0
+                  except (Exception, socket.timeout) as e:
+                      retries += 1
+                      if retries > max_retries:
+                          print(f"\n[!] FATAL ERROR: Max retries exceeded. {e}", flush=True)
+                          raise e
+                      wait_time = min(2**retries, 60)
+                      print(f"\n[!] Network Error ({e}). Retrying in {wait_time}s... ({retries}/{max_retries})", flush=True)
+                      time.sleep(wait_time)
+              
+              return response.get('id')
+
+          try:
+              print(f"[*] Fetching artifacts from repo: {target_repo}...", flush=True)
+              cmd = ['gh', 'api', f'repos/{target_repo}/actions/runs/{run_id}/artifacts']
+              art_info = subprocess.check_output(cmd).decode('utf-8')
+              artifacts = json.loads(art_info).get('artifacts', [])
+              
+              if not artifacts:
+                  print("[!] No artifacts found for this Run ID.", flush=True)
+                  sys.exit(1)
+
+              print(f"[*] Found {len(artifacts)} artifact(s). Processing...", flush=True)
+              
+              temp_dir = f"temp_run_{run_id}"
+              os.makedirs(temp_dir, exist_ok=True)
+              
+              uploaded_files = []
+
+              for art in artifacts:
+                  print(f"\n--- Processing Artifact: {art['name']} ---", flush=True)
+                  zip_filename = f"{art['name']}.zip"
+                  zip_path = os.path.join(temp_dir, zip_filename)
+                  download_artifact_progress(art['archive_download_url'], zip_path, gh_token)
+                  file_id = upload_with_progress(zip_path, target_folder_id)
+                  public_link = make_public(file_id)
+                  uploaded_files.append({'name': zip_filename, 'link': public_link})
+
+              print("\n\n" + "!"*75, flush=True)
+              print("!!! MIGRATION COMPLETE !!!", flush=True)
+              print("!"*75 + "\n", flush=True)
+              print(f" Source URL: {run_url}", flush=True)
+              print(f" Source Repo: {target_repo}", flush=True)
+              print(f" Target Folder: {target_folder_id}", flush=True)
+              print("-" * 65, flush=True)
+              for item in uploaded_files:
+                   print(f" File: {item['name']}")
+                   print(f" Link: {item['link']}")
+                   print("-" * 65, flush=True)
+              
+              if os.path.exists(temp_dir):
+                  shutil.rmtree(temp_dir)
+
+          except subprocess.CalledProcessError as e:
+              print(f"[!] GH CLI Error: {e}", flush=True)
+              print("Note: If the source repo is private, ensure your GITHUB_TOKEN has permissions to access it.")
+              sys.exit(1)
+          except Exception as e:
+              print(f"[!] Unexpected Error: {e}", flush=True)
+              sys.exit(1)
