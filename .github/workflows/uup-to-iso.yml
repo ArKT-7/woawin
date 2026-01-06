@@ -451,7 +451,7 @@ jobs:
           - **Size**: ``$sizeGB GB ($esdSize bytes)``
           
           ---
-          ## ☁️ Google Drive Direct Links
+          ## ☁️ Google Drive Direct Links ⚡
           | 📂 **RELEASE FOLDER** | 💿 **ISO FILE** | 📦 **ESD FILE** |
           | :---: | :---: | :---: |
           | [![Open Folder](https://img.shields.io/badge/OPEN_FOLDER-4285F4?style=for-the-badge&logo=googledrive&logoColor=white)]({{GDRIVE_FOLDER}}) | [![Download ISO](https://img.shields.io/badge/DOWNLOAD_ISO-FF5722?style=for-the-badge&logo=idk&logoColor=white)]({{GDRIVE_ISO}}) | [![Download ESD](https://img.shields.io/badge/DOWNLOAD_ESD-8A2BE2?style=for-the-badge&logo=idk&logoColor=white)]({{GDRIVE_ESD}}) |

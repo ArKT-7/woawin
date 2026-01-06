@@ -128,6 +128,90 @@ jobs:
           "UUPS_DIR=$uupsDir" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
           "ISO_DIR=$isoDir" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
+      - name: Download and Inject/Add Winget into install.wim
+        shell: powershell
+        run: |
+          $isoDir = "${{ env.ISO_DIR }}"
+          $wimPath = "$isoDir\sources\install.wim"
+          $mountDir = "${{ env.WORK_DIR }}\Mount"
+          $prepDir = "${{ env.WORK_DIR }}\Wingetstuffs"
+          $fbBundleUrl = "https://github.com/microsoft/winget-cli/releases/download/v1.12.440/Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle"
+          $fbLicenseUrl = "https://github.com/microsoft/winget-cli/releases/download/v1.12.440/e53e159d00e04f729cc2180cffd1c02e_License1.xml"
+          $fbDepsUrl = "https://github.com/microsoft/winget-cli/releases/download/v1.12.440/DesktopAppInstaller_Dependencies.zip"
+          New-Item -ItemType Directory -Path $mountDir -Force | Out-Null
+          New-Item -ItemType Directory -Path $prepDir -Force | Out-Null
+          New-Item -ItemType Directory -Path "$prepDir\Deps" -Force | Out-Null
+          Write-Host "Checking GitHub for latest Winget release..."
+          $useFallback = $false
+          try {
+              $latestRel = Invoke-RestMethod -Uri "https://api.github.com/repos/microsoft/winget-cli/releases/latest"
+              $bundleAsset = $latestRel.assets | Where-Object { $_.name -like "*.msixbundle" } | Select-Object -First 1
+              $licenseAsset = $latestRel.assets | Where-Object { $_.name -like "*License1.xml" } | Select-Object -First 1
+              $depAsset = $latestRel.assets | Where-Object { $_.name -like "*Dependencies.zip" } | Select-Object -First 1
+              if ($bundleAsset -and $depAsset) {
+                  Write-Host "Found complete set in latest release: $($latestRel.tag_name)"
+                  Write-Host "Downloading Bundel: $($bundleAsset.name)..."
+                  & curl.exe -L -o "$prepDir\winget.msixbundle" "$($bundleAsset.browser_download_url)"
+                  if ($licenseAsset) {
+                      Write-Host "Downloading License: $($licenseAsset.name)..."
+                      & curl.exe -L -o "$prepDir\license.xml" "$($licenseAsset.browser_download_url)"
+                      $licensePath = "$prepDir\license.xml"
+                  } else {
+                      $licensePath = $null 
+                  }
+                  Write-Host "Downloading Dependencies..."
+                  & curl.exe -L -o "$prepDir\deps.zip" "$($depAsset.browser_download_url)"
+              } else {
+                  Write-Host "new release ($($latestRel.tag_name)) is missing required assets"
+                  $useFallback = $true
+              }
+          } catch {
+              Write-Host "Failed to fetch latest release info from GitHub API..."
+              $useFallback = $true
+          }
+          if ($useFallback) {
+              Write-Host "using Fallback veriosn: v1.12.440" -ForegroundColor Yellow
+              Write-Host "Downloading fallback Bundle..."
+              & curl.exe -L -o "$prepDir\winget.msixbundle" "$fbBundleUrl"
+              Write-Host "Downloading Fallback License..."
+              & curl.exe -L -o "$prepDir\license.xml" "$fbLicenseUrl"
+              $licensePath = "$prepDir\license.xml"
+              Write-Host "Downloading Fallback Dependenceis..."
+              & curl.exe -L -o "$prepDir\deps.zip" "$fbDepsUrl"
+          }
+          Write-Host "Extracting Dependencies..."
+          Expand-Archive -Path "$prepDir\deps.zip" -DestinationPath "$prepDir\DepsTemp" -Force
+          Get-ChildItem -Path "$prepDir\DepsTemp" -Recurse -Include "*.appx" | Where-Object { 
+              ($_.Name -like "*arm64*") -or ($_.Name -like "*neutral*") -and ($_.Name -notlike "*x64*") -and ($_.Name -notlike "*x86*")
+          } | Copy-Item -Destination "$prepDir\Deps"
+          $depFiles = Get-ChildItem -Path "$prepDir\Deps" -Filter "*.appx"
+          if ($depFiles.Count -eq 0) { Write-Error "No ARM64 dependencies found in the zip!"; exit 1 }
+          $depArgs = ""
+          foreach ($file in $depFiles) {
+              $depArgs += " /DependencyPackagePath:`"$($file.FullName)`""
+          }
+          $mainPackage = "$prepDir\winget.msixbundle"
+          foreach ($idx in 1..2) {
+              Write-Host "procesing Index $idx ---"
+              Write-Host "Mounting image..."
+              dism /Mount-Image /ImageFile:"$wimPath" /Index:$idx /MountDir:"$mountDir"
+              if ($LASTEXITCODE -ne 0) { Write-Error "mount failed"; exit 1 }
+              Write-Host "adding Winget..."
+              foreach ($file in $depFiles) {
+                  $depCmdArgs = "/Image:`"$mountDir`" /Add-ProvisionedAppxPackage /PackagePath:`"$($file.FullName)`" /SkipLicense"
+                  Write-Host "DEBUG COMMAND: dism.exe $depCmdArgs"
+                  Start-Process -FilePath "dism.exe" -ArgumentList $depCmdArgs -Wait -NoNewWindow
+              }
+              $cmdArgs = "/Image:`"$mountDir`" /Add-ProvisionedAppxPackage /PackagePath:`"$mainPackage`" $depArgs /LicensePath:`"$licensePath`" /region:`"all`""
+              Write-Host "DEBUG COMMAND: dism.exe $cmdArgs"
+              Start-Process -FilePath "dism.exe" -ArgumentList $cmdArgs -Wait -NoNewWindow
+              Write-Host "Unmounting and Committing..."
+              dism /Unmount-Image /MountDir:"$mountDir" /Commit
+              if ($LASTEXITCODE -ne 0) { Write-Error "Unmount failed"; exit 1 }
+          }
+          
+          Write-Host "Winget Injection Process Completed!"
+
       - name: Run W10UI and create final ISO
         shell: powershell
         run: |
@@ -515,7 +599,7 @@ jobs:
           - **Size**: ``$sizeGB GB ($esdSize bytes)``
           
           ---
-          ## ☁️ Google Drive Direct Links
+          ## ☁️ Google Drive Direct Links ⚡
           | 📂 **RELEASE FOLDER** | 💿 **ISO FILE** | 📦 **ESD FILE** |
           | :---: | :---: | :---: |
           | [![Open Folder](https://img.shields.io/badge/OPEN_FOLDER-4285F4?style=for-the-badge&logo=googledrive&logoColor=white)]({{GDRIVE_FOLDER}}) | [![Download ISO](https://img.shields.io/badge/DOWNLOAD_ISO-FF5722?style=for-the-badge&logo=idk&logoColor=white)]({{GDRIVE_ISO}}) | [![Download ESD](https://img.shields.io/badge/DOWNLOAD_ESD-8A2BE2?style=for-the-badge&logo=idk&logoColor=white)]({{GDRIVE_ESD}}) |
