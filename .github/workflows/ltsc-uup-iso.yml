@@ -1,0 +1,698 @@
+name: LTSC Updated ISO Builder
+
+on:
+  workflow_dispatch:
+    inputs:
+      download_url:
+        description: 'Download URL for UUP dump (UUP SET) ZIP file'
+        required: true
+        type: string
+
+env:
+  WORK_DIR: woawin
+  COMPRESSION_LEVEL: 6
+  P1: "https://github.com/ArKT-7/woawin/releases/download/uup-zips/26100.1742_IOT_ENTERPRISE_LTSC_24H2_A64_EN-US.7z.001"
+  P2: "https://github.com/ArKT-7/woawin/releases/download/uup-zips/26100.1742_IOT_ENTERPRISE_LTSC_24H2_A64_EN-US.7z.002"
+  P3: "https://github.com/ArKT-7/woawin/releases/download/uup-zips/26100.1742_IOT_ENTERPRISE_LTSC_24H2_A64_EN-US.7z.003"
+
+jobs:
+  build-iso:
+    runs-on: windows-latest
+    permissions:
+      contents: write
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup working directory
+        shell: powershell
+        run: |
+          $workDir = "${{ runner.temp }}\${{ env.WORK_DIR }}"
+          New-Item -ItemType Directory -Path $workDir -Force | Out-Null
+          Write-Host "Working directory created: $workDir"
+          "WORK_DIR=$workDir" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+
+      - name: Download UUP dump ZIP from link
+        shell: powershell
+        run: |
+          $downloadUrl = "${{ github.event.inputs.download_url }}"
+          Write-Host "Downloading from: $downloadUrl"
+          [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+          $ProgressPreference = 'SilentlyContinue'
+          $outputPath = "${{ env.WORK_DIR }}\uup.zip"
+          try {
+            Invoke-WebRequest -Uri $downloadUrl -OutFile $outputPath -UseBasicParsing
+            $fileSize = (Get-Item $outputPath).Length
+            Write-Host "Download complete: $outputPath"
+            Write-Host "File size: $([Math]::Round($fileSize / 1MB, 2)) MB"
+          } catch {
+            Write-Host "ERROR: Failed to download file: $_"
+            exit 1
+          }
+
+      - name: Extract UUP dump ZIP
+        shell: powershell
+        run: |
+          $zipPath = "${{ env.WORK_DIR }}\uup.zip"
+          $extractPath = "${{ env.WORK_DIR }}\uup-extract"
+          try {
+            Write-Host "Extracting to: $extractPath"
+            Expand-Archive -Path $zipPath -DestinationPath $extractPath -Force
+            Write-Host "Extraction complete"
+          } catch {
+            Write-Host "ERROR: Failed to extract: $_"
+            exit 1
+          }
+
+      - name: Run conversion script
+        shell: powershell
+        run: |
+          $extractPath = "${{ env.WORK_DIR }}\uup-extract"
+          $scriptPath = Join-Path $extractPath "uup_download_windows.cmd"
+            if (Test-Path $scriptPath) {
+              Write-Host "Running script: $scriptPath"
+              Push-Location $extractPath
+              try {
+                & .\uup_download_windows.cmd
+                $exitCode = $LASTEXITCODE
+                if ($exitCode -ne 0) {
+                  Write-Host "WARNING: Script exited with code: $exitCode"
+                }
+              } catch {
+                Write-Host "ERROR: Failed to execute script: $_"
+                exit 1
+              } finally {
+                Pop-Location
+              }
+            } else {
+              Write-Host "ERROR: uup_download_windows.cmd not found at $scriptPath"
+              exit 1
+            }
+
+      - name: Process Split to ISO Folder
+        shell: powershell
+        run: |
+          $extractPath = "${{ env.WORK_DIR }}\uup-extract"
+          $kbFile = Get-ChildItem -Path $extractPath -Filter "Windows11.0-KB*.msu" -Recurse | Select-Object -First 1
+          if ($kbFile) { $uupsDir = $kbFile.DirectoryName } else { $uupsDir = "$extractPath\UUPs" }
+          Write-Host "Target UUPs Directory: $uupsDir"
+          Push-Location $uupsDir
+          Get-ChildItem -File | Where-Object { $_.Name -notlike "W10UI*" -and $_.Name -notlike "Windows11.0-KB*" } | Remove-Item -Force
+          Pop-Location
+
+          $ltscP1 = "$uupsDir\archive.7z.001"
+          $ltscP2 = "$uupsDir\archive.7z.002"
+          $ltscP3 = "$uupsDir\archive.7z.003"
+          Write-Host "Downloading Part 1..."
+          & curl.exe -L -o "$ltscP1" "${{ env.P1 }}"
+          Write-Host "Downloading Part 2..."
+          & curl.exe -L -o "$ltscP2" "${{ env.P2 }}"
+          Write-Host "Downloading Part 3..."
+          & curl.exe -L -o "$ltscP3" "${{ env.P3 }}"
+          if ((Get-Item "$ltscP1").Length -lt 100MB) { Write-Error "Download Error: Files too small."; exit 1 }
+
+          Write-Host "Extracting 7z Archive (Merging Parts)..."
+          & "C:\Program Files\7-Zip\7z.exe" x "$ltscP1" -o"$uupsDir" -y
+          Remove-Item "$uupsDir\archive.7z.*" -Force
+          $isoFile = (Get-ChildItem -Path $uupsDir -Filter "*.iso" | Select-Object -First 1).FullName
+          if (-not $isoFile) { Write-Error "Extraction failed: No ISO found inside the 7z archive!"; exit 1 }
+          Write-Host "Found Extracted ISO: $isoFile"
+          $isoDir = "$uupsDir\ISO"
+          New-Item -ItemType Directory -Path $isoDir -Force | Out-Null
+          & "C:\Program Files\7-Zip\7z.exe" x "$isoFile" -o"$isoDir" -y
+          Remove-Item $isoFile -Force
+          Write-Host "Removing Read-Only attributes..."
+          & attrib -r /s /d "$isoDir\*"
+
+          "UUPS_DIR=$uupsDir" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          "ISO_DIR=$isoDir" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+
+      - name: Run W10UI and create final ISO
+        shell: powershell
+        run: |
+          $uupsDir = "${{ env.UUPS_DIR }}"
+          $isoDir = "${{ env.ISO_DIR }}"
+          $w10uiSrc = "${{ github.workspace }}\assets\W10UI.cmd"
+          $w10uiDest = "$uupsDir\W10UI.cmd"
+          Copy-Item -Path $w10uiSrc -Destination $w10uiDest -Force
+          $scriptContent = Get-Content $w10uiDest -Raw
+          $newTarget = "set ""Target=$isoDir"""
+          $scriptContent = $scriptContent -replace 'set "Target=.*"', $newTarget
+          Set-Content -Path $w10uiDest -Value $scriptContent
+          $scriptPath = $w10uiDest
+            if (Test-Path $scriptPath) {
+              Write-Host "Running W10UI..."
+              Push-Location $uupsDir
+              try {
+                cmd /c "echo q | W10UI.cmd"
+                $exitCode = $LASTEXITCODE
+                if ($exitCode -ne 0) {
+                  Write-Host "WARNING: Script exited with code: $exitCode"
+                }
+              } catch {
+                Write-Host "ERROR: Failed to execute script: $_"
+                exit 1
+              } finally {
+                Pop-Location
+              }
+            } else {
+              Write-Host "ERROR: W10UI.cmd not found at $scriptPath"
+              exit 1
+            }
+
+      - name: Find ISO, Rename with Prefix, and set output
+        id: find_iso
+        shell: powershell
+        run: |
+          $extractPath = "${{ env.WORK_DIR }}\uup-extract"
+          $isoFiles = Get-ChildItem -Path $extractPath -Filter *.iso -Recurse
+
+          if ($isoFiles.Count -eq 0) {
+            Write-Host "ERROR: No ISO files found in $extractPath"
+            exit 1
+          }
+
+          $originalIso = $isoFiles[0]
+          $directory = $originalIso.DirectoryName
+          $originalName = $originalIso.Name
+          $prefix = "LTSC_IOT_ENTERPRISE_"
+          $newName = "${prefix}${originalName}"
+          $newPath = Join-Path $directory $newName
+          Write-Host "Renaming original ISO from $originalName to $newName..."
+          Rename-Item -Path $originalIso.FullName -NewName $newName -Force
+          $iso = Get-Item $newPath
+          Write-Host "Final ISO Path: $($iso.FullName)"
+          Write-Host "Size: $([Math]::Round($iso.Length / 1GB, 2)) GB"
+
+          "iso_path=$($iso.FullName)" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+          "iso_name=$($iso.Name)" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+          "iso_size=$($iso.Length)" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+          $isoBaseName = [System.IO.Path]::GetFileNameWithoutExtension($iso.Name)
+          "iso_base_name=$isoBaseName" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+
+      - name: Extract ISO contents to find install image
+        shell: powershell
+        run: |
+          $isoPath = "${{ steps.find_iso.outputs.iso_path }}"
+          $isoExtractDir = Join-Path "${{ env.WORK_DIR }}" "iso_contents"
+          New-Item -ItemType Directory -Path $isoExtractDir -Force | Out-Null
+          Write-Host "Extracting ISO contents..."
+          & "C:\Program Files\7-Zip\7z.exe" x "$isoPath" -o"$isoExtractDir" -y
+          if ($LASTEXITCODE -ne 0) {
+            Write-Host "ERROR: ISO extraction failed"
+            exit 1
+          }
+          Write-Host "ISO extraction complete"
+          echo "ISO_EXTRACT_DIR=$isoExtractDir" >> $env:GITHUB_ENV
+
+      - name: Find install.wim or install.esd
+        id: find_install_file
+        shell: powershell
+        run: |
+          $sourcesDir = Join-Path $env:ISO_EXTRACT_DIR "sources"
+          if (-not (Test-Path $sourcesDir)) {
+            Write-Host "ERROR: Sources directory not found"
+            exit 1
+          }
+          $installWim = Get-ChildItem -Path $sourcesDir -Filter "install.wim" -ErrorAction SilentlyContinue | Select-Object -First 1
+          $installEsd = Get-ChildItem -Path $sourcesDir -Filter "install.esd" -ErrorAction SilentlyContinue | Select-Object -First 1
+          if ($installWim) {
+            Write-Host "Found install.wim ($([Math]::Round($installWim.Length / 1GB, 2)) GB)"
+            echo "install_file=$($installWim.FullName)" >> $env:GITHUB_OUTPUT
+            echo "install_type=wim" >> $env:GITHUB_OUTPUT
+          } elseif ($installEsd) {
+            Write-Host "Found install.esd ($([Math]::Round($installEsd.Length / 1GB, 2)) GB)"
+            echo "install_file=$($installEsd.FullName)" >> $env:GITHUB_OUTPUT
+            echo "install_type=esd" >> $env:GITHUB_OUTPUT
+          } else {
+            Write-Host "ERROR: No install.wim or install.esd found"
+            exit 1
+          }
+
+      - name: Parse editions from install image
+        id: parse_images
+        shell: powershell
+        run: |
+          $installFile = "${{ steps.find_install_file.outputs.install_file }}"
+          Write-Host "Getting image information..."
+          $wimInfo = dism /Get-WimInfo /WimFile:"$installFile" 2>&1 | Out-String
+          Write-Host $wimInfo
+          $indexes = @()
+          $lines = $wimInfo -split "`n"
+          $currentIndex = $null
+          $currentName = $null
+          foreach ($line in $lines) {
+            if ($line -match "Index\s*:\s*(\d+)") {
+              $currentIndex = [int]$matches[1]
+            }
+            if ($line -match "Name\s*:\s*(.+)") {
+              $currentName = $matches[1].Trim()
+              if ($currentIndex -ne $null) {
+                $indexes += [PSCustomObject]@{
+                  Index = $currentIndex
+                  Name = $currentName
+                }
+              }
+            }
+          }
+          $iotIndexes = @()
+          $otherIndexes = @()
+          foreach ($idx in $indexes) {
+            if ($idx.Name -like "*IoT*") {
+              $iotIndexes += $idx.Index
+            } else {
+              $otherIndexes += $idx.Index
+            }
+          }
+          Write-Host "IoT Edition Indexes: $($iotIndexes -join ', ')"
+          Write-Host "Other Edition Indexes: $($otherIndexes -join ', ')"
+          echo "iotLTSC_indexes=$($iotIndexes -join ',')" >> $env:GITHUB_OUTPUT
+          echo "other_indexes=$($otherIndexes -join ',')" >> $env:GITHUB_OUTPUT
+          echo "iotLTSC_count=$($iotIndexes.Count)" >> $env:GITHUB_OUTPUT
+          echo "other_count=$($otherIndexes.Count)" >> $env:GITHUB_OUTPUT
+          echo "all_indexes=$($indexes | ConvertTo-Json -Compress)" >> $env:GITHUB_OUTPUT
+
+      - name: Create new ESD with mixed indexes or rename original
+        id: create_mixed_or_rename
+        shell: powershell
+        run: |
+          $installFile = "${{ steps.find_install_file.outputs.install_file }}"
+          $outputEsd = Join-Path $env:WORK_DIR "new_install.esd"
+          $isoBaseName = "${{ steps.find_iso.outputs.iso_base_name }}"
+          $installType = "${{ steps.find_install_file.outputs.install_type }}"
+          $iotLTSCIndexesStr = "${{ steps.parse_images.outputs.iotLTSC_indexes }}"
+          $otherIndexesStr = "${{ steps.parse_images.outputs.other_indexes }}"
+          $iotLTSCCount = [int]"${{ steps.parse_images.outputs.iotLTSC_count }}"
+          $otherCount = [int]"${{ steps.parse_images.outputs.other_count }}"
+          $iotLTSCIndexes = if ($iotLTSCIndexesStr) { $iotLTSCIndexesStr.Split(',') | ForEach-Object { [int]$_ } } else { @() }
+          $otherIndexes = if ($otherIndexesStr) { $otherIndexesStr.Split(',') | ForEach-Object { [int]$_ } } else { @() }
+          if ($iotLTSCCount -eq 0) {
+            Write-Host "No IoT Enterprise LTSC editions found. Copying original install file as final named file."
+            $finalName = "${isoBaseName}.$installType"
+            $finalPath = Join-Path $env:WORK_DIR $finalName
+            Copy-Item -Path $installFile -Destination $finalPath -Force
+            if (-not (Test-Path $finalPath)) {
+              Write-Host "ERROR: Failed to copy original install file."
+              exit 1
+            }
+            echo "final_esd_path=$finalPath" >> $env:GITHUB_OUTPUT
+            echo "final_esd_name=$finalName" >> $env:GITHUB_OUTPUT
+            exit 0
+          }
+          $sourceiotLTSCIndex = $iotLTSCIndexes[0]
+          Write-Host "Constructing new ESD, iot LTSC: Index $sourceiotLTSCIndex"
+          if ($otherCount -gt 0) {
+              $sourceIndex4 = $otherIndexes[0]
+              Write-Host "Other edition found (Index $sourceIndex4). Will place at Index 4."
+          } else {
+              $sourceIndex4 = $sourceiotLTSCIndex
+              Write-Host "No Other edition found. Placing IoT LTSC at Index 4 as well."
+          }
+          $exportSequence = @(
+            @{Index=1; Source=$sourceiotLTSCIndex},
+            @{Index=2; Source=$sourceiotLTSCIndex},
+            @{Index=3; Source=$sourceiotLTSCIndex},
+            @{Index=4; Source=$sourceIndex4},
+            @{Index=5; Source=$sourceiotLTSCIndex},
+            @{Index=6; Source=$sourceiotLTSCIndex}
+          )
+          foreach ($seq in $exportSequence) {
+            $tIdx = $seq.Index
+            $sIdx = $seq.Source
+            Write-Host "Exporting source index $sIdx to target index $tIdx"
+            dism /Export-Image /SourceImageFile:"$installFile" /SourceIndex:$sIdx /DestinationImageFile:"$outputEsd" /Compress:recovery /CheckIntegrity
+            if ($LASTEXITCODE -ne 0) {
+              Write-Host "ERROR: Export failed at target index $tIdx"
+              exit 1
+            }
+          }
+          $fileSize = (Get-Item $outputEsd).Length
+          Write-Host "New ESD created: $([Math]::Round($fileSize / 1GB, 2)) GB"
+          echo "new_esd_size=$fileSize" >> $env:GITHUB_OUTPUT
+          echo "new_esd_path=$outputEsd" >> $env:GITHUB_OUTPUT
+
+      - name: Set fallback ESD path if new not created
+        id: set_esd_path
+        shell: powershell
+        run: |
+          $finalEsdPath = "${{ steps.create_mixed_or_rename.outputs.final_esd_path }}"
+          $newEsdPath = "${{ steps.create_mixed_or_rename.outputs.new_esd_path }}"
+          $originalEsd = "${{ steps.find_install_file.outputs.install_file }}"
+          if (-not $finalEsdPath) {
+            if ($newEsdPath -and (Test-Path $newEsdPath)) {
+              $finalEsdPath = $newEsdPath
+            } else {
+              Write-Host "Neither final nor new ESD path set; falling back to original install file."
+              $finalEsdPath = $originalEsd
+            }
+          } else {
+            if (-not (Test-Path $finalEsdPath)) {
+              Write-Host "Final ESD path does not exist; falling back to original install file."
+              $finalEsdPath = $originalEsd
+            }
+          }
+          Write-Host "Final ESD path is: $finalEsdPath"
+          echo "final_esd_path=$finalEsdPath" >> $env:GITHUB_OUTPUT
+
+      - name: Rename ESD to ISO basename and get size
+        id: rename_esd
+        shell: powershell
+        run: |
+          $esdFile = "${{ steps.set_esd_path.outputs.final_esd_path }}"
+          if (-not (Test-Path $esdFile)) {
+            Write-Host "ERROR: ESD file not found at $esdFile"
+            exit 1
+          }
+          $isoBaseName = "${{ steps.find_iso.outputs.iso_base_name }}"
+          $currentName = Split-Path -Leaf $esdFile
+          $ext = [System.IO.Path]::GetExtension($currentName)
+          $renameTo = "${isoBaseName}${ext}"
+          $finalPath = Join-Path (Split-Path -Parent $esdFile) $renameTo
+          Rename-Item -Path $esdFile -NewName $renameTo -Force
+          if (-not (Test-Path $finalPath)) {
+            Write-Host "ERROR: Renamed ESD not found at $finalPath"
+            exit 1
+          }
+          $fileObj = Get-Item $finalPath
+          $fileSize = $fileObj.Length
+          $fileSizeGB = [Math]::Round($fileSize / 1GB, 2)
+          $fileSizeMB = [Math]::Round($fileSize / 1MB, 2)
+          Write-Host "Renamed to: $renameTo"
+          Write-Host "ESD size: $fileSizeGB GB ($fileSizeMB MB)"
+          echo "final_esd_path=$finalPath" >> $env:GITHUB_OUTPUT
+          echo "final_esd_name=$renameTo" >> $env:GITHUB_OUTPUT
+          echo "final_esd_size=$fileSize" >> $env:GITHUB_OUTPUT
+          echo "final_esd_size_gb=$fileSizeGB" >> $env:GITHUB_OUTPUT
+          echo "final_esd_size_mb=$fileSizeMB" >> $env:GITHUB_OUTPUT
+
+      - name: Calculate ISO checksums
+        id: iso_hashes
+        shell: powershell
+        run: |
+          $isoPath = "${{ steps.find_iso.outputs.iso_path }}"
+          Write-Host "Calculating MD5, SHA1, SHA256 for ISO: $isoPath"
+          $md5 = (Get-FileHash $isoPath -Algorithm MD5).Hash.ToLower()
+          $sha1 = (Get-FileHash $isoPath -Algorithm SHA1).Hash.ToLower()
+          $sha256 = (Get-FileHash $isoPath -Algorithm SHA256).Hash.ToLower()
+          "md5=$md5" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+          "sha1=$sha1" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+          "sha256=$sha256" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+
+      - name: Print final ESD indexes
+        shell: powershell
+        run: |
+          $finalEsd = "${{ steps.rename_esd.outputs.final_esd_path }}"
+          Write-Host "Getting NEW ESD image information..."
+          $wimInfo = dism /Get-WimInfo /WimFile:"$finalEsd" 2>&1 | Out-String
+          Write-Host $wimInfo
+          $indexes = @()
+          $lines = $wimInfo -split "`n"
+          $currentIndex = $null
+          $currentName = $null
+          foreach ($line in $lines) {
+            if ($line -match "Index\s*:\s*(\d+)") {
+              $currentIndex = [int]$matches[1]
+            }
+            if ($line -match "Name\s*:\s*(.+)") {
+              $currentName = $matches[1].Trim()
+              if ($currentIndex -ne $null) {
+                $indexes += [PSCustomObject]@{
+                  Index = $currentIndex
+                  Name = $currentName
+                }
+                Write-Host "${currentIndex}: ${currentName}"
+              }
+            }
+          }
+          
+      - name: Calculate ESD checksums
+        id: esd_hashes
+        shell: powershell
+        run: |
+          $esdPath = "${{ steps.rename_esd.outputs.final_esd_path }}"
+          if (-not (Test-Path $esdPath)) {
+            Write-Host "ERROR: ESD file not found at $esdPath"
+            exit 1
+          }
+          Write-Host "Calculating MD5, SHA1, SHA256 for ESD: $esdPath"
+          $md5 = (Get-FileHash $esdPath -Algorithm MD5).Hash.ToLower()
+          $sha1 = (Get-FileHash $esdPath -Algorithm SHA1).Hash.ToLower()
+          $sha256 = (Get-FileHash $esdPath -Algorithm SHA256).Hash.ToLower()
+          "esd_md5=$md5" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+          "esd_sha1=$sha1" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+          "esd_sha256=$sha256" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+          
+      - name: Generate unique release tag and date
+        id: gen_tag
+        shell: powershell
+        run: |
+          $tag = Get-Date -Format "yyyy-MM-dd_HHmmss"
+          $name = Get-Date -Format "MMMM dd, yyyy HH:mm:ss"
+          "release_tag=$tag" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+          "release_name=$name" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+
+      - name: Generate Release Description
+        id: build_desc
+        shell: pwsh
+        run: |
+          $esdPath = "${{ steps.rename_esd.outputs.final_esd_path }}"
+          $esdSize = (Get-Item $esdPath).Length
+          $esdName = "${{ steps.rename_esd.outputs.final_esd_name }}"
+          $isoSizeBytes = [int64] "${{ steps.find_iso.outputs.iso_size }}"
+          $isoSizeGB = [Math]::Round($isoSizeBytes / 1GB, 2)
+          $sizeGB = [Math]::Round($esdSize / 1073741824, 2)
+          $workflowRunUrl = "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+
+          $desc = @"
+          ### **Build Date**: ``$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')``
+          ### **⚡Download Complete ISO or ESD in one zip file (need extract)**: [``from this build Action Run``]($workflowRunUrl)
+          
+          > [!IMPORTANT]
+          > **⚠️ MAJOR REQUIREMENT:** You must be **SIGNED INTO GITHUB** to see the **DOWNLOAD ICON** from the above link. If you don't sign in, That's a skill issue, not a bug 💀
+          
+          ---
+          ### ISO File Details:
+          - **Name**: ``${{ steps.find_iso.outputs.iso_name }}``
+          - **MD5**: ``${{ steps.iso_hashes.outputs.md5 }}``
+          - **SHA1**: ``${{ steps.iso_hashes.outputs.sha1 }}``
+          - **SHA256**: ``${{ steps.iso_hashes.outputs.sha256 }}``
+          - **Size**: ``$isoSizeGB GB ($isoSizeBytes bytes)``
+          
+          ### ESD File Details:
+          - **Name**: ``$esdName``
+          - **MD5**: ``${{ steps.esd_hashes.outputs.esd_md5 }}``
+          - **SHA1**: ``${{ steps.esd_hashes.outputs.esd_sha1 }}``
+          - **SHA256**: ``${{ steps.esd_hashes.outputs.esd_sha256 }}``
+          - **Size**: ``$sizeGB GB ($esdSize bytes)``
+          
+          ---
+          ## ☁️ Google Drive Direct Links
+          | 📂 **RELEASE FOLDER** | 💿 **ISO FILE** | 📦 **ESD FILE** |
+          | :---: | :---: | :---: |
+          | [![Open Folder](https://img.shields.io/badge/OPEN_FOLDER-4285F4?style=for-the-badge&logo=googledrive&logoColor=white)]({{GDRIVE_FOLDER}}) | [![Download ISO](https://img.shields.io/badge/DOWNLOAD_ISO-FF5722?style=for-the-badge&logo=idk&logoColor=white)]({{GDRIVE_ISO}}) | [![Download ESD](https://img.shields.io/badge/DOWNLOAD_ESD-8A2BE2?style=for-the-badge&logo=idk&logoColor=white)]({{GDRIVE_ESD}}) |
+          "@
+          
+          $descPath = "${{ runner.temp }}\desc.txt"
+          [System.IO.File]::WriteAllText($descPath, $desc, [System.Text.Encoding]::UTF8)
+          echo "desc_path=$descPath" >> $env:GITHUB_OUTPUT
+
+      - name: Create GitHub Release
+        shell: pwsh
+        run: |
+          $releaseTag = "${{ steps.gen_tag.outputs.release_tag }}"
+          $releaseName = "${{ steps.gen_tag.outputs.release_name }}"
+          $descPath = "${{ steps.build_desc.outputs.desc_path }}"
+          $body = [System.IO.File]::ReadAllText($descPath, [System.Text.Encoding]::UTF8)
+          $cleanBodyPath = "initial_release_body.txt"
+          [System.IO.File]::WriteAllText($cleanBodyPath, $body, [System.Text.Encoding]::UTF8)
+          & gh release create $releaseTag --title "Build - $releaseName" --notes-file $cleanBodyPath
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload original ISO to artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ISO_${{ steps.find_iso.outputs.iso_base_name }}
+          path: ${{ steps.find_iso.outputs.iso_path }}
+          retention-days: 30
+          if-no-files-found: error
+          compression-level: ${{ env.COMPRESSION_LEVEL }}
+
+      - name: Upload new ESD to artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ESD_${{ steps.find_iso.outputs.iso_base_name }}
+          path: ${{ steps.rename_esd.outputs.final_esd_path }}
+          retention-days: 30
+          if-no-files-found: error
+          compression-level: ${{ env.COMPRESSION_LEVEL }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Google API Library
+        run: pip install google-api-python-client google-auth-oauthlib requests
+
+      - name: Upload Build to Google Drive
+        shell: python
+        env:
+          CLIENT_ID: ${{ secrets.GDRIVE_CLIENT_ID }}
+          CLIENT_SECRET: ${{ secrets.GDRIVE_CLIENT_SECRET }}
+          REFRESH_TOKEN: ${{ secrets.GDRIVE_REFRESH_TOKEN }}
+          PARENT_ID: ${{ secrets.GDRIVE_PARENT_ID }}
+          RELEASE_TAG: ${{ steps.gen_tag.outputs.release_tag }}
+          ISO_PATH: ${{ steps.find_iso.outputs.iso_path }}
+          ESD_PATH: ${{ steps.rename_esd.outputs.final_esd_path }}
+          PYTHONUTF8: 1
+        run: |
+          import os, time, sys, io, socket, random
+          sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+          
+          from google.oauth2.credentials import Credentials
+          from googleapiclient.discovery import build
+          from googleapiclient.http import MediaFileUpload
+          from googleapiclient.errors import HttpError
+
+          def safe_exit(msg):
+              print(f"\n[WARN] {msg}")
+              print("[INFO] Creating dummy links so Release Notes update doesn't crash.")
+              with open("glinks.env", "w", encoding='utf-8') as f:
+                  f.write(f"GDRIVE_FOLDER=https://drive.google.com/\n")
+                  f.write(f"GDRIVE_ISO=https://drive.google.com/\n")
+                  f.write(f"GDRIVE_ESD=https://drive.google.com/\n")
+              sys.exit(0)
+
+          try:
+              print("Authenticating with Google Drive...", flush=True)
+              creds = Credentials(None, refresh_token=os.environ['REFRESH_TOKEN'],
+                                  client_id=os.environ['CLIENT_ID'],
+                                  client_secret=os.environ['CLIENT_SECRET'],
+                                  token_uri="https://oauth2.googleapis.com/token")
+              drive = build('drive', 'v3', credentials=creds)
+          except Exception as e:
+              safe_exit(f"Authentication Failed: {e}")
+
+          def execute_with_retry(request_object):
+              max_retries = 10
+              last_exception = None
+              
+              for attempt in range(max_retries):
+                  try:
+                      return request_object.execute()
+                  except (HttpError, socket.timeout, Exception) as e:
+                      last_exception = e
+                      
+                      wait = min(2 ** attempt, 30) + random.uniform(0, 1)
+                      print(f"   [Retry {attempt+1}/{max_retries}] API Error: {e}. Waiting {wait:.1f}s...", flush=True)
+                      time.sleep(wait)
+              
+              if last_exception:
+                  raise last_exception
+              raise Exception("Max retries exceeded")
+
+          def make_public(file_id):
+              try:
+                  permission = {'type': 'anyone', 'role': 'reader'}
+                  req = drive.permissions().create(fileId=file_id, body=permission, supportsAllDrives=True)
+                  execute_with_retry(req)
+                  
+                  req_link = drive.files().get(fileId=file_id, fields='webViewLink', supportsAllDrives=True)
+                  res = execute_with_retry(req_link)
+                  return res.get('webViewLink')
+              except Exception as e:
+                  print(f"Warning: Could not make file public: {e}")
+                  return "ERROR_GETTING_LINK"
+
+          def create_folder(name, parent):
+              parents_list = [parent] if parent else []
+              meta = {'name': name, 'mimeType': 'application/vnd.google-apps.folder', 'parents': parents_list}
+              req = drive.files().create(body=meta, fields='id', supportsAllDrives=True)
+              file = execute_with_retry(req)
+              return file.get('id')
+
+          def upload_with_progress(path, folder_id):
+              file_name = os.path.basename(path)
+              total_size = os.path.getsize(path)
+              media = MediaFileUpload(path, resumable=True)
+              request = drive.files().create(body={'name': file_name, 'parents': [folder_id]}, media_body=media, fields='id', supportsAllDrives=True)
+              
+              print(f"\n[UPLOADING] {file_name} ({total_size / (1024*1024):.2f} MB)", flush=True)
+              start_time = time.time()
+              response = None
+              retries = 0
+              
+              while response is None:
+                  try:
+                      status, response = request.next_chunk()
+                      if status:
+                          elapsed = time.time() - start_time
+                          current_mb = status.resumable_progress / (1024 * 1024)
+                          speed = (current_mb / elapsed) if elapsed > 0 else 0
+                          print(f" >> {status.progress()*100:3.0f}% | {current_mb:7.2f} MB | {speed:6.2f} MB/s", flush=True)
+                      retries = 0
+                  except Exception as e:
+                      retries += 1
+                      if retries > 10:
+                          raise e
+                      print(f" [Chunk Error] {e}. Retrying chunk... ({retries}/10)", flush=True)
+                      time.sleep(min(2**retries, 30))
+                      
+              return response.get('id')
+
+          try:
+              parent_id = os.environ['PARENT_ID']
+
+              try:
+                  print(f"Attempting to create folder in Parent ID: {parent_id}", flush=True)
+                  release_folder = create_folder(os.environ['RELEASE_TAG'], parent_id)
+              except HttpError as e:
+                  if e.resp.status == 404:
+                      print(f"\n[!] 404 Error: The PARENT_ID was not found (after 10 retries).", flush=True)
+                      print("[INFO] Switching to fallback: Uploading to ROOT directory instead.", flush=True)
+                      release_folder = create_folder(f"{os.environ['RELEASE_TAG']}_FALLBACK", None)
+                  else:
+                      raise e
+
+              release_link = make_public(release_folder)
+              
+              iso_folder = create_folder("ISO", release_folder)
+              esd_folder = create_folder("ESD", release_folder)
+              time.sleep(7)
+              
+              iso_id = upload_with_progress(os.environ['ISO_PATH'], iso_folder)
+              iso_link = make_public(iso_id)
+              
+              esd_id = upload_with_progress(os.environ['ESD_PATH'], esd_folder)
+              esd_link = make_public(esd_id)
+
+              print("\n" + "="*60)
+              print(f"ESD DIRECT LINK: {esd_link}")
+              print(f"ISO DIRECT LINK: {iso_link}")
+              print(f"RELEASE FOLDER:  {release_link}")
+              print("="*60)
+
+              with open("glinks.env", "w", encoding='utf-8') as f:
+                  f.write(f"GDRIVE_FOLDER={release_link}\n")
+                  f.write(f"GDRIVE_ISO={iso_link}\n")
+                  f.write(f"GDRIVE_ESD={esd_link}\n")
+                  
+          except Exception as main_e:
+              safe_exit(f"Critical Script Failure: {main_e}")
+
+      - name: Finalize Release Notes
+        shell: pwsh
+        run: |
+          $releaseTag = "${{ steps.gen_tag.outputs.release_tag }}"
+          $links = Get-Content "glinks.env" | ConvertFrom-StringData
+          $descPath = "${{ steps.build_desc.outputs.desc_path }}"
+          $body = [System.IO.File]::ReadAllText($descPath, [System.Text.Encoding]::UTF8)
+          $body = $body.Replace("{{GDRIVE_FOLDER}}", $links.GDRIVE_FOLDER)
+          $body = $body.Replace("{{GDRIVE_ISO}}", $links.GDRIVE_ISO)
+          $body = $body.Replace("{{GDRIVE_ESD}}", $links.GDRIVE_ESD)
+          [System.IO.File]::WriteAllText("final_desc.txt", $body, [System.Text.Encoding]::UTF8)
+          & gh release edit $releaseTag --notes-file "final_desc.txt"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
