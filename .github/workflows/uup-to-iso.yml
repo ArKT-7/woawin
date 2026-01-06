@@ -328,12 +328,26 @@ jobs:
         run: |
           $isoPath = "${{ steps.find_iso.outputs.iso_path }}"
           Write-Host "Calculating MD5, SHA1, SHA256 for ISO: $isoPath"
-          $md5 = (Get-FileHash $isoPath -Algorithm MD5).Hash.ToLower()
-          $sha1 = (Get-FileHash $isoPath -Algorithm SHA1).Hash.ToLower()
-          $sha256 = (Get-FileHash $isoPath -Algorithm SHA256).Hash.ToLower()
-          "md5=$md5" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
-          "sha1=$sha1" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
-          "sha256=$sha256" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+          $md5 = [System.Security.Cryptography.MD5]::Create()
+          $sha1 = [System.Security.Cryptography.SHA1]::Create()
+          $sha256 = [System.Security.Cryptography.SHA256]::Create()
+          $stream = [System.IO.File]::OpenRead($isoPath)
+          $buffer = New-Object byte[](1024 * 1024)
+          while (($bytesRead = $stream.Read($buffer, 0, $buffer.Length)) -gt 0) {
+            $md5.TransformBlock($buffer, 0, $bytesRead, $buffer, 0) | Out-Null
+            $sha1.TransformBlock($buffer, 0, $bytesRead, $buffer, 0) | Out-Null
+            $sha256.TransformBlock($buffer, 0, $bytesRead, $buffer, 0) | Out-Null
+          }
+          $md5.TransformFinalBlock($buffer, 0, 0) | Out-Null
+          $sha1.TransformFinalBlock($buffer, 0, 0) | Out-Null
+          $sha256.TransformFinalBlock($buffer, 0, 0) | Out-Null
+          $stream.Close()
+          $md5Hash = [BitConverter]::ToString($md5.Hash).Replace("-", "").ToLower()
+          $sha1Hash = [BitConverter]::ToString($sha1.Hash).Replace("-", "").ToLower()
+          $sha256Hash = [BitConverter]::ToString($sha256.Hash).Replace("-", "").ToLower()
+          "md5=$md5Hash" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+          "sha1=$sha1Hash" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+          "sha256=$sha256Hash" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
 
       - name: Print final ESD indexes
         shell: powershell
@@ -372,12 +386,26 @@ jobs:
             exit 1
           }
           Write-Host "Calculating MD5, SHA1, SHA256 for ESD: $esdPath"
-          $md5 = (Get-FileHash $esdPath -Algorithm MD5).Hash.ToLower()
-          $sha1 = (Get-FileHash $esdPath -Algorithm SHA1).Hash.ToLower()
-          $sha256 = (Get-FileHash $esdPath -Algorithm SHA256).Hash.ToLower()
-          "esd_md5=$md5" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
-          "esd_sha1=$sha1" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
-          "esd_sha256=$sha256" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+          $md5 = [System.Security.Cryptography.MD5]::Create()
+          $sha1 = [System.Security.Cryptography.SHA1]::Create()
+          $sha256 = [System.Security.Cryptography.SHA256]::Create()
+          $stream = [System.IO.File]::OpenRead($esdPath)
+          $buffer = New-Object byte[](1024 * 1024)
+          while (($bytesRead = $stream.Read($buffer, 0, $buffer.Length)) -gt 0) {
+            $md5.TransformBlock($buffer, 0, $bytesRead, $buffer, 0) | Out-Null
+            $sha1.TransformBlock($buffer, 0, $bytesRead, $buffer, 0) | Out-Null
+            $sha256.TransformBlock($buffer, 0, $bytesRead, $buffer, 0) | Out-Null
+          }
+          $md5.TransformFinalBlock($buffer, 0, 0) | Out-Null
+          $sha1.TransformFinalBlock($buffer, 0, 0) | Out-Null
+          $sha256.TransformFinalBlock($buffer, 0, 0) | Out-Null
+          $stream.Close()
+          $md5Hash = [BitConverter]::ToString($md5.Hash).Replace("-", "").ToLower()
+          $sha1Hash = [BitConverter]::ToString($sha1.Hash).Replace("-", "").ToLower()
+          $sha256Hash = [BitConverter]::ToString($sha256.Hash).Replace("-", "").ToLower()
+          "esd_md5=$md5Hash" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+          "esd_sha1=$sha1Hash" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+          "esd_sha256=$sha256Hash" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
           
       - name: Generate unique release tag and date
         id: gen_tag
