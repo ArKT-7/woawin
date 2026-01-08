@@ -11,9 +11,12 @@ on:
 env:
   WORK_DIR: woawin
   COMPRESSION_LEVEL: 6
-  P1: "https://github.com/ArKT-7/woawin/releases/download/uup-zips/26100.1742_IOT_ENTERPRISE_LTSC_24H2_A64_EN-US.7z.001"
-  P2: "https://github.com/ArKT-7/woawin/releases/download/uup-zips/26100.1742_IOT_ENTERPRISE_LTSC_24H2_A64_EN-US.7z.002"
-  P3: "https://github.com/ArKT-7/woawin/releases/download/uup-zips/26100.1742_IOT_ENTERPRISE_LTSC_24H2_A64_EN-US.7z.003"
+  P1_A64: "https://github.com/ArKT-7/woawin/releases/download/uup-zips/26100.1742_IOT_ENTERPRISE_LTSC_24H2_A64_EN-US.7z.001"
+  P2_A64: "https://github.com/ArKT-7/woawin/releases/download/uup-zips/26100.1742_IOT_ENTERPRISE_LTSC_24H2_A64_EN-US.7z.002"
+  P3_A64: "https://github.com/ArKT-7/woawin/releases/download/uup-zips/26100.1742_IOT_ENTERPRISE_LTSC_24H2_A64_EN-US.7z.003"
+  P1_X64: "https://github.com/ArKT-7/woawin/releases/download/uup-zips/26100.1742_IOT_ENTERPRISE_LTSC_24H2_X64_EN-US.7z.001"
+  P2_X64: "https://github.com/ArKT-7/woawin/releases/download/uup-zips/26100.1742_IOT_ENTERPRISE_LTSC_24H2_X64_EN-US.7z.002"
+  P3_X64: "https://github.com/ArKT-7/woawin/releases/download/uup-zips/26100.1742_IOT_ENTERPRISE_LTSC_24H2_X64_EN-US.7z.003"
 
 jobs:
   build-iso:
@@ -99,17 +102,30 @@ jobs:
           Write-Host "Target UUPs Directory: $uupsDir"
           Push-Location $uupsDir
           Get-ChildItem -File | Where-Object { $_.Name -notlike "W10UI*" -and $_.Name -notlike "Windows11.0-KB*" } | Remove-Item -Force
+          if (Get-ChildItem -Filter "*arm64*" -File) {
+              Write-Host "Auto-Detetced Architecture: ARM64"
+              $dLink1 = "${{ env.P1_A64 }}"
+              $dLink2 = "${{ env.P2_A64 }}"
+              $dLink3 = "${{ env.P3_A64 }}"
+              "DETECTED_ARCH=arm64" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          } else {
+              Write-Host "Auto-Detected Architecture: X64"
+              $dLink1 = "${{ env.P1_X64 }}"
+              $dLink2 = "${{ env.P2_X64 }}"
+              $dLink3 = "${{ env.P3_X64 }}"
+              "DETECTED_ARCH=x64" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          }
           Pop-Location
 
           $ltscP1 = "$uupsDir\archive.7z.001"
           $ltscP2 = "$uupsDir\archive.7z.002"
           $ltscP3 = "$uupsDir\archive.7z.003"
           Write-Host "Downloading Part 1..."
-          & curl.exe -L -o "$ltscP1" "${{ env.P1 }}"
+          & curl.exe -L -o "$ltscP1" "$dLink1"
           Write-Host "Downloading Part 2..."
-          & curl.exe -L -o "$ltscP2" "${{ env.P2 }}"
+          & curl.exe -L -o "$ltscP2" "$dLink2"
           Write-Host "Downloading Part 3..."
-          & curl.exe -L -o "$ltscP3" "${{ env.P3 }}"
+          & curl.exe -L -o "$ltscP3" "$dLink3"
           if ((Get-Item "$ltscP1").Length -lt 100MB) { Write-Error "Download Error: Files too small."; exit 1 }
 
           Write-Host "Extracting 7z Archive (Merging Parts)..."
@@ -181,11 +197,17 @@ jobs:
           }
           Write-Host "Extracting Dependencies..."
           Expand-Archive -Path "$prepDir\deps.zip" -DestinationPath "$prepDir\DepsTemp" -Force
+          $arch = "${{ env.DETECTED_ARCH }}"
+          Write-Host "filtering dependecnies for : $arch"
           Get-ChildItem -Path "$prepDir\DepsTemp" -Recurse -Include "*.appx" | Where-Object { 
-              ($_.Name -like "*arm64*") -or ($_.Name -like "*neutral*") -and ($_.Name -notlike "*x64*") -and ($_.Name -notlike "*x86*")
+              ($_.Name -like "*$arch*") -or ($_.Name -like "*neutral*") 
+          } | Where-Object {
+              if ($arch -eq "arm64") { $_.Name -notlike "*x64*" } else { $_.Name -notlike "*arm64*" }
+          } | Where-Object {
+              $_.Name -notlike "*x86*"
           } | Copy-Item -Destination "$prepDir\Deps"
           $depFiles = Get-ChildItem -Path "$prepDir\Deps" -Filter "*.appx"
-          if ($depFiles.Count -eq 0) { Write-Error "No ARM64 dependencies found in the zip!"; exit 1 }
+          if ($depFiles.Count -eq 0) { Write-Error "No $arch dependencies found in the zip!"; exit 1 }
           $depArgs = ""
           foreach ($file in $depFiles) {
               $depArgs += " /DependencyPackagePath:`"$($file.FullName)`""
