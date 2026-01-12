@@ -744,8 +744,10 @@
             <h5>Select Build Number</h5>
             <select id="buildNumber">
                 <option value="26200.7462 Latest" selected>26200.7462 (25H2) Latest</option>
+                <option value="26200.7462 LTSC">26200.7462 (25H2) LTSC</option>
                 <option value="26200">26200.6899 (25H2)</option>
                 <option value="26100.7462 Latest">26100.7462 (24H2) Latest</option>
+                <option value="26100.7462 LTSC">26100.7462 (24H2) LTSC</option>
                 <option value="26100">26100.4349 (24H2)</option>
                 <option value="22631.6345 Latest">22631.6345 (23H2) Latest</option>
                 <option value="22631">22631.2861 (23H2)</option>
@@ -1111,7 +1113,7 @@
             <script>
                 const buildNumberDropdown = document.getElementById("buildNumber");
                 const warningMessage = document.getElementById("warningMessage");
-                const warningBuildNumbers = ["26100", "26100.7462 Latest", "26200", "26200.7462 Latest"];
+                const warningBuildNumbers = ["26100", "26100.7462 Latest", "26100.7462 LTSC", "26200", "26200.7462 Latest", "26200.7462 LTSC"];
 
                 function updateWarning() {
                     if (warningBuildNumbers.includes(buildNumberDropdown.value)) {
@@ -1188,8 +1190,10 @@
                     const buildMap = {
                         '#25h2': '26200',
                         '#25h2l': '26200.7462 Latest',
+                        '#25h2lt': '26200.7462 LTSC',
                         '#24h2': '26100',
                         '#24h2l': '26100.7462 Latest',
+                        '#24h2lt': '26100.7462 LTSC',
                         '#23h2': '22631',
                         '#23h2l': '22631.6345 Latest',
                         '#22h2': '22621',
