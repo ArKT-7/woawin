@@ -737,16 +737,18 @@
             <div class="logo-text-container">
                 <div class="text">
                     <span>Windows 11</span>
-                    <img src="https://raw.githubusercontent.com/ArKT-7/woawin/main/assets/windows-11.png" alt="Windows 11 Logo">
+                    <a href="https://github.com/ArKT-7/woawin/releases" target="_blank" style="display: flex; align-items: center;">
+                        <img src="https://raw.githubusercontent.com/ArKT-7/woawin/main/assets/windows-11.png" alt="Windows 11 Logo">
+                    </a>
                     <span>Arm 64</span>
                 </div>
             </div>
             <h5>Select Build Number</h5>
             <select id="buildNumber">
-                <option value="26200.7462 Latest" selected>26200.7462 (25H2) Latest</option>
+                <option value="26200.7623 Latest" selected>26200.7623 (25H2) Latest</option>
                 <option value="26200.7462 LTSC">26200.7462 (25H2) LTSC</option>
                 <option value="26200">26200.6899 (25H2)</option>
-                <option value="26100.7462 Latest">26100.7462 (24H2) Latest</option>
+                <option value="26100.7623 Latest">26100.7623 (24H2) Latest</option>
                 <option value="26100.7462 LTSC">26100.7462 (24H2) LTSC</option>
                 <option value="26100">26100.4349 (24H2)</option>
                 <option value="22631.6345 Latest">22631.6345 (23H2) Latest</option>
@@ -1091,7 +1093,7 @@
             <script>
                 const buildNumberDropdown = document.getElementById("buildNumber");
                 const warningMessage = document.getElementById("warningMessage");
-                const warningBuildNumbers = ["26100", "26100.7462 Latest", "26100.7462 LTSC", "26200", "26200.7462 Latest", "26200.7462 LTSC"];
+                const warningBuildNumbers = ["26100", "26100.7623 Latest", "26100.7462 LTSC", "26200", "26200.7623 Latest", "26200.7462 LTSC"];
 
                 function updateWarning() {
                     if (warningBuildNumbers.includes(buildNumberDropdown.value)) {
@@ -1167,10 +1169,10 @@
                     const hash = location.hash.toLowerCase();
                     const buildMap = {
                         '#25h2': '26200',
-                        '#25h2l': '26200.7462 Latest',
+                        '#25h2l': '26200.7623 Latest',
                         '#25h2lt': '26200.7462 LTSC',
                         '#24h2': '26100',
-                        '#24h2l': '26100.7462 Latest',
+                        '#24h2l': '26100.7623 Latest',
                         '#24h2lt': '26100.7462 LTSC',
                         '#23h2': '22631',
                         '#23h2l': '22631.6345 Latest',
@@ -1211,28 +1213,28 @@
                             }
                         }
                     },
-                    "26100.7462 Latest": {
+                    "26100.7623 Latest": {
                         "Professional": {
                             "English (United States)": {
-                                "path": "https://drive.google.com/file/d/1kqVqXRa5qI_moUX92MMizNFsoJp_IBYD/view?usp=drivesdk",
-                                "iso": "https://drive.google.com/file/d/1nK2vxVwSHvVBYpeXaKamS-lUS_KoqK3o/view?usp=drivesdk",
-                                "git": "https://github.com/ArKT-7/woawin/releases/tag/2025-12-14_152512",
-                                "size": 5160531654,
-                                "sha1": "06df5a1b2da73fd276b73c702cd51c564ffd0f54"
+                                "path": "https://drive.google.com/file/d/1k3nsLkpnsywT8G15tob6JgVOSVfFQbRE/view?usp=drivesdk",
+                                "iso": "https://drive.google.com/file/d/1TPN9CMga6JEYbqDGQc3ptjtV-r-toJL7/view?usp=drivesdk",
+                                "git": "https://github.com/ArKT-7/woawin/releases/tag/2026-01-14_201453",
+                                "size": 5206831680,
+                                "sha256": "c239195452278818df8f7a82d2caaba0209d38b39b953e28be2af6621d5062d9"
                             },
                             "Russian (Russia)": {
-                                "path": "https://drive.google.com/file/d/1-zh7kqH_GLfEfoVLGnu_2yKWZaKDPJHs/view?usp=drivesdk",
-                                "iso": "https://drive.google.com/file/d/1nN4OVpVDeS8NJQ_ratW-tADOar690tGu/view?usp=drivesdk",
-                                "git": "https://github.com/ArKT-7/woawin/releases/tag/2025-12-14_153718",
-                                "size": 5098603728,
-                                "sha1": "3565883ffa8c98044cd885c4b5ee5b7ec4f34764"
+                                "path": "https://drive.google.com/file/d/1MXI8mRWhJk1rfE9rf6NsLW8fRBmqg_nX/view?usp=drivesdk",
+                                "iso": "https://drive.google.com/file/d/1LTtbi1Yl8fdkHbDcE4KeKpzBDUhMtfxL/view?usp=drivesdk",
+                                "git": "https://github.com/ArKT-7/woawin/releases/tag/2026-01-14_201739",
+                                "size": 5141793942,
+                                "sha256": "49b36eb958b549959e55985a1ebae5c30c82152f29e6c8fb396613f853e04b3d"
                             },
                             "Chinese (Simplified, China)": {
-                                "path": "https://drive.google.com/file/d/1x9flLSG4tbzSAt1t-aIu08gOUMfPVwZG/view?usp=drivesdk",
-                                "iso": "https://drive.google.com/file/d/1WBivQ38pNGk4bkEEDUu6pF0d6vZM0pSF/view?usp=drivesdk",
-                                "git": "https://github.com/ArKT-7/woawin/releases/tag/2025-12-14_152432",
-                                "size": 5270406040,
-                                "sha1": "fa44904e64eade716c99ff7b551a6081acb62438"
+                                "path": "https://drive.google.com/file/d/1GGySR4nCMwoBGbVnmznVBYTlL4LGs64g/view?usp=drivesdk",
+                                "iso": "https://drive.google.com/file/d/1jv7dLE2Q12RA9vYTGPDgrXP3mzwJiwP-/view?usp=drivesdk",
+                                "git": "https://github.com/ArKT-7/woawin/releases/tag/2026-01-14_201243",
+                                "size": 5329692154,
+                                "sha256": "875eb29a899b28406c97681c8f217dada7afb058d2688070177f420767a4bab6"
                             }
                         }
                     },
@@ -1247,28 +1249,28 @@
                             }
                         }
                     },
-                    "26200.7462 Latest": {
+                    "26200.7623 Latest": {
                         "Professional": {
                             "English (United States)": {
-                                "path": "https://drive.google.com/file/d/14k7oKSsq2S-PoXACB7jS6aMj2O2qW_xg/view?usp=drivesdk",
-                                "iso": "https://drive.google.com/file/d/1U0E30hNr0Dzn1FK_FdssuzwIbAcQj_KJ/view?usp=drivesdk",
-                                "git": "https://github.com/ArKT-7/woawin/releases/tag/2025-12-14_162325",
-                                "size": 5163324104,
-                                "sha1": "5a6d78cac51efb2224af19622b34b87b4101dadf"
+                                "path": "https://drive.google.com/file/d/1vbenEuj9HcwB4eZjuYJM280nheoaoVuy/view?usp=drivesdk",
+                                "iso": "https://drive.google.com/file/d/1_1OfYLSOxeWxQqiH2K_zisy5DXgNsCJt/view?usp=drivesdk",
+                                "git": "https://github.com/ArKT-7/woawin/releases/tag/2026-01-14_205821",
+                                "size": 5210324006,
+                                "sha256": "41596633532c6958be59cd4d4a0a255e092da314bfcd343478f33434b8a325e0"
                             },
                             "Russian (Russia)": {
-                                "path": "https://drive.google.com/file/d/1gEFtIS1VaNZVae5xOmtsO5Q6CTOonNRP/view?usp=drivesdk",
-                                "iso": "https://drive.google.com/file/d/1FshJsNIPJJsNACvCxjnvAi-OeWQp1V9c/view?usp=drivesdk",
-                                "git": "https://github.com/ArKT-7/woawin/releases/tag/2025-12-14_165422",
-                                "size": 5100940722,
-                                "sha1": "07d9b010708be4168e755ff27ad9367c4df5c3cd"
+                                "path": "https://drive.google.com/file/d/1ENrZX6SEP0gZ4WL9Uj6q406-oDBNMNdz/view?usp=drivesdk",
+                                "iso": "https://drive.google.com/file/d/1vyOQ_NqdLVVMFOjp9Jdo24Ur__hhUf47/view?usp=drivesdk",
+                                "git": "https://github.com/ArKT-7/woawin/releases/tag/2026-01-14_210114",
+                                "size": 5151525262,
+                                "sha256": "77685e229e48aa47abd16106272cd6100115cbdd3cb15b79ce0979adb5196725"
                             },
                             "Chinese (Simplified, China)": {
-                                "path": "https://drive.google.com/file/d/1dGNKacz54hWGb_5c7iW3JIPxojmgyiVj/view?usp=drivesdk",
-                                "iso": "https://drive.google.com/file/d/1AHFyPDi-NaEHNaeoWePsJgO71Y0vHAMI/view?usp=drivesdk",
-                                "git": "https://github.com/ArKT-7/woawin/releases/tag/2025-12-14_164815",
-                                "size": 5287375118,
-                                "sha1": "5eb6c0d68035daa3b40269dfd63e2e6ec1874dbd"
+                                "path": "https://drive.google.com/file/d/1kmivZBZQsuV6zPU-clCXKIaiCTtbYanN/view?usp=drivesdk",
+                                "iso": "https://drive.google.com/file/d/1t72qFAxyRUQsEC2wUfkI6Cko89IaTGIm/view?usp=drivesdk",
+                                "git": "https://github.com/ArKT-7/woawin/releases/tag/2026-01-14_205053",
+                                "size": 5349649738,
+                                "sha256": "107a99e6028498ebac3a6594acbbdb14660cf213d1a5f180b6ae376853728bc6"
                             }
                         }
                     },
@@ -2297,7 +2299,7 @@
 
                     if (fileData) {
                         const size = formatSize(fileData.size);
-                        const isSHA256Build = (selectedBuild === "26200");
+                        const isSHA256Build = !!fileData.sha256;
                         const hashValue = isSHA256Build ? fileData.sha256 : fileData.sha1;
                         const hashLabel = isSHA256Build ? "SHA-256 Hash" : "SHA-1 Hash";
 
