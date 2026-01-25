@@ -6,7 +6,7 @@
 
 ### 📥 Available Versions
 
-- **26200.7623 (25H2) Latest - EN-US, RU-RU and ZH-CN**
+- **26200.7628 (25H2) Latest - EN-US, RU-RU and ZH-CN**
 - **26200.7623 (25H2) LTSC - EN-US**
 - **26100.7628 (24H2) Latest - EN-US, RU-RU and ZH-CN**
 - **26100.7623 (24H2) LTSC - EN-US**
