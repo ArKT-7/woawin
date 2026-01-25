@@ -8,7 +8,7 @@
 
 - **26200.7623 (25H2) Latest - EN-US, RU-RU and ZH-CN**
 - **26200.7623 (25H2) LTSC - EN-US**
-- **26100.7623 (24H2) Latest - EN-US, RU-RU and ZH-CN**
+- **26100.7628 (24H2) Latest - EN-US, RU-RU and ZH-CN**
 - **26100.7623 (24H2) LTSC - EN-US**
 - **22631.6495 (23H2) Latest - EN-US, RU-RU and ZH-CN**
 - **26200.6899 (25H2) - All Languages**
