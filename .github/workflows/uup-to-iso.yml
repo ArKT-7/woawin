@@ -416,6 +416,45 @@ jobs:
           "release_tag=$tag" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
           "release_name=$name" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
 
+      - name: Split ESD into parts
+        id: split_esd
+        shell: powershell
+        run: |
+          $esdPath = "${{ steps.rename_esd.outputs.final_esd_path }}"
+          $esdSize = (Get-Item $esdPath).Length
+          $esdName = "${{ steps.rename_esd.outputs.final_esd_name }}"
+          $splitOutputDir = Split-Path $esdPath
+          $esdBaseName = [System.IO.Path]::GetFileNameWithoutExtension($esdName)
+          $splitArchiveName = "${esdBaseName}_parts"
+          $splitArchivePath = Join-Path $splitOutputDir "$splitArchiveName.zip"
+
+          Write-Host "Splitting ESD into 2000MB parts..."
+          Write-Host "ESD Path: $esdPath"
+          Write-Host "ESD Size: $([Math]::Round($esdSize / 1073741824, 2)) GB"
+
+          try {
+            & "C:\Program Files\7-Zip\7z.exe" a -tzip -mx=${{ env.COMPRESSION_LEVEL }} -mmt=on $splitArchivePath -v2000m $esdPath
+            if ($LASTEXITCODE -ne 0) {
+              Write-Host "ERROR: 7-Zip compression failed with exit code: $LASTEXITCODE"
+              exit 1
+            }
+          } catch {
+            Write-Host "ERROR: Failed to split ESD: $_"
+            exit 1
+          }
+
+          $splitPattern = "${splitArchiveName}.zip.00*"
+          $parts = Get-ChildItem -Path $splitOutputDir -Filter $splitPattern | Sort-Object Name
+          if ($parts.Count -eq 0) {
+            Write-Host "ERROR: No split files found with pattern: $splitPattern"
+            exit 1
+          }
+
+          Write-Host "Split ESD parts created:"
+          $parts | ForEach-Object { Write-Host " - $($_.Name) ($([Math]::Round($_.Length / 1MB, 2)) MB)" }
+          echo "split_dir=$splitOutputDir" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+          echo "split_pattern=$splitPattern" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+
       - name: Generate Release Description
         id: build_desc
         shell: pwsh
@@ -427,34 +466,79 @@ jobs:
           $isoSizeGB = [Math]::Round($isoSizeBytes / 1GB, 2)
           $sizeGB = [Math]::Round($esdSize / 1073741824, 2)
           $workflowRunUrl = "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          $splitDir = "${{ steps.split_esd.outputs.split_dir }}"
+          $splitPattern = "${{ steps.split_esd.outputs.split_pattern }}"
+          $parts = Get-ChildItem -Path $splitDir -Filter $splitPattern | Sort-Object Name
 
           $desc = @"
-          ### **Build Date**: ``$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')``
-          ### **⚡Download Complete ISO or ESD in one zip file (need extract)**: [``from this build Action Run``]($workflowRunUrl)
-          
-          > [!IMPORTANT]
-          > **⚠️ MAJOR REQUIREMENT:** You must be **SIGNED INTO GITHUB** to see the **DOWNLOAD ICON** from the above link. If you don't sign in, That's a skill issue, not a bug 💀
-          
+          ### **⚡Build Date**: ``$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')``
+
           ---
-          ### ISO File Details:
-          - **Name**: ``${{ steps.find_iso.outputs.iso_name }}``
-          - **MD5**: ``${{ steps.iso_hashes.outputs.md5 }}``
-          - **SHA1**: ``${{ steps.iso_hashes.outputs.sha1 }}``
-          - **SHA256**: ``${{ steps.iso_hashes.outputs.sha256 }}``
-          - **Size**: ``$isoSizeGB GB ($isoSizeBytes bytes)``
-          
-          ### ESD File Details:
-          - **Name**: ``$esdName``
-          - **MD5**: ``${{ steps.esd_hashes.outputs.esd_md5 }}``
-          - **SHA1**: ``${{ steps.esd_hashes.outputs.esd_sha1 }}``
-          - **SHA256**: ``${{ steps.esd_hashes.outputs.esd_sha256 }}``
-          - **Size**: ``$sizeGB GB ($esdSize bytes)``
-          
+
+          ### 📄 ISO File Details
+          | Attribute | Value |
+          | :--- | :--- |
+          | **Name** | ``${{ steps.find_iso.outputs.iso_name }}`` |
+          | **Size** | ``$isoSizeGB GB ($isoSizeBytes bytes)`` |
+          | **SHA256** | ``${{ steps.iso_hashes.outputs.sha256 }}`` |
+          | **MD5** | ``${{ steps.iso_hashes.outputs.md5 }}`` |
+          | **SHA1** | ``${{ steps.iso_hashes.outputs.sha1 }}`` |
+
+          ### 📄 ESD File Details
+          | Attribute | Value |
+          | :--- | :--- |
+          | **Name** | ``$esdName`` |
+          | **Size** | ``$sizeGB GB ($esdSize bytes)`` |
+          | **SHA256** | ``${{ steps.esd_hashes.outputs.esd_sha256 }}`` |
+          | **MD5** | ``${{ steps.esd_hashes.outputs.esd_md5 }}`` |
+          | **SHA1** | ``${{ steps.esd_hashes.outputs.esd_sha1 }}`` |
+
           ---
-          ## ☁️ Google Drive Direct Links ⚡
+
+          ## ⬇️ Download Options
+
+          ---
+
+          ### ``Option 1:`` ☁️ Google Drive Direct Links (Recommended)
           | 📂 **RELEASE FOLDER** | 💿 **ISO FILE** | 📦 **ESD FILE** |
           | :---: | :---: | :---: |
           | [![Open Folder](https://img.shields.io/badge/OPEN_FOLDER-4285F4?style=for-the-badge&logo=googledrive&logoColor=white)]({{GDRIVE_FOLDER}}) | [![Download ISO](https://img.shields.io/badge/DOWNLOAD_ISO-FF5722?style=for-the-badge&logo=idk&logoColor=white)]({{GDRIVE_ISO}}) | [![Download ESD](https://img.shields.io/badge/DOWNLOAD_ESD-8A2BE2?style=for-the-badge&logo=idk&logoColor=white)]({{GDRIVE_ESD}}) |
+
+          > [!NOTE]
+          > **ℹ️ GOOGLE DRIVE LIMITS:** If you encounter a ``Quota Exceeded`` or ``Download Limit`` error, you **MUST login to a Google Account** to download. This is a Google restriction 😒
+
+          ---
+
+          ### ``Option 2:`` ⚡ Complete Zip (GitHub Actions)
+          | 📦 **GITHUB ARTIFACTS (ZIP)** |
+          | :---: |
+          | [![Download Artifacts](https://img.shields.io/badge/DOWNLOAD_ARTIFACTS-2088FF?style=for-the-badge&logo=github&logoColor=white)]($workflowRunUrl) |
+
+          > [!IMPORTANT]
+          > **⚠️ MAJOR REQUIREMENT:** You must be ``SIGNED INTO GITHUB`` to see the ``DOWNLOAD ICON`` from the above link. If you don't sign in, That's a skill issue, not a bug 💀
+          >
+          > **📦 EXTRACTION REQUIRED:** The downloaded file is a **ZIP ARCHIVE**. You must ``UNZIP/EXTRACT`` it to get the actual ISO/ESD file inside.
+
+          ---
+
+          ### ``Option 3:`` 🧩 ESD Split Parts (Direct GitHub Links)
+
+          "@
+
+          $desc += ($parts | ForEach-Object { "- **[``$($_.Name)``](https://github.com/$env:GITHUB_REPOSITORY/releases/download/${{ steps.gen_tag.outputs.release_tag }}/$($_.Name)) - $([Math]::Round($_.Length / 1MB, 2)) MB**" }) -join "`n"
+
+          $desc += @"
+
+          > [!TIP]
+          > ### 🛠️ How to Combine & Extract:
+          > ``1.`` **Download ALL 3 parts** listed above to the **same folder**.
+          > ``2.`` Ensure you have **7-Zip** or **WinRAR** installed.
+          > ``3.`` **Right-click** on the **first file only** (ending in ``.001``).
+          > ``4.`` Select **Extract Here**.
+          > ``5.`` *it will automatically find parts ``.002`` and ``.003`` and combine them into the full ESD file.*
+
+          ---
+
           "@
           
           $descPath = "${{ runner.temp }}\desc.txt"
@@ -470,7 +554,12 @@ jobs:
           $body = [System.IO.File]::ReadAllText($descPath, [System.Text.Encoding]::UTF8)
           $cleanBodyPath = "initial_release_body.txt"
           [System.IO.File]::WriteAllText($cleanBodyPath, $body, [System.Text.Encoding]::UTF8)
-          & gh release create $releaseTag --title "Build - $releaseName" --notes-file $cleanBodyPath
+          $splitDir = "${{ steps.split_esd.outputs.split_dir }}"
+          $splitPattern = "${{ steps.split_esd.outputs.split_pattern }}"
+          $parts = Get-ChildItem -Path $splitDir -Filter $splitPattern | Sort-Object Name
+          $fileArgs = $parts | ForEach-Object { $_.FullName }
+          Write-Host "Creating relese and uploading $($parts.Count) split parts..."
+          & gh release create $releaseTag --title "Build - $releaseName" --notes-file $cleanBodyPath $fileArgs
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
