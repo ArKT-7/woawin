@@ -531,6 +531,12 @@ jobs:
 
           > [!TIP]
           > ### 🛠️ How to Combine & Extract:
+          > #### ✌️ Auto-Downloader: *Copy-Paste and Run this in `PowerShell/Terminal/CMD` to automatically download & extract everything:*
+          > ```powershell
+          > powershell -ep bypass -c "`$tag='${{ steps.gen_tag.outputs.release_tag }}'; irm [https://raw.githubusercontent.com/ArKT-7/woawin/main/woawin.ps1](https://raw.githubusercontent.com/ArKT-7/woawin/main/woawin.ps1) | iex"
+          > ```
+          >
+          > **🤦‍♀️ Manual Method:**
           > ``1.`` **Download ALL 3 parts** listed above to the **same folder**.
           > ``2.`` Ensure you have **7-Zip** or **WinRAR** installed.
           > ``3.`` **Right-click** on the **first file only** (ending in ``.001``).
