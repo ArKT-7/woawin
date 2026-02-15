@@ -531,14 +531,21 @@ jobs:
 
           > [!TIP]
           > ### 🛠️ How to Combine & Extract:
-          > #### ✌️ Auto-Downloader: *Copy-Paste and Run this in `PowerShell/Terminal/CMD` to automatically download & extract everything:*
-          > ```powershell
-          > powershell -ep bypass -c "`$tag='${{ steps.gen_tag.outputs.release_tag }}'; irm [https://raw.githubusercontent.com/ArKT-7/woawin/main/woawin.ps1](https://raw.githubusercontent.com/ArKT-7/woawin/main/woawin.ps1) | iex"
-          > ```
+          > #### ✌️ Auto-Downloader: *Copy-Paste and Run the command below for your device to automatically download, verify & extract everything:*
+          >
+          > **💻 Windows (PowerShell/Terminal/CMD):**
+          > ``````powershell
+          > powershell -ep bypass -c "```$tag='${{ steps.gen_tag.outputs.release_tag }}'; irm https://raw.githubusercontent.com/ArKT-7/woawin/main/woawin.ps1 | iex"
+          > ``````
+          >
+          > **📱 Android (Termux):**
+          > ``````bash
+          > curl -sL https://raw.githubusercontent.com/ArKT-7/woawin/main/woawin.sh | bash -s ${{ steps.gen_tag.outputs.release_tag }}
+          > ``````
           >
           > **🤦‍♀️ Manual Method:**
           > ``1.`` **Download ALL 3 parts** listed above to the **same folder**.
-          > ``2.`` Ensure you have **7-Zip** or **WinRAR** installed.
+          > ``2.`` Ensure you have **7-Zip** or **WinRAR** installed (or ZArchiver on Android).
           > ``3.`` **Right-click** on the **first file only** (ending in ``.001``).
           > ``4.`` Select **Extract Here**.
           > ``5.`` *it will automatically find parts ``.002`` and ``.003`` and combine them into the full ESD file.*
