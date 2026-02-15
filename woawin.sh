@@ -29,6 +29,25 @@ if ! command -v jq &> /dev/null || ! command -v 7z &> /dev/null || ! command -v 
     pkg upgrade -y
     pkg install curl p7zip jq bc -y
 fi
+if [ ! -w "/sdcard/Download" ]; then
+    echo -e "\n\n${RED} STORAGE PERMISSION ERROR ${NC}"
+    echo -e "${YELLOW} Unable to write to /sdcard/Download ${NC}\n"
+    echo -e "${GRAY} Attempitng to request permission...${NC}"
+    sleep 1
+    termux-setup-storage
+    sleep 2
+
+    if [ ! -w "/sdcard/Download" ]; then
+        echo -e "\n${RED} AUTOMATIC REQUEST FAILED ${NC}"
+        echo -e "${YELLOW} Please fix this manually:${NC}\n"
+        echo -e " 1. Open Android Settings"
+        echo -e " 2. Go to: Apps > Termux > Permssions"
+        echo -e " 3. Set Storage/Files to: ${GREEN}ALLOW${NC}"
+        echo -e " 4. Restart Termux and run this script again."
+        echo -e "\n${GREEN} Or re-run this script again to ask permission automatically${NC}\n"
+        exit 1
+    fi
+fi
 if [ ! -d "$FINALDIR" ]; then
     mkdir -p "$FINALDIR"
 fi
