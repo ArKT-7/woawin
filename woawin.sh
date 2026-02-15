@@ -26,7 +26,7 @@ echo -e "\n${CYAN} WOAWIN Auto-Downloader & Extractor${NC}"
 if ! command -v jq &> /dev/null || ! command -v 7z &> /dev/null || ! command -v bc &> /dev/null; then
     echo -e "\n\n${YELLOW} Installing Termux dependencies (curl, 7zip, jq)...${NC}\n"
     pkg update -y
-    pkg upgrade -y
+    yes n | pkg upgrade -y
     pkg install curl p7zip jq bc -y
 fi
 if [ ! -w "/sdcard/Download" ]; then
