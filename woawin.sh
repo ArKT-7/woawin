@@ -192,8 +192,14 @@ fi
             cd "$HOME"
             rm -rf "$WORKDIR"
             cd "$FINALDIR"
-            echo -e "${GREEN} Download Complete, Opening folder...\n${NC}"
-            termux-open .
+            echo -e "${GREEN} Download Complete!\n${NC}"
+            echo -e "${CYAN} Location: /sdcard/Download/woawin/$ESD_NAME${NC}"
+            echo -e "${GRAY} Opening 'woawin' folder...\n${NC}"
+            sleep 1
+            am start -a android.intent.action.VIEW -d "file:///sdcard/Download/woawin" -t "resource/folder" > /dev/null 2>&1
+            if [ $? -ne 0 ]; then
+                am start -a android.intent.action.VIEW_DOWNLOADS > /dev/null 2>&1
+            fi
         else
             echo -e "\n${RED} ERROR: .ESD file not fund or move failed!${NC}"
             echo -e "${RED} Check inside: $SUBDIR${NC}"
