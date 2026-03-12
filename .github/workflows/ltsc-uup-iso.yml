@@ -26,7 +26,7 @@ jobs:
     
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup working directory
         shell: powershell
@@ -747,7 +747,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload original ISO to artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ISO_${{ steps.find_iso.outputs.iso_base_name }}
           path: ${{ steps.find_iso.outputs.iso_path }}
@@ -756,7 +756,7 @@ jobs:
           compression-level: ${{ env.COMPRESSION_LEVEL }}
 
       - name: Upload new ESD to artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ESD_${{ steps.find_iso.outputs.iso_base_name }}
           path: ${{ steps.rename_esd.outputs.final_esd_path }}
@@ -765,7 +765,7 @@ jobs:
           compression-level: ${{ env.COMPRESSION_LEVEL }}
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: '3.12'
 
