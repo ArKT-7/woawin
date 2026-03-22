@@ -8,7 +8,7 @@
 
 - **28000.1719 (26H1) CANARY - EN-US**
 - **26200.8039 (25H2) Latest - EN-US, RU-RU and ZH-CN**
-- **26200.8037 (25H2) LTSC - EN-US**
+- **26200.8039 (25H2) LTSC - EN-US**
 - **26100.8037 (24H2) Latest - EN-US, RU-RU and ZH-CN**
 - **26100.8037 (24H2) LTSC - EN-US**
 - **22631.6783 (23H2) Latest - EN-US, RU-RU and ZH-CN**
