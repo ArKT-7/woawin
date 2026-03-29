@@ -617,6 +617,11 @@
                 transform: translateY(0);
             }
 
+            .custom-menu.closing {
+                opacity: 0;
+                transform: translateY(-6px);
+            }
+
             .custom-menu .menu-item {
                 padding: 6px 8px;
                 border-radius: 10px;
@@ -849,14 +854,18 @@
 
                 function closeActiveMenu() {
                     if (activeMenu) {
-                        activeMenu.classList.remove('open');
-                        if (activeMenu.parentNode)
-                            activeMenu.parentNode.removeChild(activeMenu);
-                        if (activeMenu.__keyHandler)
-                            document.removeEventListener('keydown', activeMenu.__keyHandler);
-                        // if (activeMenu.__scrollCapture)
-                        // document.removeEventListener('scroll', activeMenu.__scrollCapture, true);
+                        const menu = activeMenu;
                         activeMenu = null;
+                        menu.classList.remove('open');
+                        menu.classList.add('closing');
+                        if (menu.__closeTimer)
+                            clearTimeout(menu.__closeTimer);
+                        menu.__closeTimer = setTimeout(() => {
+                            if (menu.parentNode)
+                                menu.parentNode.removeChild(menu);
+                            if (menu.__keyHandler)
+                                document.removeEventListener('keydown', menu.__keyHandler);
+                        }, 180);
                     }
                     if (activeBackdrop) {
                         if (activeBackdrop.parentNode)
@@ -884,6 +893,10 @@
                 }
 
                 function openMenuFor(selectEl, fauxRect) {
+                    if (activeMenu && activeSelect === selectEl) {
+                        closeActiveMenu();
+                        return;
+                    }
                     closeActiveMenu();
                     // activeBackdrop = createBackdrop();
                     triggerElement = selectEl;
@@ -1281,6 +1294,9 @@
 
                     if (fileData) {
                         window.open(fileData.path, '_blank');
+                        const downloadBtn = document.getElementById('mainDownloadBtn');
+                        if (downloadBtn)
+                            downloadBtn.blur();
                     } else {
                         alert('No download link available for the selected language.');
                     }
@@ -1316,8 +1332,16 @@
                     if (!fileData)
                         return;
 
+                    if (activeMenu && activeSelect === btn) {
+                        closeActiveMenu();
+                        return;
+                    }
+
                     closeActiveMenu();
                     // activeBackdrop = createBackdrop();
+                    triggerElement = btn;
+                    restoreFocusOnClose = false;
+                    activeSelect = btn;
                     activeMenu = createMenu();
 
                     if (document.body.classList.contains('theme-dark') || (window.getComputedStyle(document.querySelector('.container')).backgroundColor.indexOf('rgb(24') === 0)) {
