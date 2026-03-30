@@ -765,6 +765,7 @@
             <h5>Select Language</h5>
             <select id="language"></select>
             <div id="warningMessage">⚠️ 24H2 selected. ensure your device supports it ⚠️</div>
+            <p id="googleDriveHint" class="note" style="display:none">⚠️ If Google Drive shows an error (e.g. <em>Sorry, you can't view or download this file at this time.</em>),<br><strong><em>Please sign in to your Google account and try again.</em></strong></p>
             <div id="downloadWrapper">
                 <button id="mainDownloadBtn" onclick="downloadLink()">Download</button>
                 <div id="dlDropdownBtn">
@@ -2325,7 +2326,7 @@
                     const fileInfoDiv = document.getElementById('fileInfo');
                     const fileData = editions[selectedBuild][edition][selectedLanguage];
                     const dlDropdownBtn = document.getElementById('dlDropdownBtn');
-                    const mainBtn = document.getElementById('mainDownloadBtn');
+                    const hint = document.getElementById('googleDriveHint');
 
                     if (fileData) {
                         const size = formatSize(fileData.size);
@@ -2341,15 +2342,15 @@
                         </div>
                         `;
 
-                        if (fileData.git || fileData.iso) {
-                            dlDropdownBtn.style.display = 'flex';
-                        } else {
-                            dlDropdownBtn.style.display = 'none';
-                        }
+                        dlDropdownBtn.style.display = (fileData.git || fileData.iso) ? 'flex' : 'none';
+
+                        const hasDriveLink = [fileData.esd, fileData.iso, fileData.git].some(url => url && url.includes('drive.google.com'));
+                        if (hint) hint.style.display = hasDriveLink ? 'block' : 'none';
 
                     } else {
                         fileInfoDiv.innerHTML = 'No information available for the selected language.';
                         dlDropdownBtn.style.display = 'none';
+                        if (hint) hint.style.display = 'none';
                     }
                 }
 
