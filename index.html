@@ -735,6 +735,23 @@
         </style>
     </head>
     <body>
+        <script>
+            (function() {
+                const savedTheme = localStorage.getItem('theme') || 'dark';
+                const lightStyle = document.getElementById('light');
+                const darkStyle = document.getElementById('dark');
+
+                if (savedTheme === 'light') {
+                    lightStyle.disabled = false;
+                    darkStyle.disabled = true;
+                } else {
+                    lightStyle.disabled = true;
+                    darkStyle.disabled = false;
+                    document.body.classList.add('theme-dark');
+                }
+            }
+            )();
+        </script>
         <div class="container">
             <label class="switchx">
                 <span class="sun">
@@ -1156,10 +1173,8 @@
                     const lightStyle = document.getElementById('light');
                     const darkStyle = document.getElementById('dark');
                     const overlay = document.getElementById('theme-overlay');
-                    let currentTheme = 'dark';
+                    let currentTheme = localStorage.getItem('theme') || 'dark';
 
-                    lightStyle.disabled = true;
-                    darkStyle.disabled = false;
                     toggleInput.checked = false;
 
                     toggleInput.addEventListener('change', function() {
@@ -1179,11 +1194,13 @@
                                 lightStyle.disabled = false;
                                 darkStyle.disabled = true;
                                 currentTheme = 'light';
+                                localStorage.setItem('theme', 'light');
                                 document.body.classList.remove('theme-dark');
                             } else {
                                 lightStyle.disabled = true;
                                 darkStyle.disabled = false;
                                 currentTheme = 'dark';
+                                localStorage.setItem('theme', 'dark');
                                 document.body.classList.add('theme-dark');
                             }
                         }
