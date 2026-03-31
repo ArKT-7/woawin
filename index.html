@@ -715,6 +715,22 @@
             #downloadWrapper:hover #dlDropdownBtn {
                 transform: scale(1.04) translateX(6px);
             }
+
+            .hash-container {
+                word-wrap: break-word;
+                word-break: break-all;
+                max-width: 100%;
+                padding-top: 5px;
+            }
+
+            .hash-container code {
+                font-family: monospace;
+            }
+
+            .custom-menu .menu-item.hover {
+                background: linear-gradient(135deg, #008cff, #0064fa) !important;
+                color: #ffffff !important;
+            }
         </style>
     </head>
     <body>
@@ -765,7 +781,13 @@
             <h5>Select Language</h5>
             <select id="language"></select>
             <div id="warningMessage">⚠️ 24H2 selected. ensure your device supports it ⚠️</div>
-            <p id="googleDriveHint" class="note" style="display:none">If Google Drive shows an error (e.g. <em>Sorry, you can't view or download this file at this time.</em>),<br><strong><em>Please sign in to your Google account and try again.</em></strong></p>
+            <p id="googleDriveHint" class="note" style="display:none">
+                If Google Drive shows an error (e.g. <em>Sorry, you can't view or download this file at this time.</em>
+                ),<br>
+                <strong>
+                    <em>Please sign in to your Google account and try again.</em>
+                </strong>
+            </p>
             <div id="downloadWrapper">
                 <button id="mainDownloadBtn" onclick="downloadLink()">Download</button>
                 <div id="dlDropdownBtn">
@@ -864,12 +886,13 @@
                         menu.classList.add('closing');
                         if (menu.__closeTimer)
                             clearTimeout(menu.__closeTimer);
-                        menu.__closeTimer = setTimeout(() => {
+                        menu.__closeTimer = setTimeout( () => {
                             if (menu.parentNode)
                                 menu.parentNode.removeChild(menu);
                             if (menu.__keyHandler)
                                 document.removeEventListener('keydown', menu.__keyHandler);
-                        }, 180);
+                        }
+                        , 180);
                     }
                     if (activeBackdrop) {
                         if (activeBackdrop.parentNode)
@@ -907,7 +930,7 @@
                     selectEl.blur();
 
                     try {
-                        if (document.body.classList.contains('theme-dark') || (window.getComputedStyle(document.querySelector('.container')).backgroundColor.indexOf('rgb(24') === 0)) {
+                        if (document.body.classList.contains('theme-dark')) {
                             activeMenu.classList.add('dark');
                         }
                     } catch (e) {}
@@ -944,16 +967,9 @@
                     function highlight(idx) {
                         if (!items[idx])
                             return;
-                        items.forEach(i => {
-                            i.classList.remove("hover");
-                            i.style.background = "";
-                            i.style.color = "";
-                        }
-                        );
+                        items.forEach(i => i.classList.remove("hover"));
                         activeMenu.classList.remove("prehover");
                         items[idx].classList.add("hover");
-                        items[idx].style.background = "linear-gradient(135deg, #008cff, #0064fa)";
-                        items[idx].style.color = "#ffffff";
                         items[idx].scrollIntoView({
                             block: "nearest"
                         });
@@ -1024,7 +1040,8 @@
 
                     let lastHoveredItem = null;
                     activeMenu.addEventListener("mousemove", (e) => {
-                        if (!activeMenu) return;
+                        if (!activeMenu)
+                            return;
                         const item = e.target.closest(".menu-item");
                         if (!item)
                             return;
@@ -1036,7 +1053,8 @@
                     );
 
                     activeMenu.addEventListener("mouseleave", () => {
-                        if (!activeMenu) return;
+                        if (!activeMenu)
+                            return;
                         if (!lastHoveredItem)
                             return;
                         activeMenu.classList.add("frozen");
@@ -2339,20 +2357,22 @@
                         fileInfoDiv.innerHTML = `
                         <strong>File Size : ${size}<br> </strong>
                         <strong>${hashLabel}</strong><br>
-                        <div style="word-wrap: break-word; word-break: break-all; max-width: 100%; padding-top: 5px;">
-                        <code style="font-family: monospace;">${hashValue}</code>
+                        <div class="hash-container">
+                            <code>${hashValue}</code>
                         </div>
                         `;
 
                         dlDropdownBtn.style.display = (fileData.git || fileData.iso) ? 'flex' : 'none';
 
                         const hasDriveLink = [fileData.esd, fileData.iso, fileData.git].some(url => url && url.includes('drive.google.com'));
-                        if (hint) hint.style.display = hasDriveLink ? 'block' : 'none';
+                        if (hint)
+                            hint.style.display = hasDriveLink ? 'block' : 'none';
 
                     } else {
                         fileInfoDiv.innerHTML = 'No information available for the selected language.';
                         dlDropdownBtn.style.display = 'none';
-                        if (hint) hint.style.display = 'none';
+                        if (hint)
+                            hint.style.display = 'none';
                     }
                 }
 
@@ -2378,15 +2398,18 @@
                     const fileData = editions[selectedBuild]['Professional'][selectedLanguage];
 
                     if (fileData) {
-                        navigator.clipboard.writeText(fileData.esd).then(() => {
+                        navigator.clipboard.writeText(fileData.esd).then( () => {
                             const notification = document.getElementById('notification');
                             notification.style.display = 'block';
-                            setTimeout(() => {
+                            setTimeout( () => {
                                 notification.style.display = 'none';
-                            }, 2000);
-                        }).catch(err => {
+                            }
+                            , 2000);
+                        }
+                        ).catch(err => {
                             console.error('Failed to copy text: ', err);
-                        });
+                        }
+                        );
                     }
                 }
 
@@ -2409,7 +2432,7 @@
                     activeSelect = btn;
                     activeMenu = createMenu();
 
-                    if (document.body.classList.contains('theme-dark') || (window.getComputedStyle(document.querySelector('.container')).backgroundColor.indexOf('rgb(24') === 0)) {
+                    if (document.body.classList.contains('theme-dark')) {
                         activeMenu.classList.add('dark');
                     }
 
