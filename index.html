@@ -765,7 +765,7 @@
             <h5>Select Language</h5>
             <select id="language"></select>
             <div id="warningMessage">⚠️ 24H2 selected. ensure your device supports it ⚠️</div>
-            <p id="googleDriveHint" class="note" style="display:none">⚠️ If Google Drive shows an error (e.g. <em>Sorry, you can't view or download this file at this time.</em>),<br><strong><em>Please sign in to your Google account and try again.</em></strong></p>
+            <p id="googleDriveHint" class="note" style="display:none">If Google Drive shows an error (e.g. <em>Sorry, you can't view or download this file at this time.</em>),<br><strong><em>Please sign in to your Google account and try again.</em></strong></p>
             <div id="downloadWrapper">
                 <button id="mainDownloadBtn" onclick="downloadLink()">Download</button>
                 <div id="dlDropdownBtn">
@@ -1024,6 +1024,7 @@
 
                     let lastHoveredItem = null;
                     activeMenu.addEventListener("mousemove", (e) => {
+                        if (!activeMenu) return;
                         const item = e.target.closest(".menu-item");
                         if (!item)
                             return;
@@ -1035,6 +1036,7 @@
                     );
 
                     activeMenu.addEventListener("mouseleave", () => {
+                        if (!activeMenu) return;
                         if (!lastHoveredItem)
                             return;
                         activeMenu.classList.add("frozen");
@@ -2373,22 +2375,18 @@
                 function copyLink() {
                     const selectedBuild = document.getElementById('buildNumber').value;
                     const selectedLanguage = document.getElementById('language').value;
-                    const edition = 'Professional';
-                    const fileData = editions[selectedBuild][edition][selectedLanguage];
+                    const fileData = editions[selectedBuild]['Professional'][selectedLanguage];
 
                     if (fileData) {
-                        const textArea = document.createElement('textarea');
-                        textArea.value = fileData.esd;
-                        document.body.appendChild(textArea);
-                        textArea.select();
-                        document.execCommand('copy');
-                        document.body.removeChild(textArea);
-                        const notification = document.getElementById('notification');
-                        notification.style.display = 'block';
-                        setTimeout( () => {
-                            notification.style.display = 'none';
-                        }
-                        , 2000);
+                        navigator.clipboard.writeText(fileData.esd).then(() => {
+                            const notification = document.getElementById('notification');
+                            notification.style.display = 'block';
+                            setTimeout(() => {
+                                notification.style.display = 'none';
+                            }, 2000);
+                        }).catch(err => {
+                            console.error('Failed to copy text: ', err);
+                        });
                     }
                 }
 
