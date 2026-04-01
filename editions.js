@@ -60,14 +60,14 @@ const editions = {
             }
         }
     },
-    "26100.8039 LTSC": {
+    "26100.8117 LTSC": {
         "Professional": {
             "English (United States)": {
-                "esd": "https://drive.google.com/file/d/125UKtXGlbgI2SHZje584W0c1aEzIA2N3/view?usp=drivesdk",
-                "iso": "https://drive.google.com/file/d/1CMGMkI-Z6bgFhQDXwzBs7salHsHXvsUf/view?usp=drivesdk",
-                "git": "https://github.com/ArKT-7/woawin/releases/tag/2026-03-24_153248",
-                "size": 4935854204,
-                "sha256": "5c71fce6bfc816eb341e442fb4bd84540cf1bbf340b327db64974c1b0df04f62"
+                "esd": "https://drive.google.com/file/d/1O_FmhGnuzhuFWDH-TWrMwmfNn4M5HwbX/view?usp=drivesdk",
+                "iso": "https://drive.google.com/file/d/1k6amxMG8_SIMuvBvt0joEz0GgLHQchHG/view?usp=drivesdk",
+                "git": "https://github.com/ArKT-7/woawin/releases/tag/2026-04-01_195931",
+                "size": 4967789168,
+                "sha256": "33cc0e1f54d97a1f28e83d32b16f6cd2ce8da9618dd8f3740420be3114f534b1"
             }
         }
     },
@@ -96,14 +96,14 @@ const editions = {
             }
         }
     },
-    "26200.8039 LTSC": {
+    "26200.8117 LTSC": {
         "Professional": {
             "English (United States)": {
-                "esd": "https://drive.google.com/file/d/1CS_sJCA2RkmK1v49UaZPJmk7egDs5PKL/view?usp=drivesdk",
-                "iso": "https://drive.google.com/file/d/1rNyxxJwwmnZjlvBaX9vYVpVOXSwHPion/view?usp=drivesdk",
-                "git": "https://github.com/ArKT-7/woawin/releases/tag/2026-03-22_145048",
-                "size": 4922204782,
-                "sha256": "ca70a194ac3870c32e200707ded016564802070d371df6e7179aec2326bf9757"
+                "esd": "https://drive.google.com/file/d/1Y_OhF8J5Pe_U9A50aRm123iODG3c291l/view?usp=drivesdk",
+                "iso": "https://drive.google.com/file/d/1mzVyJ4VTCKotTgXfC4z0nR_bRvTpWjbY/view?usp=drivesdk",
+                "git": "https://github.com/ArKT-7/woawin/releases/tag/2026-04-01_200508",
+                "size": 4988264930,
+                "sha256": "61200b6c48ec3534b8bedbb97c69413853fe0f0b1d1427031e67adccfc1fbdea"
             }
         }
     },
