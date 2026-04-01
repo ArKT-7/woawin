@@ -71,28 +71,28 @@ const editions = {
             }
         }
     },
-    "26200.8039 Latest": {
+    "26200.8117 Latest": {
         "Professional": {
             "English (United States)": {
-                "esd": "https://drive.google.com/file/d/1Iti-rAqyYPLL9BAgWf2B6x-bwKo_1caS/view?usp=drivesdk",
-                "iso": "https://drive.google.com/file/d/1eoRQIQzCv5VXWC1BnhKR4f1Ht-j3CKCO/view?usp=drivesdk",
-                "git": "https://github.com/ArKT-7/woawin/releases/tag/2026-03-22_095321",
-                "size": 5361226684,
-                "sha256": "ed9cae7feed408fcb216312a1b8dd4cd6ac95b91b2735a98983b43e999d3c323"
+                "esd": "https://drive.google.com/file/d/1TaX2Ce4PwDPetPFpYo5qYMQSDEGKlIj_/view?usp=drivesdk",
+                "iso": "https://drive.google.com/file/d/1I6Wc1Ogrh5hMkJmP7lRDTbOMphwoKbpv/view?usp=drivesdk",
+                "git": "https://github.com/ArKT-7/woawin/releases/tag/2026-04-01_190148",
+                "size": 5428002418,
+                "sha256": "3ba08c3befbcde79c092f9b5f58c9a9583db5af229525ffce0d90d3f12e3219a"
             },
             "Russian (Russia)": {
-                "esd": "https://drive.google.com/file/d/12AXxR46-awQ0LxynUxoxc5b0HzzQdBpl/view?usp=drivesdk",
-                "iso": "https://drive.google.com/file/d/1McVrJClRiU7Mv4nY2wLp3CUMd6ElkIwG/view?usp=drivesdk",
-                "git": "https://github.com/ArKT-7/woawin/releases/tag/2026-03-22_093512",
-                "size": 5319538102,
-                "sha256": "a16cbc4be51a5bc47b226346989db20e53669da1dca41ac6b4ee7a554d63f662"
+                "esd": "https://drive.google.com/file/d/1aJvdPDaMwZU9hKWHnUqysx2XYUN3J7gH/view?usp=drivesdk",
+                "iso": "https://drive.google.com/file/d/14dg-w9YgkvfS2JRGEMNcE4wOAqUWk1-r/view?usp=drivesdk",
+                "git": "https://github.com/ArKT-7/woawin/releases/tag/2026-04-01_185612",
+                "size": 5348818376,
+                "sha256": "7b78daa89627216c0d8ee58286b6859fd23d5f13a79c5f52352644b660bf8db2"
             },
             "Chinese (Simplified, China)": {
-                "esd": "https://drive.google.com/file/d/1D15pmASTGgjcqGk6rWDTJV6-i6xKEWQv/view?usp=drivesdk",
-                "iso": "https://drive.google.com/file/d/1LOhs3LAWqPHhabel9pi-8Q4I_jy9EeKg/view?usp=drivesdk",
-                "git": "https://github.com/ArKT-7/woawin/releases/tag/2026-03-22_084946",
-                "size": 5516881018,
-                "sha256": "0ed8d740952052a9240945ea5276cfdadced9fbe23a341bda1632f93bf7d0486"
+                "esd": "https://drive.google.com/file/d/12jNggYezNzMG4VlQIrzOqTZHFm2VRJOt/view?usp=drivesdk",
+                "iso": "https://drive.google.com/file/d/1uOdHSMUgUmfRbzhdbnYQNPQvyv7_-_Jj/view?usp=drivesdk",
+                "git": "https://github.com/ArKT-7/woawin/releases/tag/2026-04-01_183641",
+                "size": 5556722380,
+                "sha256": "c5c9191f06739de612097f00ab057f0d425a01e980fb2accf3af85e2dcb06ea0"
             }
         }
     },
