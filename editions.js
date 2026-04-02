@@ -49,14 +49,14 @@ const editions = {
             }
         }
     },
-    "28000.1719 Canary": {
+    "28000.1764 Canary": {
         "Professional": {
             "English (United States)": {
-                "esd": "https://drive.google.com/file/d/1STXNltgPxLHCANZEs9cNfl0zxHkhbl_m/view?usp=drivesdk",
-                "iso": "https://drive.google.com/file/d/1QjMLz5HuOzPJFL-0QqGaCwAuOl5VNu_B/view?usp=drivesdk",
-                "git": "https://github.com/ArKT-7/woawin/releases/tag/2026-03-12_082441",
-                "size": 4943330434,
-                "sha256": "27f17826391bbe4bb6aba511e137f344050e377a12a6d73466b027ee4415dd37"
+                "esd": "https://drive.google.com/file/d/1QIkrfoD33LVweGYP2kfGkVi06wOV0vas/view?usp=drivesdk",
+                "iso": "https://drive.google.com/file/d/1NZJugFJ5-OmcdoaOxEEnYC96GytSpYyR/view?usp=drivesdk",
+                "git": "https://github.com/ArKT-7/woawin/releases/tag/2026-04-02_004714",
+                "size": 5023994158,
+                "sha256": "dfba4af6dbe2f46d0e7cadd97cf190ff295617c188b6c862feab2c0340127d72"
             }
         }
     },

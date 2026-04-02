@@ -6,7 +6,7 @@
 
 ### 📥 Available Versions
 
-- **28000.1719 (26H1) CANARY - EN-US**
+- **28000.1764 (26H1) CANARY - EN-US**
 - **26200.8117 (25H2) Latest - EN-US, RU-RU and ZH-CN**
 - **26200.8117 (25H2) LTSC - EN-US**
 - **26100.8117 (24H2) Latest - EN-US, RU-RU and ZH-CN**
