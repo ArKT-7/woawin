@@ -709,12 +709,24 @@
                 pointer-events: none;
             }
 
-            #downloadWrapper:hover #mainDownloadBtn {
-                transform: scale(1.04);
+            @media (hover: hover) and (pointer: fine) {
+                #downloadWrapper:hover #mainDownloadBtn {
+                    transform: scale(1.04);
+                }
+
+                #downloadWrapper:hover #dlDropdownBtn {
+                    transform: scale(1.04) translateX(6px);
+                }
             }
 
-            #downloadWrapper:hover #dlDropdownBtn {
-                transform: scale(1.04) translateX(6px);
+            @media (hover: none), (pointer: coarse) {
+                #downloadWrapper:active #mainDownloadBtn {
+                    transform: scale(1.04);
+                }
+
+                #downloadWrapper:active #dlDropdownBtn {
+                    transform: scale(1.04) translateX(6px);
+                }
             }
 
             .hash-container {
