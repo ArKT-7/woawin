@@ -1,5 +1,6 @@
 import requests
 import xml.etree.ElementTree as ET
+import time
 import json
 import sys
 import re
@@ -112,6 +113,19 @@ def clean_image_info(raw_images):
         })
     return clean_list
 
+def direct_gdrive_link(url):
+    #API = " from Google Cloud Console - Crednetials - create Credentials - API Key"
+
+    match = re.search(r'/d/([a-zA-Z0-9_-]+)', url)
+    if not match:
+        match = re.search(r'id=([a-zA-Z0-9_-]+)', url)
+        
+    if match:
+        file_id = match.group(1)
+        return f"https://www.googleapis.com/drive/v3/files/{file_id}?alt=media&key={API}"
+    
+    return url
+
 def scan_esd_native(url):
     print(f"reading Header...", end="\r")
     
@@ -212,16 +226,21 @@ def main():
             print(f"Edition: {edition_key}")
             for lang_key, file_info in languages.items():
 
-                if file_info.get('more_info') == 'Verified' and 'all_indexes' in file_info:
-                    print(f"Language: {lang_key} [already Verified]")
+                if 'all_indexes' in file_info:
+                    print(f"Language: {lang_key} [already Verified, skipping]")
                     continue
 
                 if file_info.get('more_info') == 'Encrypted':
-                    print(f"language: {lang_key} [already Encrypted]")
+                    print(f"language: {lang_key} [already Encrypted, skipping]")
                     continue
 
-                url = file_info.get('path')
-                if not url: continue
+                url = file_info.get('esd')
+                
+                if not url:
+                    print(f"skipped {lang_key}: No ESD URL found")
+                    continue
+                
+                url = direct_gdrive_link(url)
                 
                 print(f"Language: {lang_key}")
                 
@@ -234,7 +253,7 @@ def main():
                 
                 if scan_result['status'] == 'ok':
                     file_info['all_indexes'] = scan_result['images']
-                    file_info['more_info'] = "Verified"
+                    #file_info['more_info'] = "Verified"
                     for k in ['wim_name', 'wim_build', 'wim_size_str', 'wim_edition_id', 'metadata_status']:
                         file_info.pop(k, None)
 

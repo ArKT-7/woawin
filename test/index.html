@@ -709,12 +709,24 @@
                 pointer-events: none;
             }
 
-            #downloadWrapper:hover #mainDownloadBtn {
-                transform: scale(1.04);
+            @media (hover: hover) and (pointer: fine) {
+                #downloadWrapper:hover #mainDownloadBtn {
+                    transform: scale(1.04);
+                }
+
+                #downloadWrapper:hover #dlDropdownBtn {
+                    transform: scale(1.04) translateX(6px);
+                }
             }
 
-            #downloadWrapper:hover #dlDropdownBtn {
-                transform: scale(1.04) translateX(6px);
+            @media (hover: none), (pointer: coarse) {
+                #downloadWrapper:active #mainDownloadBtn {
+                    transform: scale(1.04);
+                }
+
+                #downloadWrapper:active #dlDropdownBtn {
+                    transform: scale(1.04) translateX(6px);
+                }
             }
 
             .hash-container {
@@ -784,12 +796,12 @@
             </div>
             <h5>Select Build Number</h5>
             <select id="buildNumber">
-                <option value="28000.1719 Canary" selected>28000.1719 (26H1) Canary</option>
-                <option value="26200.8039 Latest" selected>26200.8039 (25H2) Latest</option>
-                <option value="26200.8039 LTSC">26200.8039 (25H2) LTSC</option>
+                <option value="28000.1764 Canary" selected>28000.1764 (26H1) Canary</option>
+                <option value="26200.8117 Latest" selected>26200.8117 (25H2) Latest</option>
+                <option value="26200.8117 LTSC">26200.8117 (25H2) LTSC</option>
                 <option value="26200">26200.6899 (25H2)</option>
-                <option value="26100.8037 Latest">26100.8037 (24H2) Latest</option>
-                <option value="26100.8039 LTSC">26100.8039 (24H2) LTSC</option>
+                <option value="26100.8117 Latest">26100.8117 (24H2) Latest</option>
+                <option value="26100.8117 LTSC">26100.8117 (24H2) LTSC</option>
                 <option value="26100">26100.4349 (24H2)</option>
                 <option value="22631.6783 Latest">22631.6783 (23H2) Latest</option>
                 <option value="22631">22631.2861 (23H2)</option>
@@ -1167,7 +1179,7 @@
             <script>
                 const buildNumberDropdown = document.getElementById("buildNumber");
                 const warningMessage = document.getElementById("warningMessage");
-                const warningBuildNumbers = ["26100", "26100.8037 Latest", "26100.8039 LTSC", "26200", "26200.8039 Latest", "26200.8039 LTSC", "28000.1719 Canary"];
+                const warningBuildNumbers = ["26100", "26100.8117 Latest", "26100.8117 LTSC", "26200", "26200.8117 Latest", "26200.8117 LTSC", "28000.1764 Canary"];
 
                 function updateWarning() {
                     if (warningBuildNumbers.includes(buildNumberDropdown.value)) {
@@ -1245,12 +1257,12 @@
                     const hash = location.hash.toLowerCase();
                     const buildMap = {
                         '#25h2': '26200',
-                        '#25h2l': '26200.8039 Latest',
-                        '#26h1l': '28000.1719 Canary',
-                        '#25h2lt': '26200.8039 LTSC',
+                        '#25h2l': '26200.8117 Latest',
+                        '#26h1l': '28000.1764 Canary',
+                        '#25h2lt': '26200.8117 LTSC',
                         '#24h2': '26100',
-                        '#24h2l': '26100.8037 Latest',
-                        '#24h2lt': '26100.8039 LTSC',
+                        '#24h2l': '26100.8117 Latest',
+                        '#24h2lt': '26100.8117 LTSC',
                         '#23h2': '22631',
                         '#23h2l': '22631.6783 Latest',
                         '#22h2': '22621',
