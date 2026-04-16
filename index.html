@@ -1284,14 +1284,14 @@
             </div>
             <h5>Select Build Number</h5>
             <select id="buildNumber">
-                <option value="28000.1764 Canary" selected>28000.1764 (26H1) Canary</option>
-                <option value="26200.8117 Latest" selected>26200.8117 (25H2) Latest</option>
-                <option value="26200.8117 LTSC">26200.8117 (25H2) LTSC</option>
+                <option value="28000.1836 Canary" selected>28000.1836 (26H1) Canary</option>
+                <option value="26200.8246 Latest" selected>26200.8246 (25H2) Latest</option>
+                <option value="26200.8246 LTSC">26200.8246 (25H2) LTSC</option>
                 <option value="26200">26200.6899 (25H2)</option>
-                <option value="26100.8117 Latest">26100.8117 (24H2) Latest</option>
-                <option value="26100.8117 LTSC">26100.8117 (24H2) LTSC</option>
+                <option value="26100.8246 Latest">26100.8246 (24H2) Latest</option>
+                <option value="26100.8246 LTSC">26100.8246 (24H2) LTSC</option>
                 <option value="26100">26100.4349 (24H2)</option>
-                <option value="22631.6783 Latest">22631.6783 (23H2) Latest</option>
+                <option value="22631.6936 Latest">22631.6936 (23H2) Latest</option>
                 <option value="22631">22631.2861 (23H2)</option>
                 <option value="22621">22621.1702 (22H2)</option>
                 <option value="22000">22000.318 (21H2)</option>
@@ -1678,7 +1678,7 @@
             <script>
                 const buildNumberDropdown = document.getElementById("buildNumber");
                 const warningMessage = document.getElementById("warningMessage");
-                const warningBuildNumbers = ["26100", "26100.8117 Latest", "26100.8117 LTSC", "26200", "26200.8117 Latest", "26200.8117 LTSC", "28000.1764 Canary"];
+                const warningBuildNumbers = ["26100", "26100.8246 Latest", "26100.8246 LTSC", "26200", "26200.8246 Latest", "26200.8246 LTSC", "28000.1836 Canary"];
 
                 function updateWarning() {
                     if (warningBuildNumbers.includes(buildNumberDropdown.value)) {
@@ -1756,14 +1756,14 @@
                     const hash = location.hash.toLowerCase();
                     const buildMap = {
                         '#25h2': '26200',
-                        '#25h2l': '26200.8117 Latest',
-                        '#26h1l': '28000.1764 Canary',
-                        '#25h2lt': '26200.8117 LTSC',
+                        '#25h2l': '26200.8246 Latest',
+                        '#26h1l': '28000.1836 Canary',
+                        '#25h2lt': '26200.8246 LTSC',
                         '#24h2': '26100',
-                        '#24h2l': '26100.8117 Latest',
-                        '#24h2lt': '26100.8117 LTSC',
+                        '#24h2l': '26100.8246 Latest',
+                        '#24h2lt': '26100.8246 LTSC',
                         '#23h2': '22631',
-                        '#23h2l': '22631.6783 Latest',
+                        '#23h2l': '22631.6936 Latest',
                         '#22h2': '22621',
                         '#21h2': '22000'
                     };
