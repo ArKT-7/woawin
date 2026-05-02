@@ -6,11 +6,11 @@
 
 ### 📥 Available Versions
 
-- **28000.1836 (26H1) CANARY - EN-US**
-- **26200.8246 (25H2) Latest - EN-US, RU-RU and ZH-CN**
-- **26200.8246 (25H2) LTSC - EN-US**
-- **26100.8246 (24H2) Latest - EN-US, RU-RU and ZH-CN**
-- **26100.8246 (24H2) LTSC - EN-US**
+- **28000.1896 (26H1) CANARY - EN-US**
+- **26200.8328 (25H2) Latest - EN-US, RU-RU and ZH-CN**
+- **26200.8328 (25H2) LTSC - EN-US**
+- **26100.8328 (24H2) Latest - EN-US, RU-RU and ZH-CN**
+- **26100.8328 (24H2) LTSC - EN-US**
 - **22631.6936 (23H2) Latest - EN-US, RU-RU and ZH-CN**
 - **26200.6899 (25H2) - All Languages**
 - **26100.4349 (24H2) - All Languages**
