@@ -1,16 +1,16 @@
-# 🚀 [WINDOWS 11 ARM ESD FILE DOWNLOADER](https://arkt-7.github.io/woawin)
+# 🚀 [WINDOWS 11 ESD FILE DOWNLOADER](https://arkt-7.github.io/woawin)
 
 ### Welcome to our **ARM64 Windows 11 Downloader**! If you're looking to get your hands on the latest ARM64 builds of Windows 11 ESD files, you're in the right place. We’ve got you covered with the following versions, available in all languages:
 
 ---
 
-### 📥 Available Versions
+### 📥 Available Versions: ARM64 [`(Download Here!)`](https://arkt-7.github.io/woawin)
 
 - **28000.1896 (26H1) CANARY - EN-US**
 - **26200.8457 (25H2) Latest - EN-US, RU-RU and ZH-CN**
-- **26200.8457 (25H2) LTSC - EN-US**
+- **26200.8457 (25H2) `LTSC` - EN-US**
 - **26100.8457 (24H2) Latest - EN-US, RU-RU and ZH-CN**
-- **26100.8457 (24H2) LTSC - EN-US**
+- **26100.8457 (24H2) `LTSC` - EN-US**
 - **22631.7079 (23H2) Latest - EN-US, RU-RU and ZH-CN**
 - **26200.6899 (25H2) - All Languages**
 - **26100.4349 (24H2) - All Languages**
@@ -20,7 +20,17 @@
 
 ---
 
-### Each download link provided here is sourced directly from official Microsoft repositories, ensuring you access the genuine Windows 11 images needed for your ARM devices. only the latest version is build using [uupdump](https://uupdump.net/) and uploaded here!
+### ⚡ Available Versions: x64
+
+> [!IMPORTANT]
+> These x64 builds are **not** available on the woawin website, Please download them directly using the GitHub Release links below...
+
+- **26200.8457 (25H2) Latest - EN-US [`(Download Here!)`](https://github.com/ArKT-7/woawin/releases/tag/2026-05-14_141305)**
+- **26200.8457 (25H2) `LTSC` - EN-US [`(Download Here!)`](https://github.com/ArKT-7/woawin/releases/tag/2026-05-15_134422)**
+- **26100.8457 (24H2) Latest - EN-US [`(Download Here!)`](https://github.com/ArKT-7/woawin/releases/tag/2026-05-14_140715)**
+- **26100.8457 (24H2) `LTSC` - EN-US [`(Download Here!)`](https://github.com/ArKT-7/woawin/releases/tag/2026-05-15_133441)**
+
+---
 
 ### 🛠️ What Are These For?
 
