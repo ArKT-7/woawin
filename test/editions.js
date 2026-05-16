@@ -341,14 +341,14 @@ const editions = {
             }
         }
     },
-    "28000.1896 Canary": {
+    "28000.2113 Canary": {
         "Professional": {
             "English (United States)": {
-                "esd": "https://drive.google.com/file/d/1y8wKK3DvjASsTmKuDBMv7pIfL7RYNx1x/view?usp=drivesdk",
-                "iso": "https://drive.google.com/file/d/1L6BWTEiqEOf2jukOOALa3_SOIu5yBOso/view?usp=drivesdk",
-                "git": "https://github.com/ArKT-7/woawin/releases/tag/2026-05-02_133942",
-                "size": 5212077792 ,
-                "sha256": "f11091939465683c3f1a1559948d0b024337af5c87735018ee3331893faa320a",
+                "esd": "https://drive.google.com/file/d/1s5csO_7IobCYOHNu4MGh-wYvx_BOLLs5/view?usp=drivesdk",
+                "iso": "https://drive.google.com/file/d/1fRYP9aeap5QXd5OhhNkRiUcV-pyewi9F/view?usp=drivesdk",
+                "git": "https://github.com/ArKT-7/woawin/releases/tag/2026-05-15_201021",
+                "size": 5240387444 ,
+                "sha256": "3346f8333bf282ce43b05c95593b8e6f30696f15611e79db0763f692a533e6cc",
                 "all_indexes": [
                     {
                         "index": 1,
@@ -356,9 +356,9 @@ const editions = {
                         "edition_id": "Professional",
                         "type": "Operating System",
                         "arch": "ARM64",
-                        "build": "28000.1896",
+                        "build": "28000.2113",
                         "lang": "en-US",
-                        //"size": 27430332271
+                        "size": 27711051003
                     },
                     {
                         "index": 2,
@@ -366,9 +366,9 @@ const editions = {
                         "edition_id": "Professional",
                         "type": "Operating System",
                         "arch": "ARM64",
-                        "build": "28000.1896",
+                        "build": "28000.2113",
                         "lang": "en-US",
-                        //"size": 27430332271
+                        "size": 27711051003
                     },
                     {
                         "index": 3,
@@ -376,9 +376,9 @@ const editions = {
                         "edition_id": "Professional",
                         "type": "Operating System",
                         "arch": "ARM64",
-                        "build": "28000.1896",
+                        "build": "28000.2113",
                         "lang": "en-US",
-                        //"size": 27430332271
+                        "size": 27711051003
                     },
                     {
                         "index": 4,
@@ -386,9 +386,9 @@ const editions = {
                         "edition_id": "Professional",
                         "type": "Operating System",
                         "arch": "ARM64",
-                        "build": "28000.1896",
+                        "build": "28000.2113",
                         "lang": "en-US",
-                        //"size": 27430332271
+                        "size": 27711051003
                     },
                     {
                         "index": 5,
@@ -396,9 +396,9 @@ const editions = {
                         "edition_id": "Professional",
                         "type": "Operating System",
                         "arch": "ARM64",
-                        "build": "28000.1896",
+                        "build": "28000.2113",
                         "lang": "en-US",
-                        //"size": 27430332271
+                        "size": 27711051003
                     },
                     {
                         "index": 6,
@@ -406,9 +406,9 @@ const editions = {
                         "edition_id": "Professional",
                         "type": "Operating System",
                         "arch": "ARM64",
-                        "build": "28000.1896",
+                        "build": "28000.2113",
                         "lang": "en-US",
-                        //"size": 27430332271
+                        "size": 27711051003
                     }
                 ]
             }
