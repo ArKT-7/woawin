@@ -7,10 +7,10 @@
 ### 📥 Available Versions: ARM64 [`(Download Here!)`](https://arkt-7.github.io/woawin)
 
 - **28000.2113 (26H1) CANARY - EN-US**
-- **26200.8457 (25H2) Latest - EN-US, RU-RU and ZH-CN**
-- **26200.8457 (25H2) `LTSC` - EN-US**
-- **26100.8457 (24H2) Latest - EN-US, RU-RU and ZH-CN**
-- **26100.8457 (24H2) `LTSC` - EN-US**
+- **26200.8524 (25H2) Latest - EN-US, RU-RU and ZH-CN**
+- **26200.8524 (25H2) `LTSC` - EN-US**
+- **26100.8524 (24H2) Latest - EN-US, RU-RU and ZH-CN**
+- **26100.8524 (24H2) `LTSC` - EN-US**
 - **22631.7079 (23H2) Latest - EN-US, RU-RU and ZH-CN**
 - **26200.6899 (25H2) - All Languages**
 - **26100.4349 (24H2) - All Languages**
