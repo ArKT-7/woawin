@@ -341,14 +341,14 @@ const editions = {
             }
         }
     },
-    "28000.2113 Canary": {
+    "28000.2179 Canary": {
         "Professional": {
             "English (United States)": {
-                "esd": "https://drive.google.com/file/d/1s5csO_7IobCYOHNu4MGh-wYvx_BOLLs5/view?usp=drivesdk",
-                "iso": "https://drive.google.com/file/d/1fRYP9aeap5QXd5OhhNkRiUcV-pyewi9F/view?usp=drivesdk",
-                "git": "https://github.com/ArKT-7/woawin/releases/tag/2026-05-15_201021",
-                "size": 5240387444 ,
-                "sha256": "3346f8333bf282ce43b05c95593b8e6f30696f15611e79db0763f692a533e6cc",
+                "esd": "https://drive.google.com/file/d/1iFu93EeUL3Rtz_IRnkParYtmj7cS74hP/view?usp=drivesdk",
+                "iso": "https://drive.google.com/file/d/11WhMrCjAKQIpDjE0WgE4ylCOBQDsgHc_/view?usp=drivesdk",
+                "git": "https://github.com/ArKT-7/woawin/releases/tag/2026-05-30_085859",
+                "size": 5258716866,
+                "sha256": "d2a2d059ea625d8204999e41a636b9b232067a1d79c08fc239a5ab66e3efef4f",
                 "all_indexes": [
                     {
                         "index": 1,
@@ -356,9 +356,9 @@ const editions = {
                         "edition_id": "Professional",
                         "type": "Operating System",
                         "arch": "ARM64",
-                        "build": "28000.2113",
+                        "build": "28000.2179",
                         "lang": "en-US",
-                        "size": 27711051003
+                        "size": 27696057217
                     },
                     {
                         "index": 2,
@@ -366,9 +366,9 @@ const editions = {
                         "edition_id": "Professional",
                         "type": "Operating System",
                         "arch": "ARM64",
-                        "build": "28000.2113",
+                        "build": "28000.2179",
                         "lang": "en-US",
-                        "size": 27711051003
+                        "size": 27696057217
                     },
                     {
                         "index": 3,
@@ -376,9 +376,9 @@ const editions = {
                         "edition_id": "Professional",
                         "type": "Operating System",
                         "arch": "ARM64",
-                        "build": "28000.2113",
+                        "build": "28000.2179",
                         "lang": "en-US",
-                        "size": 27711051003
+                        "size": 27696057217
                     },
                     {
                         "index": 4,
@@ -386,9 +386,9 @@ const editions = {
                         "edition_id": "Professional",
                         "type": "Operating System",
                         "arch": "ARM64",
-                        "build": "28000.2113",
+                        "build": "28000.2179",
                         "lang": "en-US",
-                        "size": 27711051003
+                        "size": 27696057217
                     },
                     {
                         "index": 5,
@@ -396,9 +396,9 @@ const editions = {
                         "edition_id": "Professional",
                         "type": "Operating System",
                         "arch": "ARM64",
-                        "build": "28000.2113",
+                        "build": "28000.2179",
                         "lang": "en-US",
-                        "size": 27711051003
+                        "size": 27696057217
                     },
                     {
                         "index": 6,
@@ -406,9 +406,9 @@ const editions = {
                         "edition_id": "Professional",
                         "type": "Operating System",
                         "arch": "ARM64",
-                        "build": "28000.2113",
+                        "build": "28000.2179",
                         "lang": "en-US",
-                        "size": 27711051003
+                        "size": 27696057217
                     }
                 ]
             }
