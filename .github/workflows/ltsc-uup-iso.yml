@@ -932,3 +932,78 @@ jobs:
           & gh release edit $releaseTag --notes-file "final_desc.txt"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Print JSON for JS Code
+        shell: pwsh
+        run: |
+          $esd = "${{ steps.rename_esd.outputs.final_esd_path }}"
+          $tag = "${{ steps.gen_tag.outputs.release_tag }}"
+          $repo = "${{ github.repository }}"
+          $links = Get-Content "glinks.env" | ConvertFrom-StringData
+          
+          $edMap = @{
+              "Core" = "Windows 11 Home"
+              "CoreSingleLanguage" = "Windows 11 Home Single Language"
+              "CoreCountrySpecific" = "Windows 11 Home China"
+              "Professional" = "Windows 11 Pro"
+              "ProfessionalN" = "Windows 11 Pro N"
+              "ProfessionalWorkstation" = "Windows 11 Pro for Workstations"
+              "Education" = "Windows 11 Education"
+              "Enterprise" = "Windows 11 Enterprise"
+              "EnterpriseS" = "Windows 11 Enterprise LTSC"
+              "IoTEnterprise" = "Windows 11 IoT Enterprise"
+              "IoTEnterpriseS" = "Windows 11 IoT Enterprise LTSC"
+          }
+          
+          $dismOut = dism /Get-WimInfo /WimFile:"$esd" /English | Out-String
+          $count = ([regex]::Matches($dismOut, "Index\s*:\s*(\d+)")).Count
+          
+          $items = @()
+          for ($i = 1; $i -le $count; $i++) {
+              $info = dism /Get-WimInfo /WimFile:"$esd" /Index:$i /English | Out-String
+              
+              $ed = if ($info -match 'Edition\s*:\s*(.*)') { $matches[1].Trim() } else { "" }
+              $name = if ($edMap.ContainsKey($ed)) { $edMap[$ed] } elseif ($info -match 'Name\s*:\s*(.*)') { $matches[1].Trim() } else { "Unknown" }
+              
+              $arch = if ($info -match 'Architecture\s*:\s*(.*)') { $matches[1].Trim() } else { "" }
+              $verMatches = [regex]::Matches($info, 'Version\s*:\s*([^\r\n]+)')
+              $ver = if ($verMatches.Count -gt 0) { $verMatches[$verMatches.Count - 1].Groups[1].Value.Trim() } else { "" }
+              $sp = if ($info -match 'ServicePack Build\s*:\s*(.*)') { $matches[1].Trim() } else { "" }
+              $lang = if ($info -match 'Languages\s*:\s*([a-zA-Z\-]+)') { $matches[1].Trim() } else { "en-US" }
+              $sz = if ($info -match 'Size\s*:\s*([0-9,]+)\s*bytes') { $matches[1].Replace(",","").Trim() } else { "0" }
+              
+              if ($arch -eq "arm64") { $arch = "ARM64" }
+              if ($arch -eq "x64") { $arch = "x64" }
+              
+              $bld = ""
+              if ($ver) { $bld = "$($ver.Split('.')[2]).$sp" }
+              
+              $items += [ordered]@{
+                  index = $i
+                  name = $name
+                  edition_id = $ed
+                  type = "Operating System"
+                  arch = $arch
+                  build = $bld
+                  lang = $lang
+                  size = [long]$sz
+              }
+          }
+          
+          $langName = "Unknown"
+          if ($items.Count -gt 0) {
+              $langName = [System.Globalization.CultureInfo]::GetCultureInfo($items[0].lang).EnglishName
+          }
+          
+          $out = [ordered]@{
+              $langName = [ordered]@{
+                  esd = $links.GDRIVE_ESD
+                  iso = $links.GDRIVE_ISO
+                  git = "https://github.com/$repo/releases/tag/$tag"
+                  size = [long]"${{ steps.rename_esd.outputs.final_esd_size }}"
+                  sha256 = "${{ steps.esd_hashes.outputs.esd_sha256 }}"
+                  all_indexes = $items
+              }
+          }
+          
+          $out | ConvertTo-Json -Depth 5
