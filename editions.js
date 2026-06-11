@@ -487,14 +487,14 @@ const editions = {
             }
         }
     },
-    "26200.8524 Latest": {
+    "26200.8655 Latest": {
         "Professional": {
             "English (United States)": {
-                "esd": "https://drive.google.com/file/d/10hVUmf337nBPE__FwOJw4ukph342f6An/view?usp=drivesdk",
-                "iso": "https://drive.google.com/file/d/1HmFzNaSxckgFWvfiFXgql7EaHXhTDH5D/view?usp=drivesdk",
-                "git": "https://github.com/ArKT-7/woawin/releases/tag/2026-05-29_013937",
-                "size": 5532860340,
-                "sha256": "1307d72e9d7e52a3040f9473cad437897c288566592030c074246f318c766d6f",
+                "esd": "https://drive.google.com/file/d/1rrYq5AGyUsNKulY9nblqJ98pdOxyO0-L/view?usp=drivesdk",
+                "iso": "https://drive.google.com/file/d/1cBdaR8uN8SGH9M8okFWWdrNMpO75ZqZi/view?usp=drivesdk",
+                "git": "https://github.com/ArKT-7/woawin/releases/tag/2026-06-11_172157",
+                "size": 5533831064,
+                "sha256": "a31f95804c328b84a4832b894e75df03b0665ae9b922b37b8351587694905437",
                 "all_indexes": [
                     {
                         "index": 1,
@@ -502,9 +502,9 @@ const editions = {
                         "edition_id": "Professional",
                         "type": "Operating System",
                         "arch": "ARM64",
-                        "build": "26200.8524",
+                        "build": "26200.8655",
                         "lang": "en-US",
-                        "size": 29031247526
+                        "size": 29044616824
                     },
                     {
                         "index": 2,
@@ -512,9 +512,9 @@ const editions = {
                         "edition_id": "Professional",
                         "type": "Operating System",
                         "arch": "ARM64",
-                        "build": "26200.8524",
+                        "build": "26200.8655",
                         "lang": "en-US",
-                        "size": 29031247526
+                        "size": 29044616824
                     },
                     {
                         "index": 3,
@@ -522,9 +522,9 @@ const editions = {
                         "edition_id": "Professional",
                         "type": "Operating System",
                         "arch": "ARM64",
-                        "build": "26200.8524",
+                        "build": "26200.8655",
                         "lang": "en-US",
-                        "size": 29031247526
+                        "size": 29044616824
                     },
                     {
                         "index": 4,
@@ -532,9 +532,9 @@ const editions = {
                         "edition_id": "Core",
                         "type": "Operating System",
                         "arch": "ARM64",
-                        "build": "26200.8524",
+                        "build": "26200.8655",
                         "lang": "en-US",
-                        "size": 28557313206
+                        "size": 28579423960
                     },
                     {
                         "index": 5,
@@ -542,9 +542,9 @@ const editions = {
                         "edition_id": "Professional",
                         "type": "Operating System",
                         "arch": "ARM64",
-                        "build": "26200.8524",
+                        "build": "26200.8655",
                         "lang": "en-US",
-                        "size": 29031247526
+                        "size": 29044616824
                     },
                     {
                         "index": 6,
@@ -552,18 +552,18 @@ const editions = {
                         "edition_id": "Professional",
                         "type": "Operating System",
                         "arch": "ARM64",
-                        "build": "26200.8524",
+                        "build": "26200.8655",
                         "lang": "en-US",
-                        "size": 29031247526
+                        "size": 29044616824
                     }
                 ]
             },
             "Russian (Russia)": {
-                "esd": "https://drive.google.com/file/d/1boP7GsX4XLcDyXskVE2mtkb2aL2QHeGz/view?usp=drivesdk",
-                "iso": "https://drive.google.com/file/d/1gXuGvKZODnO5ZB4IoxC0N319f3mhcytm/view?usp=drivesdk",
-                "git": "https://github.com/ArKT-7/woawin/releases/tag/2026-05-29_014725",
-                "size": 5468670634,
-                "sha256": "5dc1d4b17a9f28299d30cf57c5f1d68712d64a3448ce13c4e00ee8703662def0",
+                "esd": "https://drive.google.com/file/d/1r9ZhWIL449FzJ0uoO03OdWbljy0tcHfO/view?usp=drivesdk",
+                "iso": "https://drive.google.com/file/d/1-nKcBIUWl2-iG3Deb2WSLFMGkAnhuea2/view?usp=drivesdk",
+                "git": "https://github.com/ArKT-7/woawin/releases/tag/2026-06-11_172332",
+                "size": 5478955440,
+                "sha256": "b765a7a30641a9e0e09ac5b9f6de10c03d6357d1f0bf94e2e745b7b4ff312d65",
                 "all_indexes": [
                     {
                         "index": 1,
@@ -571,9 +571,9 @@ const editions = {
                         "edition_id": "Professional",
                         "type": "Operating System",
                         "arch": "ARM64",
-                        "build": "26200.8524",
+                        "build": "26200.8655",
                         "lang": "ru-RU",
-                        "size": 29097052892
+                        "size": 29105019383
                     },
                     {
                         "index": 2,
@@ -581,9 +581,9 @@ const editions = {
                         "edition_id": "Professional",
                         "type": "Operating System",
                         "arch": "ARM64",
-                        "build": "26200.8524",
+                        "build": "26200.8655",
                         "lang": "ru-RU",
-                        "size": 29097052892
+                        "size": 29105019383
                     },
                     {
                         "index": 3,
@@ -591,9 +591,9 @@ const editions = {
                         "edition_id": "Professional",
                         "type": "Operating System",
                         "arch": "ARM64",
-                        "build": "26200.8524",
+                        "build": "26200.8655",
                         "lang": "ru-RU",
-                        "size": 29097052892
+                        "size": 29105019383
                     },
                     {
                         "index": 4,
@@ -601,9 +601,9 @@ const editions = {
                         "edition_id": "Core",
                         "type": "Operating System",
                         "arch": "ARM64",
-                        "build": "26200.8524",
+                        "build": "26200.8655",
                         "lang": "ru-RU",
-                        "size": 28616930713
+                        "size": 28631449639
                     },
                     {
                         "index": 5,
@@ -611,9 +611,9 @@ const editions = {
                         "edition_id": "Professional",
                         "type": "Operating System",
                         "arch": "ARM64",
-                        "build": "26200.8524",
+                        "build": "26200.8655",
                         "lang": "ru-RU",
-                        "size": 29097052892
+                        "size": 29105019383
                     },
                     {
                         "index": 6,
@@ -621,18 +621,18 @@ const editions = {
                         "edition_id": "Professional",
                         "type": "Operating System",
                         "arch": "ARM64",
-                        "build": "26200.8524",
+                        "build": "26200.8655",
                         "lang": "ru-RU",
-                        "size": 29097052892
+                        "size": 29105019383
                     }
                 ]
             },
             "Chinese (Simplified, China)": {
-                "esd": "https://drive.google.com/file/d/1Ugl2nk1JL2vRE5OJLKPdCTU1nO-HbUXE/view?usp=drivesdk",
-                "iso": "https://drive.google.com/file/d/1JxUs3xou40R-H0y7iwcLD_hdVg7cok4Y/view?usp=drivesdk",
-                "git": "https://github.com/ArKT-7/woawin/releases/tag/2026-05-29_013917",
-                "size": 5668741782,
-                "sha256": "47b50eaba1a7285c70084114cbd40a4296975c4c98696a5f87921788b90f8855",
+                "esd": "https://drive.google.com/file/d/16S2mHizZL7fMBVx0RJjuXVpPumLpMfoT/view?usp=drivesdk",
+                "iso": "https://drive.google.com/file/d/1crmr98JB4JW8ZKYoyDYYGF8DjxD9VKiB/view?usp=drivesdk",
+                "git": "https://github.com/ArKT-7/woawin/releases/tag/2026-06-11_161123",
+                "size": 5661100092,
+                "sha256": "b3002b4990b0c08c5203fd0fc861e74faa7210db683b412575528b59eb1130ea",
                 "all_indexes": [
                     {
                         "index": 1,
@@ -640,9 +640,9 @@ const editions = {
                         "edition_id": "CoreCountrySpecific",
                         "type": "Operating System",
                         "arch": "ARM64",
-                        "build": "26200.8524",
+                        "build": "26200.8655",
                         "lang": "zh-CN",
-                        "size": 29328165832
+                        "size": 29352266606
                     },
                     {
                         "index": 2,
@@ -650,9 +650,9 @@ const editions = {
                         "edition_id": "Professional",
                         "type": "Operating System",
                         "arch": "ARM64",
-                        "build": "26200.8524",
+                        "build": "26200.8655",
                         "lang": "zh-CN",
-                        "size": 29802708255
+                        "size": 29812166346
                     }
                 ]
             }
