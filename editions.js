@@ -341,14 +341,14 @@ const editions = {
             }
         }
     },
-    "28000.2269 Canary": {
+    "28000.2525 Canary": {
         "Professional": {
             "English (United States)": {
-                "esd": "https://drive.google.com/file/d/10l9RJSb5a8BW89rJRMhe1gWcgydJnA7W/view?usp=drivesdk",
-                "iso": "https://drive.google.com/file/d/1e6px0OSxVvj2Q8V5sepKLHHhM5gOMays/view?usp=drivesdk",
-                "git": "https://github.com/ArKT-7/woawin/releases/tag/2026-06-11_213406",
-                "size": 5300870316,
-                "sha256": "5df16ffe9cefb367e551b141140b63579008b01c7bd06caf4bed4199d66a5ed1",
+                "esd": "https://drive.google.com/file/d/1qZJwoRnhft-K2KjSCOziVFMlABpupeHL/view?usp=drivesdk",
+                "iso": "https://drive.google.com/file/d/1a10iwZDJfJARqwVDgWFELf02g5bAux8z/view?usp=drivesdk",
+                "git": "https://github.com/ArKT-7/woawin/releases/tag/2026-07-15_174418",
+                "size": 5425586940,
+                "sha256": "7479f09635ddbdd446aa23d4a831f21225620772125afd3a35ad093d29f0ee4e",
                 "all_indexes": [
                     {
                         "index": 1,
@@ -356,9 +356,9 @@ const editions = {
                         "edition_id": "Professional",
                         "type": "Operating System",
                         "arch": "ARM64",
-                        "build": "28000.2269",
+                        "build": "28000.2525",
                         "lang": "en-US",
-                        "size": 27923722139
+                        "size": 28271727660
                     },
                     {
                         "index": 2,
@@ -366,9 +366,9 @@ const editions = {
                         "edition_id": "Professional",
                         "type": "Operating System",
                         "arch": "ARM64",
-                        "build": "28000.2269",
+                        "build": "28000.2525",
                         "lang": "en-US",
-                        "size": 27923722139
+                        "size": 28271727660
                     },
                     {
                         "index": 3,
@@ -376,9 +376,9 @@ const editions = {
                         "edition_id": "Professional",
                         "type": "Operating System",
                         "arch": "ARM64",
-                        "build": "28000.2269",
+                        "build": "28000.2525",
                         "lang": "en-US",
-                        "size": 27923722139
+                        "size": 28271727660
                     },
                     {
                         "index": 4,
@@ -386,9 +386,9 @@ const editions = {
                         "edition_id": "Professional",
                         "type": "Operating System",
                         "arch": "ARM64",
-                        "build": "28000.2269",
+                        "build": "28000.2525",
                         "lang": "en-US",
-                        "size": 27923722139
+                        "size": 28271727660
                     },
                     {
                         "index": 5,
@@ -396,9 +396,9 @@ const editions = {
                         "edition_id": "Professional",
                         "type": "Operating System",
                         "arch": "ARM64",
-                        "build": "28000.2269",
+                        "build": "28000.2525",
                         "lang": "en-US",
-                        "size": 27923722139
+                        "size": 28271727660
                     },
                     {
                         "index": 6,
@@ -406,9 +406,9 @@ const editions = {
                         "edition_id": "Professional",
                         "type": "Operating System",
                         "arch": "ARM64",
-                        "build": "28000.2269",
+                        "build": "28000.2525",
                         "lang": "en-US",
-                        "size": 27923722139
+                        "size": 28271727660
                     }
                 ]
             }
