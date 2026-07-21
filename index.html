@@ -22,7 +22,9 @@
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                height: 100vh;
+                min-height: 100vh;
+                padding: 20px 20px;
+                box-sizing: border-box;
                 animation: pulse 5s infinite;
                 background-color: #f0f0f0;
             }
@@ -49,6 +51,7 @@
                 letter-spacing: 2px;
                 text-shadow: 1px 1px 10px rgba(0, 0, 0, 0.1);
                 -webkit-background-clip: text;
+                background-clip: text;
             }
 
             .logo-text-container .text {
@@ -59,6 +62,7 @@
                 letter-spacing: 1px;
                 background: linear-gradient(135deg, #00d1ff, #0052cc);
                 -webkit-background-clip: text;
+                background-clip: text;
                 color: transparent;
                 color: #000000;
             }
@@ -84,9 +88,7 @@
             }
 
             .note {
-                font-size: 14px;
                 color: #000000;
-                margin-top: 15px;
             }
 
             .file-info {
@@ -177,6 +179,7 @@
 
             .custom-menu {
                 background: linear-gradient(135deg, #f0f4f8, #dfe7ee);
+                -webkit-backdrop-filter: blur(6px);
                 backdrop-filter: blur(6px);
                 border: 1px solid rgba(0,0,0,0.08);
                 box-shadow: 0 12px 32px rgba(0,0,0,0.15);
@@ -312,7 +315,9 @@
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                height: 100vh;
+                min-height: 100vh;
+                padding: 20px 20px;
+                box-sizing: border-box;
                 animation: pulse 5s infinite;
                 background-color: #1c1f24;
             }
@@ -339,6 +344,7 @@
                 letter-spacing: 2px;
                 text-shadow: 1px 1px 10px rgba(0, 0, 0, 0.1);
                 -webkit-background-clip: text;
+                background-clip: text;
             }
 
             .logo-text-container .text {
@@ -349,6 +355,7 @@
                 letter-spacing: 1px;
                 background: linear-gradient(135deg, #00d1ff, #0052cc);
                 -webkit-background-clip: text;
+                background-clip: text;
                 color: transparent;
                 color: #f8f9fa;
             }
@@ -374,9 +381,7 @@
             }
 
             .note {
-                font-size: 14px;
                 color: #f1f1f1;
-                margin-top: 15px;
             }
 
             .file-info {
@@ -467,6 +472,7 @@
 
             .custom-menu {
                 background: linear-gradient(135deg, #1c1f24, #18191A);
+                -webkit-backdrop-filter: blur(6px);
                 backdrop-filter: blur(6px);
                 border: 1px solid rgba(255,255,255,0.08);
                 box-shadow: 0 14px 40px rgba(0,0,0,0.45);
@@ -691,7 +697,7 @@
                 font-style: italic;
                 margin-top: 10px;
                 display: none;
-                margin: 0 -20px;
+                margin: 0 -26px;
             }
 
             .switchx {
@@ -716,7 +722,7 @@
 
             @media (max-width: 768px) {
                 body {
-                    padding: 0 16px;
+                    padding: 16px 16px;
                 }
 
                 /*.container {
@@ -813,7 +819,6 @@
                 transform: translateY(-6px);
                 transition: opacity 160ms ease, transform 160ms ease;
                 z-index: 1000;
-                -webkit-overflow-scrolling: touch;
                 touch-action: pan-y;
                 overscroll-behavior: contain;
             }
@@ -895,6 +900,7 @@
                 cursor: pointer;
                 border-radius: 14px;
                 background: linear-gradient( 135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1) );
+                -webkit-backdrop-filter: blur(8px);
                 backdrop-filter: blur(8px);
                 border: 1px solid rgba(255, 255, 255, 0.2);
                 transition: all 0.2s ease;
@@ -1232,6 +1238,25 @@
                 border-radius: 6.9px;
                 line-height: 1.4;
             }
+
+            .copy-link {
+                color: #3f87ff;
+                cursor: pointer;
+            }
+
+            .note {
+                font-size: 14px;
+                margin: 15px -16px 14px;
+            }
+
+            #googleDriveHint {
+                display: none;
+            }
+
+            .release-link {
+                display: flex;
+                align-items: center;
+            }
         </style>
     </head>
     <body>
@@ -1267,7 +1292,7 @@
                         <path d="m223.5 32c-123.5 0-223.5 100.3-223.5 224s100 224 223.5 224c60.6 0 115.5-24.2 155.8-63.4 5-4.9 6.3-12.5 3.1-18.7s-10.1-9.7-17-8.5c-9.8 1.7-19.8 2.6-30.1 2.6-96.9 0-175.5-78.8-175.5-176 0-65.8 36-123.1 89.3-153.3 6.1-3.5 9.2-10.5 7.7-17.3s-7.3-11.9-14.3-12.5c-6.3-.5-12.6-.8-19-.8z"></path>
                     </svg>
                 </span>
-                <input type="checkbox" class="inputx" id="toggle-input">
+                <input type="checkbox" class="inputx" id="toggle-input" aria-label="Toggle theme" title="Toggle theme">
                 <span class="slider"></span>
             </label>
             <div id="theme-overlay"></div>
@@ -1276,14 +1301,14 @@
             <div class="logo-text-container">
                 <div class="text">
                     <span>Windows 11</span>
-                    <a href="https://github.com/ArKT-7/woawin/releases" target="_blank" style="display: flex; align-items: center;">
+                    <a class="release-link" href="https://github.com/ArKT-7/woawin/releases" target="_blank" rel="noopener noreferrer">
                         <img src="https://raw.githubusercontent.com/ArKT-7/woawin/main/assets/windows-11.png" alt="Windows 11 Logo">
                     </a>
                     <span>Arm 64</span>
                 </div>
             </div>
-            <h5>Select Build Number</h5>
-            <select id="buildNumber">
+            <h5 id="buildNumberLabel">Select Build Number</h5>
+            <select id="buildNumber" aria-labelledby="buildNumberLabel">
                 <option value="28000.2525 Canary" selected>28000.2525 (26H1) Canary</option>
                 <option value="26200.8894 Latest" selected>26200.8894 (25H2) Latest</option>
                 <option value="26200.8894 LTSC">26200.8894 (25H2) LTSC</option>
@@ -1296,10 +1321,10 @@
                 <option value="22621">22621.1702 (22H2)</option>
                 <option value="22000">22000.318 (21H2)</option>
             </select>
-            <h5>Select Language</h5>
-            <select id="language"></select>
+            <h5 id="languageLabel">Select Language</h5>
+            <select id="language" aria-labelledby="languageLabel"></select>
             <div id="warningMessage">⚠️ 24H2 selected. ensure your device supports it ⚠️</div>
-            <p id="googleDriveHint" class="note" style="display:none">
+            <p id="googleDriveHint" class="note">
                 If Google Drive shows an error (e.g. <em>Sorry, you can't view or download this file at this time.</em>
                 ),<br>
                 <strong>
@@ -1320,7 +1345,7 @@
                 </div>
             </div>
             <p class="note">
-                If the download does not start, you can <span style="color:#3f87ff; cursor:pointer;" onclick="copyLink()">copy the download link</span>
+                If the download does not start, you can <span class="copy-link" onclick="copyLink()">copy the download link</span>
                 and paste it in your browser's address bar.
             </p>
             <div class="file-info" id="fileInfo"></div>
