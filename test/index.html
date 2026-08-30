@@ -1309,7 +1309,7 @@
             </div>
             <h5 id="buildNumberLabel">Select Build Number</h5>
             <select id="buildNumber" aria-labelledby="buildNumberLabel">
-                <option value="28000.2704 Canary" selected>28000.2704 (26H1) Canary</option>
+                <option value="28000.2804 Canary" selected>28000.2804 (26H1) Canary</option>
                 <option value="26200.9278 Latest" selected>26200.9278 (25H2) Latest</option>
                 <option value="26200.9278 LTSC">26200.9278 (25H2) LTSC</option>
                 <option value="26200">26200.6899 (25H2)</option>
@@ -1722,7 +1722,7 @@
             <script>
                 const buildNumberDropdown = document.getElementById("buildNumber");
                 const warningMessage = document.getElementById("warningMessage");
-                const warningBuildNumbers = ["26100", "26100.9278 Latest", "26100.9278 LTSC", "26200", "26200.9278 Latest", "26200.9278 LTSC", "28000.2704 Canary"];
+                const warningBuildNumbers = ["26100", "26100.9278 Latest", "26100.9278 LTSC", "26200", "26200.9278 Latest", "26200.9278 LTSC", "28000.2804 Canary"];
 
                 function updateWarning() {
                     if (warningBuildNumbers.includes(buildNumberDropdown.value)) {
@@ -1801,7 +1801,7 @@
                     const buildMap = {
                         '#25h2': '26200',
                         '#25h2l': '26200.9278 Latest',
-                        '#26h1l': '28000.2704 Canary',
+                        '#26h1l': '28000.2804 Canary',
                         '#25h2lt': '26200.9278 LTSC',
                         '#24h2': '26100',
                         '#24h2l': '26100.9278 Latest',

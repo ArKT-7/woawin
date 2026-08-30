@@ -341,14 +341,14 @@ const editions = {
             }
         }
     },
-    "28000.2704 Canary": {
+    "28000.2804 Canary": {
         "Professional": {
             "English (United States)": {
-                "esd": "https://drive.google.com/file/d/1psqTEeXWBN-nds1GDWYreuUirdAm79fA/view?usp=drivesdk",
-                "iso": "https://drive.google.com/file/d/19B0jaStyLOgeuMzIVtyy72f9sbOLAwBo/view?usp=drivesdk",
-                "git": "https://github.com/ArKT-7/woawin/releases/tag/2026-08-13_071530",
-                "size": 5503421590,
-                "sha256": "6d1a24fe1613f5bc222320953ed474f11c97b59ef6411a8333903a870b9b47b4",
+                "esd": "https://drive.google.com/file/d/1iWpBJcPnh9own5WxMhqxBaLyeQb8crET/view?usp=drivesdk",
+                "iso": "https://drive.google.com/file/d/1tU6p7NVWpCn8kZxgL9jtfyQPps77Abtu/view?usp=drivesdk",
+                "git": "https://github.com/ArKT-7/woawin/releases/tag/2026-08-30_152753",
+                "size": 5542456496,
+                "sha256": "a36606d7aab920525f183d3566a370867bde2a0ad822a6df62afe8badb332fab",
                 "all_indexes": [
                     {
                         "index": 1,
@@ -356,9 +356,9 @@ const editions = {
                         "edition_id": "Professional",
                         "type": "Operating System",
                         "arch": "ARM64",
-                        "build": "28000.2704",
+                        "build": "28000.2804",
                         "lang": "en-US",
-                        "size": 28484544386
+                        "size": 28613020130
                     },
                     {
                         "index": 2,
@@ -366,9 +366,9 @@ const editions = {
                         "edition_id": "Professional",
                         "type": "Operating System",
                         "arch": "ARM64",
-                        "build": "28000.2704",
+                        "build": "28000.2804",
                         "lang": "en-US",
-                        "size": 28484544386
+                        "size": 28613020130
                     },
                     {
                         "index": 3,
@@ -376,9 +376,9 @@ const editions = {
                         "edition_id": "Professional",
                         "type": "Operating System",
                         "arch": "ARM64",
-                        "build": "28000.2704",
+                        "build": "28000.2804",
                         "lang": "en-US",
-                        "size": 28484544386
+                        "size": 28613020130
                     },
                     {
                         "index": 4,
@@ -386,9 +386,9 @@ const editions = {
                         "edition_id": "Professional",
                         "type": "Operating System",
                         "arch": "ARM64",
-                        "build": "28000.2704",
+                        "build": "28000.2804",
                         "lang": "en-US",
-                        "size": 28484544386
+                        "size": 28613020130
                     },
                     {
                         "index": 5,
@@ -396,9 +396,9 @@ const editions = {
                         "edition_id": "Professional",
                         "type": "Operating System",
                         "arch": "ARM64",
-                        "build": "28000.2704",
+                        "build": "28000.2804",
                         "lang": "en-US",
-                        "size": 28484544386
+                        "size": 28613020130
                     },
                     {
                         "index": 6,
@@ -406,9 +406,9 @@ const editions = {
                         "edition_id": "Professional",
                         "type": "Operating System",
                         "arch": "ARM64",
-                        "build": "28000.2704",
+                        "build": "28000.2804",
                         "lang": "en-US",
-                        "size": 28484544386
+                        "size": 28613020130
                     }
                 ]
             }
