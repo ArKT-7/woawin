@@ -25,10 +25,10 @@
 > [!IMPORTANT]
 > These x64 builds are **not** available on the woawin website, Please download them directly using the GitHub Release links below...
 
-- **26200.9168 (25H2) Latest - EN-US [`(Download Here!)`](https://github.com/ArKT-7/woawin/releases/tag/2026-08-12_172339)**
-- **26200.9168 (25H2) `LTSC` - EN-US [`(Download Here!)`](https://github.com/ArKT-7/woawin/releases/tag/2026-08-13_044648)**
-- **26100.9168 (24H2) Latest - EN-US [`(Download Here!)`](https://github.com/ArKT-7/woawin/releases/tag/2026-08-12_170513)**
-- **26100.9168 (24H2) `LTSC` - EN-US [`(Download Here!)`](https://github.com/ArKT-7/woawin/releases/tag/2026-08-12_185336)**
+- **26200.9278 (25H2) Latest - EN-US [`(Download Here!)`](https://github.com/ArKT-7/woawin/releases/tag/2026-08-30_121811)**
+- **26200.9278 (25H2) `LTSC` - EN-US [`(Download Here!)`](https://github.com/ArKT-7/woawin/releases/tag/2026-08-30_141610)**
+- **26100.9278 (24H2) Latest - EN-US [`(Download Here!)`](https://github.com/ArKT-7/woawin/releases/tag/2026-08-30_114318)**
+- **26100.9278 (24H2) `LTSC` - EN-US [`(Download Here!)`](https://github.com/ArKT-7/woawin/releases/tag/2026-08-30_134614)**
 
 ---
 
