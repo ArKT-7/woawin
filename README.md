@@ -36,6 +36,11 @@
 
 ### These images are used for installing or running Windows on ARM devices, making it easy to set up your system with the specific version you need.
 
+> [!NOTE]
+> Almost every ARM64 ESD file here comes straight from Microsoft's own servers, in all the languages they offer — so you're always getting the real, unmodified thing...
+>
+> The one catch is the **newest/latest builds, the LTSC ones, and every x64 build** aren't something Microsoft hands out directly, so I build and host them myself using **[UUP dump](https://uupdump.net/)**
+
 ---
 
 ### 🙈 Support My Work
@@ -51,7 +56,7 @@ If you find my projects helpful, consider supporting my work! Your contributions
   </a>
 </p>
 
-### 😊 Happy Downloading ⬇️
+### 😊 Happy Downloading :D
 
 
 <p align="center"><a href="https://arkt-7.github.io/woawin"><img src="https://github.com/ArKT-7/woawin/blob/main/assets/preview.gif" width="480"></a></p>
