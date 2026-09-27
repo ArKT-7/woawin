@@ -1308,19 +1308,20 @@
                 </div>
             </div>
             <h5 id="buildNumberLabel">Select Build Number</h5>
-            <select id="buildNumber" aria-labelledby="buildNumberLabel">
-                <option value="28000.2954 Canary" selected>28000.2954 (26H1) Canary</option>
-                <option value="26200.9445 Latest" selected>26200.9445 (25H2) Latest</option>
-                <option value="26200.9445 LTSC">26200.9445 (25H2) LTSC</option>
-                <option value="26200">26200.6899 (25H2)</option>
-                <option value="26100.9550 Latest">26100.9550 (24H2) Latest</option>
-                <option value="26100.9445 LTSC">26100.9445 (24H2) LTSC</option>
-                <option value="26100">26100.4349 (24H2)</option>
-                <option value="22631.7584 Latest">22631.7584 (23H2) Latest</option>
-                <option value="22631">22631.2861 (23H2)</option>
-                <option value="22621">22621.1702 (22H2)</option>
-                <option value="22000">22000.318 (21H2)</option>
-            </select>
+            <select id="buildNumber" aria-labelledby="buildNumberLabel"></select>
+            <script>
+                (function populateBuildsList() {
+                    const buildSelect = document.getElementById("buildNumber");
+                    Object.keys(editionsmeta).forEach(buildKey => {
+                        const meta = editionsmeta[buildKey];
+                        const option = document.createElement("option");
+                        option.value = buildKey;
+                        option.textContent = `${meta.buildNumber} ${meta.label}`;
+                        if (meta.selected) option.selected = true;
+                        buildSelect.appendChild(option);
+                    });
+                })();
+            </script>
             <h5 id="languageLabel">Select Language</h5>
             <select id="language" aria-labelledby="languageLabel"></select>
             <div id="warningMessage">⚠️ 24H2 selected. ensure your device supports it ⚠️</div>
@@ -1722,15 +1723,16 @@
             <script>
                 const buildNumberDropdown = document.getElementById("buildNumber");
                 const warningMessage = document.getElementById("warningMessage");
-                const warningBuildNumbers = ["26100", "26100.9550 Latest", "26100.9445 LTSC", "26200", "26200.9445 Latest", "26200.9445 LTSC", "28000.2954 Canary"];
 
                 function updateWarning() {
-                    if (warningBuildNumbers.includes(buildNumberDropdown.value)) {
-                        if (buildNumberDropdown.value.startsWith("26200")) {
+                    const selectedBuild = buildNumberDropdown.value;
+                    const meta = editionsmeta[selectedBuild];
+                    if (meta && meta.warn) {
+                        if (selectedBuild.startsWith("25h2")) {
                             warningMessage.innerHTML = "⚠️ 25H2 selected. Ensure your device supports it ⚠️";
-                        } else if (buildNumberDropdown.value.startsWith("28000")) {
+                        } else if (selectedBuild.startsWith("26h1")) {
                             warningMessage.innerHTML = "⚠️ 26H1 selected. Ensure your device supports it ⚠️";
-                        } else if (buildNumberDropdown.value.startsWith("26100")) {
+                        } else if (selectedBuild.startsWith("24h2")) {
                             warningMessage.innerHTML = "⚠️ 24H2 selected. Ensure your device supports it ⚠️";
                         }
                         warningMessage.style.display = "block";
@@ -1799,17 +1801,17 @@
                 (function selectBuildFromHash() {
                     const hash = location.hash.toLowerCase();
                     const buildMap = {
-                        '#25h2': '26200',
-                        '#25h2l': '26200.9445 Latest',
-                        '#26h1l': '28000.2954 Canary',
-                        '#25h2lt': '26200.9445 LTSC',
-                        '#24h2': '26100',
-                        '#24h2l': '26100.9550 Latest',
-                        '#24h2lt': '26100.9445 LTSC',
-                        '#23h2': '22631',
-                        '#23h2l': '22631.7584 Latest',
-                        '#22h2': '22621',
-                        '#21h2': '22000'
+                        '#25h2': '25h2',
+                        '#25h2l': '25h2-latest',
+                        '#26h1l': '26h1-canary',
+                        '#25h2lt': '25h2-ltsc',
+                        '#24h2': '24h2',
+                        '#24h2l': '24h2-latest',
+                        '#24h2lt': '24h2-ltsc',
+                        '#23h2': '23h2',
+                        '#23h2l': '23h2-latest',
+                        '#22h2': '22h2',
+                        '#21h2': '21h2'
                     };
                     if (buildMap[hash]) {
                         const buildDropdown = document.getElementById('buildNumber');
@@ -1915,7 +1917,8 @@
 
                     if (subtitleText) {
                         const referenceItem = osEditions.find(item => item.build && item.build !== "10.0.0.0") || osEditions[0] || allEditions[0];
-                        const currentBuild = (referenceItem?.build && referenceItem.build !== "10.0.0.0") ? referenceItem.build : document.getElementById('buildNumber').value.split(' ')[0];
+                        const selectedBuild = document.getElementById('buildNumber').value;
+                        const currentBuild = (referenceItem?.build && referenceItem.build !== "10.0.0.0") ? referenceItem.build : (editionsmeta[selectedBuild]?.buildNumber || selectedBuild);
                         const currentLang = (referenceItem?.lang && referenceItem.lang !== "N/A") ? referenceItem.lang : document.getElementById('language').value;
                         const currentArch = (referenceItem?.arch && referenceItem.arch !== "N/A") ? referenceItem.arch : "ARM64";
                         subtitleText.textContent = `${currentBuild}  ·  ${currentLang}  ·  ${currentArch}`;

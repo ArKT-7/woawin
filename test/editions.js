@@ -1,5 +1,74 @@
+const editionsmeta = {
+    "26h1-canary": {
+        "buildNumber": "28000.2954",
+        "label": "(26H1) CANARY",
+        "warn": true,
+        "selected": false
+    },
+    "25h2-latest": {
+        "buildNumber": "26200.9445",
+        "label": "(25H2) Latest",
+        "warn": true,
+        "selected": true
+    },
+    "25h2-ltsc": {
+        "buildNumber": "26200.9445",
+        "label": "(25H2) LTSC",
+        "warn": true,
+        "selected": false
+    },
+    "24h2-latest": {
+        "buildNumber": "26100.9550",
+        "label": "(24H2) Latest",
+        "warn": true,
+        "selected": false
+    },
+    "24h2-ltsc": {
+        "buildNumber": "26100.9445",
+        "label": "(24H2) LTSC",
+        "warn": true,
+        "selected": false
+    },
+    "23h2-latest": {
+        "buildNumber": "22631.7584",
+        "label": "(23H2) Latest",
+        "warn": false,
+        "selected": false
+    },
+    "25h2": {
+        "buildNumber": "26200.6899",
+        "label": "(25H2)",
+        "warn": true,
+        "selected": false
+    },
+    "24h2": {
+        "buildNumber": "26100.4349",
+        "label": "(24H2)",
+        "warn": true,
+        "selected": false
+    },
+    "23h2": {
+        "buildNumber": "22631.2861",
+        "label": "(23H2)",
+        "warn": false,
+        "selected": false
+    },
+    "22h2": {
+        "buildNumber": "22621.1702",
+        "label": "(22H2)",
+        "warn": false,
+        "selected": false
+    },
+    "21h2": {
+        "buildNumber": "22000.318",
+        "label": "(21H2)",
+        "warn": false,
+        "selected": false
+    }
+};
+
 const editions = {
-    "22631.7584 Latest": {
+    "23h2-latest": {
         "Professional": {
             "English (United States)": {
                 "esd": "https://drive.google.com/file/d/1bsTdi7PnQluR0nyPPd3g76hZsOMWfrBc/view?usp=drivesdk",
@@ -170,7 +239,7 @@ const editions = {
             }
         }
     },
-    "26100.9445 Latest": {
+    "24h2-latest": {
         "Professional": {
             "English (United States)": {
                 "esd": "https://drive.google.com/file/d/1J7525Ho19ja8RHajvuuRa-W5ydGgfKvH/view?usp=drivesdk",
@@ -341,7 +410,7 @@ const editions = {
             }
         }
     },
-    "28000.2954 Canary": {
+    "26h1-canary": {
         "Professional": {
             "English (United States)": {
                 "esd": "https://drive.google.com/file/d/1GIysEPAasdmIIiF9mO1cAjihWljf3aLN/view?usp=drivesdk",
@@ -414,7 +483,7 @@ const editions = {
             }
         }
     },
-    "26100.9445 LTSC": {
+    "24h2-ltsc": {
         "Professional": {
             "English (United States)": {
                 "esd": "https://drive.google.com/file/d/1eJZXjZICX8TydNMetTLXmUi9TZmg__F0/view?usp=drivesdk",
@@ -487,7 +556,7 @@ const editions = {
             }
         }
     },
-    "26200.9445 Latest": {
+    "25h2-latest": {
         "Professional": {
             "English (United States)": {
                 "esd": "https://drive.google.com/file/d/1wihY0OU_4mv9009pHt0UNHThgpn4sNEC/view?usp=drivesdk",
@@ -658,7 +727,7 @@ const editions = {
             }
         }
     },
-    "26200.9445 LTSC": {
+    "25h2-ltsc": {
         "Professional": {
             "English (United States)": {
                 "esd": "https://drive.google.com/file/d/1v3g5LWZ8xN0kJUH35c4tJyZ9Cn2OV44D/view?usp=drivesdk",
@@ -731,7 +800,7 @@ const editions = {
             }
         }
     },
-    "26200": {
+    "25h2": {
         "Professional": {
             "Italian (Italy)": {
                 "esd": "http://dl.delivery.mp.microsoft.com/filestreamingservice/files/9e9839be-65bf-4970-8db0-c626465c25d5/26200.6899.251011-1532.25h2_ge_release_svc_refresh_CLIENTCONSUMER_RET_A64FRE_it-it.esd",
@@ -3042,7 +3111,7 @@ const editions = {
             }
         }
     },
-    "26100": {
+    "24h2": {
         "Professional": {
             "French (Canada)": {
                 "esd": "http://dl.delivery.mp.microsoft.com/filestreamingservice/files/1aebef38-b4ec-4728-afc5-1804c88f7250/26100.4349.250607-1500.ge_release_svc_refresh_CLIENTCONSUMER_RET_A64FRE_fr-ca.esd",
@@ -5353,7 +5422,7 @@ const editions = {
             }
         }
     },
-    "22631": {
+    "23h2": {
         "Professional": {
             "Italian (Italy)": {
                 "esd": "http://dl.delivery.mp.microsoft.com/filestreamingservice/files/09af789c-3082-439c-8699-d22a3059b96e/22631.2861.231204-0538.23H2_NI_RELEASE_SVC_REFRESH_CLIENTCONSUMER_RET_A64FRE_it-it.esd",
@@ -7663,7 +7732,7 @@ const editions = {
             }
         }
     },
-    "22621": {
+    "22h2": {
         "Professional": {
             "Spanish (Spain, International Sort)": {
                 "esd": "http://dl.delivery.mp.microsoft.com/filestreamingservice/files/12d26ca9-8bc7-408d-9bcf-ba8446efbe29/22621.1702.230505-1222.ni_release_svc_refresh_CLIENTCONSUMER_RET_A64FRE_es-es.esd",
@@ -9973,7 +10042,7 @@ const editions = {
             }
         }
     },
-    "22000": {
+    "21h2": {
         "Professional": {
             "Chinese (Simplified, China)": {
                 "esd": "http://dl.delivery.mp.microsoft.com/filestreamingservice/files/9aa03b11-bb6a-4e5a-8da5-4eb4d888cf64/22000.318.211104-1236.co_release_svc_refresh_CLIENTCONSUMER_RET_A64FRE_zh-cn.esd",
