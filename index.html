@@ -1709,12 +1709,9 @@
                     const selectedBuild = buildNumberDropdown.value;
                     const meta = editionsmeta[selectedBuild];
                     if (meta && meta.warn) {
-                        if (selectedBuild.startsWith("25h2")) {
-                            warningMessage.innerHTML = "⚠️ 25H2 selected. Ensure your device supports it ⚠️";
-                        } else if (selectedBuild.startsWith("26h1")) {
-                            warningMessage.innerHTML = "⚠️ 26H1 selected. Ensure your device supports it ⚠️";
-                        } else if (selectedBuild.startsWith("24h2")) {
-                            warningMessage.innerHTML = "⚠️ 24H2 selected. Ensure your device supports it ⚠️";
+                        const verMatch = selectedBuild.match(/^\d\dh\d/i);
+                        if (verMatch) {
+                            warningMessage.innerHTML = "⚠️ " + verMatch[0].toUpperCase() + " selected. Ensure your device supports it ⚠️";
                         }
                         warningMessage.style.display = "block";
                     } else {
@@ -1782,9 +1779,9 @@
                 (function selectBuildFromHash() {
                     const hash = location.hash.toLowerCase();
                     const buildMap = {
+                        '#26h2': '26h2',
                         '#25h2': '25h2',
                         '#25h2l': '25h2-latest',
-                        '#26h1l': '26h1-canary',
                         '#25h2lt': '25h2-ltsc',
                         '#24h2': '24h2',
                         '#24h2l': '24h2-latest',
