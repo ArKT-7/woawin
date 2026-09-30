@@ -6,6 +6,8 @@
 
 ### 📥 Available Versions: ARM64 [`(Download Here!)`](https://arkt-7.github.io/woawin)
 
+- **26300.9550 (26H2) Latest - EN-US, RU-RU and ZH-CN**
+- **26300.9550 (26H2) `LTSC` - EN-US**
 - **26200.9550 (25H2) Latest - EN-US, RU-RU and ZH-CN**
 - **26200.9550 (25H2) `LTSC` - EN-US**
 - **26100.9550 (24H2) Latest - EN-US, RU-RU and ZH-CN**
@@ -25,6 +27,8 @@
 > [!IMPORTANT]
 > These x64 builds are **not** available on the woawin website, Please download them directly using the GitHub Release links below...
 
+- **26300.9550 (26H2) Latest - EN-US [`(Download Here!)`](https://github.com/ArKT-7/woawin/releases/tag/2026-09-30_062052)**
+- **26300.9550 (26H2) `LTSC` - EN-US [`(Download Here!)`](https://github.com/ArKT-7/woawin/releases/tag/2026-09-30_095343)**
 - **26200.9550 (25H2) Latest - EN-US [`(Download Here!)`](https://github.com/ArKT-7/woawin/releases/tag/2026-09-28_154131)**
 - **26200.9550 (25H2) `LTSC` - EN-US [`(Download Here!)`](https://github.com/ArKT-7/woawin/releases/tag/2026-09-28_220408)**
 - **26100.9550 (24H2) Latest - EN-US [`(Download Here!)`](https://github.com/ArKT-7/woawin/releases/tag/2026-09-28_135507)**

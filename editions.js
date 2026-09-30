@@ -1,9 +1,21 @@
 const editionsmeta = {
+    "26h2-latest": {
+        "buildNumber": "26300.9550",
+        "label": "(26H2) Latest",
+        "warn": true,
+        "selected": true
+    },
+    "26h2-ltsc": {
+        "buildNumber": "26300.9550",
+        "label": "(26H2) LTSC",
+        "warn": true,
+        "selected": false
+    },
     "25h2-latest": {
         "buildNumber": "26200.9550",
         "label": "(25H2) Latest",
         "warn": true,
-        "selected": true
+        "selected": false
     },
     "25h2-ltsc": {
         "buildNumber": "26200.9550",
@@ -727,6 +739,251 @@ const editions = {
             }
         }
     },
+    "26h2-latest": {
+        "Professional": {
+            "English (United States)": {
+                "esd": "https://drive.google.com/file/d/1b56gYMPnb75c3NLurlZ0INUK8KMfXpDC/view?usp=drivesdk",
+                "iso": "https://drive.google.com/file/d/1Y053_JAOoER-JNpKo7rj_qZicu8mubvD/view?usp=drivesdk",
+                "git": "https://github.com/ArKT-7/woawin/releases/tag/2026-09-29_230121",
+                "size": 5737129592,
+                "sha256": "a4bbdc612ed5984c78cb6c78d905db73a6746dff2e522c71e28aa7c29027369f",
+                "all_indexes": [
+                    {
+                        "index": 1,
+                        "name": "Windows 11 Pro",
+                        "edition_id": "Professional",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9550",
+                        "lang": "en-US",
+                        "size": 29635056344
+                    },
+                    {
+                        "index": 2,
+                        "name": "Windows 11 Pro",
+                        "edition_id": "Professional",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9550",
+                        "lang": "en-US",
+                        "size": 29635056344
+                    },
+                    {
+                        "index": 3,
+                        "name": "Windows 11 Pro",
+                        "edition_id": "Professional",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9550",
+                        "lang": "en-US",
+                        "size": 29635056344
+                    },
+                    {
+                        "index": 4,
+                        "name": "Windows 11 Home",
+                        "edition_id": "Core",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9550",
+                        "lang": "en-US",
+                        "size": 29131201491
+                    },
+                    {
+                        "index": 5,
+                        "name": "Windows 11 Pro",
+                        "edition_id": "Professional",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9550",
+                        "lang": "en-US",
+                        "size": 29635056344
+                    },
+                    {
+                        "index": 6,
+                        "name": "Windows 11 Pro",
+                        "edition_id": "Professional",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9550",
+                        "lang": "en-US",
+                        "size": 29635056344
+                    }
+                ]
+            },
+            "Russian (Russia)": {
+                "esd": "https://drive.google.com/file/d/1gI3SLFpexffnV5aTNn2tm15hE6GKAzPd/view?usp=drivesdk",
+                "iso": "https://drive.google.com/file/d/1MU351TZVgAp6z_WbNUfPifconcxgKxib/view?usp=drivesdk",
+                "git": "https://github.com/ArKT-7/woawin/releases/tag/2026-09-29_225257",
+                "size": 5658982812,
+                "sha256": "1ae732df9a9d115d1100df7f3e9e33992561ab280e8915ff6e57d2eadd2818ca",
+                "all_indexes": [
+                    {
+                        "index": 1,
+                        "name": "Windows 11 Pro",
+                        "edition_id": "Professional",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9550",
+                        "lang": "ru-RU",
+                        "size": 29701784934
+                    },
+                    {
+                        "index": 2,
+                        "name": "Windows 11 Pro",
+                        "edition_id": "Professional",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9550",
+                        "lang": "ru-RU",
+                        "size": 29701784934
+                    },
+                    {
+                        "index": 3,
+                        "name": "Windows 11 Pro",
+                        "edition_id": "Professional",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9550",
+                        "lang": "ru-RU",
+                        "size": 29701784934
+                    },
+                    {
+                        "index": 4,
+                        "name": "Windows 11 Home",
+                        "edition_id": "Core",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9550",
+                        "lang": "ru-RU",
+                        "size": 29188290827
+                    },
+                    {
+                        "index": 5,
+                        "name": "Windows 11 Pro",
+                        "edition_id": "Professional",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9550",
+                        "lang": "ru-RU",
+                        "size": 29701784934
+                    },
+                    {
+                        "index": 6,
+                        "name": "Windows 11 Pro",
+                        "edition_id": "Professional",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9550",
+                        "lang": "ru-RU",
+                        "size": 29701784934
+                    }
+                ]
+            },
+            "Chinese (Simplified, China)": {
+                "esd": "https://drive.google.com/file/d/1flsevEu4Yki-E8qPb_u5zJWJO-L9X2Ch/view?usp=drivesdk",
+                "iso": "https://drive.google.com/file/d/1sQ0XzmR_X54WqOWlTqZOuAf9I9vM4T2v/view?usp=drivesdk",
+                "git": "https://github.com/ArKT-7/woawin/releases/tag/2026-09-29_211725",
+                "size": 5841359554,
+                "sha256": "f962497787748ee4e48623b6630c651c64a0e4017e4374e5941a0b0ca86dd49e",
+                "all_indexes": [
+                    {
+                        "index": 1,
+                        "name": "Windows 11 Home China",
+                        "edition_id": "CoreCountrySpecific",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9550",
+                        "lang": "zh-CN",
+                        "size": 29912928860
+                    },
+                    {
+                        "index": 2,
+                        "name": "Windows 11 Pro",
+                        "edition_id": "Professional",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9550",
+                        "lang": "zh-CN",
+                        "size": 30400137155
+                    }
+                ]
+            }
+        }
+    },
+    "26h2-ltsc": {
+        "Professional": {
+            "English (United States)": {
+                "esd": "https://drive.google.com/file/d/1UO5RN7CBdBmApq77EfsHN9K-Hx-wW0rq/view?usp=drivesdk",
+                "iso": "https://drive.google.com/file/d/12S9AVI1i2etFvZbWWFz4jvCRJvIOuWQh/view?usp=drivesdk",
+                "git": "https://github.com/ArKT-7/woawin/releases/tag/2026-09-30_053639",
+                "size": 5183082524,
+                "sha256": "eb752f2e6c9f812a96e9a558f5ce39ae8bb4b3c9562a288dbcefb0546ffcbab8",
+                "all_indexes": [
+                    {
+                        "index": 1,
+                        "name": "Windows 11 IoT Enterprise LTSC",
+                        "edition_id": "IoTEnterpriseS",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9550",
+                        "lang": "en-US",
+                        "size": 27069178142
+                    },
+                    {
+                        "index": 2,
+                        "name": "Windows 11 IoT Enterprise LTSC",
+                        "edition_id": "IoTEnterpriseS",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9550",
+                        "lang": "en-US",
+                        "size": 27069178142
+                    },
+                    {
+                        "index": 3,
+                        "name": "Windows 11 IoT Enterprise LTSC",
+                        "edition_id": "IoTEnterpriseS",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9550",
+                        "lang": "en-US",
+                        "size": 27069178142
+                    },
+                    {
+                        "index": 4,
+                        "name": "Windows 11 Enterprise LTSC",
+                        "edition_id": "EnterpriseS",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9550",
+                        "lang": "en-US",
+                        "size": 27067110546
+                    },
+                    {
+                        "index": 5,
+                        "name": "Windows 11 IoT Enterprise LTSC",
+                        "edition_id": "IoTEnterpriseS",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9550",
+                        "lang": "en-US",
+                        "size": 27069178142
+                    },
+                    {
+                        "index": 6,
+                        "name": "Windows 11 IoT Enterprise LTSC",
+                        "edition_id": "IoTEnterpriseS",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9550",
+                        "lang": "en-US",
+                        "size": 27069178142
+                    }
+                ]
+            }
+        }
+    },
+
     "26h2": {
         "Professional": {
             "Slovenian (Slovenia)": {

@@ -1,7 +1,13 @@
 const editionsmeta = {
-    "26h1-canary": {
-        "buildNumber": "28000.3086",
-        "label": "(26H1) CANARY",
+    "26h2-latest": {
+        "buildNumber": "26300.9550",
+        "label": "(26H2) Latest",
+        "warn": true,
+        "selected": true
+    },
+    "26h2-ltsc": {
+        "buildNumber": "26300.9550",
+        "label": "(26H2) LTSC",
         "warn": true,
         "selected": false
     },
@@ -9,7 +15,7 @@ const editionsmeta = {
         "buildNumber": "26200.9550",
         "label": "(25H2) Latest",
         "warn": true,
-        "selected": true
+        "selected": false
     },
     "25h2-ltsc": {
         "buildNumber": "26200.9550",
@@ -33,6 +39,12 @@ const editionsmeta = {
         "buildNumber": "22631.7584",
         "label": "(23H2) Latest",
         "warn": false,
+        "selected": false
+    },
+    "26h2": {
+        "buildNumber": "26300.9457",
+        "label": "(26H2)",
+        "warn": true,
         "selected": false
     },
     "25h2": {
@@ -410,79 +422,6 @@ const editions = {
             }
         }
     },
-    "26h1-canary": {
-        "Professional": {
-            "English (United States)": {
-                "esd": "https://drive.google.com/file/d/14NuF3QArR_WmKs5g7zzF5NoaCzDQwk0E/view?usp=drivesdk",
-                "iso": "https://drive.google.com/file/d/1NlqIySAYCqgna269-hfqWzQJ6xcojozw/view?usp=drivesdk",
-                "git": "https://github.com/ArKT-7/woawin/releases/tag/2026-09-28_224638",
-                "size": 5619181052,
-                "sha256": "a1dab48bcc5624807da60159b6d44832147dd9391119531e22b68f92361d26a5",
-                "all_indexes": [
-                    {
-                        "index": 1,
-                        "name": "Windows 11 Pro",
-                        "edition_id": "Professional",
-                        "type": "Operating System",
-                        "arch": "ARM64",
-                        "build": "28000.3086",
-                        "lang": "en-US",
-                        "size": 28599065126
-                    },
-                    {
-                        "index": 2,
-                        "name": "Windows 11 Pro",
-                        "edition_id": "Professional",
-                        "type": "Operating System",
-                        "arch": "ARM64",
-                        "build": "28000.3086",
-                        "lang": "en-US",
-                        "size": 28599065126
-                    },
-                    {
-                        "index": 3,
-                        "name": "Windows 11 Pro",
-                        "edition_id": "Professional",
-                        "type": "Operating System",
-                        "arch": "ARM64",
-                        "build": "28000.3086",
-                        "lang": "en-US",
-                        "size": 28599065126
-                    },
-                    {
-                        "index": 4,
-                        "name": "Windows 11 Pro",
-                        "edition_id": "Professional",
-                        "type": "Operating System",
-                        "arch": "ARM64",
-                        "build": "28000.3086",
-                        "lang": "en-US",
-                        "size": 28599065126
-                    },
-                    {
-                        "index": 5,
-                        "name": "Windows 11 Pro",
-                        "edition_id": "Professional",
-                        "type": "Operating System",
-                        "arch": "ARM64",
-                        "build": "28000.3086",
-                        "lang": "en-US",
-                        "size": 28599065126
-                    },
-                    {
-                        "index": 6,
-                        "name": "Windows 11 Pro",
-                        "edition_id": "Professional",
-                        "type": "Operating System",
-                        "arch": "ARM64",
-                        "build": "28000.3086",
-                        "lang": "en-US",
-                        "size": 28599065126
-                    }
-                ]
-            }
-        }
-    },
     "24h2-ltsc": {
         "Professional": {
             "English (United States)": {
@@ -800,6 +739,2561 @@ const editions = {
             }
         }
     },
+    "26h2-latest": {
+        "Professional": {
+            "English (United States)": {
+                "esd": "https://drive.google.com/file/d/1b56gYMPnb75c3NLurlZ0INUK8KMfXpDC/view?usp=drivesdk",
+                "iso": "https://drive.google.com/file/d/1Y053_JAOoER-JNpKo7rj_qZicu8mubvD/view?usp=drivesdk",
+                "git": "https://github.com/ArKT-7/woawin/releases/tag/2026-09-29_230121",
+                "size": 5737129592,
+                "sha256": "a4bbdc612ed5984c78cb6c78d905db73a6746dff2e522c71e28aa7c29027369f",
+                "all_indexes": [
+                    {
+                        "index": 1,
+                        "name": "Windows 11 Pro",
+                        "edition_id": "Professional",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9550",
+                        "lang": "en-US",
+                        "size": 29635056344
+                    },
+                    {
+                        "index": 2,
+                        "name": "Windows 11 Pro",
+                        "edition_id": "Professional",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9550",
+                        "lang": "en-US",
+                        "size": 29635056344
+                    },
+                    {
+                        "index": 3,
+                        "name": "Windows 11 Pro",
+                        "edition_id": "Professional",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9550",
+                        "lang": "en-US",
+                        "size": 29635056344
+                    },
+                    {
+                        "index": 4,
+                        "name": "Windows 11 Home",
+                        "edition_id": "Core",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9550",
+                        "lang": "en-US",
+                        "size": 29131201491
+                    },
+                    {
+                        "index": 5,
+                        "name": "Windows 11 Pro",
+                        "edition_id": "Professional",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9550",
+                        "lang": "en-US",
+                        "size": 29635056344
+                    },
+                    {
+                        "index": 6,
+                        "name": "Windows 11 Pro",
+                        "edition_id": "Professional",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9550",
+                        "lang": "en-US",
+                        "size": 29635056344
+                    }
+                ]
+            },
+            "Russian (Russia)": {
+                "esd": "https://drive.google.com/file/d/1gI3SLFpexffnV5aTNn2tm15hE6GKAzPd/view?usp=drivesdk",
+                "iso": "https://drive.google.com/file/d/1MU351TZVgAp6z_WbNUfPifconcxgKxib/view?usp=drivesdk",
+                "git": "https://github.com/ArKT-7/woawin/releases/tag/2026-09-29_225257",
+                "size": 5658982812,
+                "sha256": "1ae732df9a9d115d1100df7f3e9e33992561ab280e8915ff6e57d2eadd2818ca",
+                "all_indexes": [
+                    {
+                        "index": 1,
+                        "name": "Windows 11 Pro",
+                        "edition_id": "Professional",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9550",
+                        "lang": "ru-RU",
+                        "size": 29701784934
+                    },
+                    {
+                        "index": 2,
+                        "name": "Windows 11 Pro",
+                        "edition_id": "Professional",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9550",
+                        "lang": "ru-RU",
+                        "size": 29701784934
+                    },
+                    {
+                        "index": 3,
+                        "name": "Windows 11 Pro",
+                        "edition_id": "Professional",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9550",
+                        "lang": "ru-RU",
+                        "size": 29701784934
+                    },
+                    {
+                        "index": 4,
+                        "name": "Windows 11 Home",
+                        "edition_id": "Core",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9550",
+                        "lang": "ru-RU",
+                        "size": 29188290827
+                    },
+                    {
+                        "index": 5,
+                        "name": "Windows 11 Pro",
+                        "edition_id": "Professional",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9550",
+                        "lang": "ru-RU",
+                        "size": 29701784934
+                    },
+                    {
+                        "index": 6,
+                        "name": "Windows 11 Pro",
+                        "edition_id": "Professional",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9550",
+                        "lang": "ru-RU",
+                        "size": 29701784934
+                    }
+                ]
+            },
+            "Chinese (Simplified, China)": {
+                "esd": "https://drive.google.com/file/d/1flsevEu4Yki-E8qPb_u5zJWJO-L9X2Ch/view?usp=drivesdk",
+                "iso": "https://drive.google.com/file/d/1sQ0XzmR_X54WqOWlTqZOuAf9I9vM4T2v/view?usp=drivesdk",
+                "git": "https://github.com/ArKT-7/woawin/releases/tag/2026-09-29_211725",
+                "size": 5841359554,
+                "sha256": "f962497787748ee4e48623b6630c651c64a0e4017e4374e5941a0b0ca86dd49e",
+                "all_indexes": [
+                    {
+                        "index": 1,
+                        "name": "Windows 11 Home China",
+                        "edition_id": "CoreCountrySpecific",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9550",
+                        "lang": "zh-CN",
+                        "size": 29912928860
+                    },
+                    {
+                        "index": 2,
+                        "name": "Windows 11 Pro",
+                        "edition_id": "Professional",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9550",
+                        "lang": "zh-CN",
+                        "size": 30400137155
+                    }
+                ]
+            }
+        }
+    },
+    "26h2-ltsc": {
+        "Professional": {
+            "English (United States)": {
+                "esd": "https://drive.google.com/file/d/1UO5RN7CBdBmApq77EfsHN9K-Hx-wW0rq/view?usp=drivesdk",
+                "iso": "https://drive.google.com/file/d/12S9AVI1i2etFvZbWWFz4jvCRJvIOuWQh/view?usp=drivesdk",
+                "git": "https://github.com/ArKT-7/woawin/releases/tag/2026-09-30_053639",
+                "size": 5183082524,
+                "sha256": "eb752f2e6c9f812a96e9a558f5ce39ae8bb4b3c9562a288dbcefb0546ffcbab8",
+                "all_indexes": [
+                    {
+                        "index": 1,
+                        "name": "Windows 11 IoT Enterprise LTSC",
+                        "edition_id": "IoTEnterpriseS",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9550",
+                        "lang": "en-US",
+                        "size": 27069178142
+                    },
+                    {
+                        "index": 2,
+                        "name": "Windows 11 IoT Enterprise LTSC",
+                        "edition_id": "IoTEnterpriseS",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9550",
+                        "lang": "en-US",
+                        "size": 27069178142
+                    },
+                    {
+                        "index": 3,
+                        "name": "Windows 11 IoT Enterprise LTSC",
+                        "edition_id": "IoTEnterpriseS",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9550",
+                        "lang": "en-US",
+                        "size": 27069178142
+                    },
+                    {
+                        "index": 4,
+                        "name": "Windows 11 Enterprise LTSC",
+                        "edition_id": "EnterpriseS",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9550",
+                        "lang": "en-US",
+                        "size": 27067110546
+                    },
+                    {
+                        "index": 5,
+                        "name": "Windows 11 IoT Enterprise LTSC",
+                        "edition_id": "IoTEnterpriseS",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9550",
+                        "lang": "en-US",
+                        "size": 27069178142
+                    },
+                    {
+                        "index": 6,
+                        "name": "Windows 11 IoT Enterprise LTSC",
+                        "edition_id": "IoTEnterpriseS",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9550",
+                        "lang": "en-US",
+                        "size": 27069178142
+                    }
+                ]
+            }
+        }
+    },
+
+    "26h2": {
+        "Professional": {
+            "Slovenian (Slovenia)": {
+                "esd": "http://dl.delivery.mp.microsoft.com/filestreamingservice/files/3ed9311c-5f02-400a-ad2d-91c1709d300b/26300.9457.260913-1737.26h2_ge_release_svc_refresh_CLIENTCONSUMER_RET_A64FRE_sl-si.esd",
+                "size": 5923035775,
+                "sha256": "fb03bc341fa78cc8bb197a45f0d593455030bcb401e57bd3645b17b2b3f0d663",
+                "all_indexes": [
+                    {
+                        "index": 1,
+                        "name": "Windows Setup Media",
+                        "edition_id": "Unknown",
+                        "type": "Operating System",
+                        "arch": "?",
+                        "build": "10.0.0.0",
+                        "lang": "N/A",
+                        "size": 283237554
+                    },
+                    {
+                        "index": 2,
+                        "name": "Windows Setup / PE Environment",
+                        "edition_id": "WindowsPE",
+                        "type": "Boot / Setup Media",
+                        "arch": "ARM64",
+                        "build": "26100.9457",
+                        "lang": "sl-SI",
+                        "size": 2510842339
+                    },
+                    {
+                        "index": 3,
+                        "name": "Windows Setup / PE Environment",
+                        "edition_id": "WindowsPE",
+                        "type": "Boot / Setup Media",
+                        "arch": "ARM64",
+                        "build": "26100.9457",
+                        "lang": "sl-SI",
+                        "size": 2638485231
+                    },
+                    {
+                        "index": 4,
+                        "name": "Windows 11 Home",
+                        "edition_id": "Core",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "sl-SI",
+                        "size": 27186763259
+                    },
+                    {
+                        "index": 5,
+                        "name": "Windows 11 Pro",
+                        "edition_id": "Professional",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "sl-SI",
+                        "size": 27991939120
+                    }
+                ]
+            },
+            "French (France)": {
+                "esd": "http://dl.delivery.mp.microsoft.com/filestreamingservice/files/16735e07-e149-4e5b-abfb-cda2d06aeadc/26300.9457.260913-1737.26h2_ge_release_svc_refresh_CLIENTCONSUMER_RET_A64FRE_fr-fr.esd",
+                "size": 6047268780,
+                "sha256": "39c4aea419aa24a51e254e9362b570fe367df5b2fef1ce00ccf82de9737e30ba",
+                "all_indexes": [
+                    {
+                        "index": 1,
+                        "name": "Windows Setup Media",
+                        "edition_id": "Unknown",
+                        "type": "Operating System",
+                        "arch": "?",
+                        "build": "10.0.0.0",
+                        "lang": "N/A",
+                        "size": 283612636
+                    },
+                    {
+                        "index": 2,
+                        "name": "Windows Setup / PE Environment",
+                        "edition_id": "WindowsPE",
+                        "type": "Boot / Setup Media",
+                        "arch": "ARM64",
+                        "build": "26100.9457",
+                        "lang": "fr-FR",
+                        "size": 2556100143
+                    },
+                    {
+                        "index": 3,
+                        "name": "Windows Setup / PE Environment",
+                        "edition_id": "WindowsPE",
+                        "type": "Boot / Setup Media",
+                        "arch": "ARM64",
+                        "build": "26100.9457",
+                        "lang": "fr-FR",
+                        "size": 2681334866
+                    },
+                    {
+                        "index": 4,
+                        "name": "Windows 11 Home",
+                        "edition_id": "Core",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "fr-FR",
+                        "size": 27609092802
+                    },
+                    {
+                        "index": 5,
+                        "name": "Windows 11 Home Single Language",
+                        "edition_id": "CoreSingleLanguage",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "fr-FR",
+                        "size": 27569591436
+                    },
+                    {
+                        "index": 6,
+                        "name": "Windows 11 Pro",
+                        "edition_id": "Professional",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "fr-FR",
+                        "size": 28422726327
+                    }
+                ]
+            },
+            "Chinese (China)": {
+                "esd": "http://dl.delivery.mp.microsoft.com/filestreamingservice/files/8949468f-a841-4160-aaa7-ef2a9cb1f749/26300.9457.260913-1737.26h2_ge_release_svc_refresh_CLIENTCONSUMER_RET_A64FRE_zh-cn.esd",
+                "size": 6275953928,
+                "sha256": "c0858fd607485d6fdd5df41a07bb59a3b838e12885bf682a11582db3bf8ea793",
+                "all_indexes": [
+                    {
+                        "index": 1,
+                        "name": "Windows Setup Media",
+                        "edition_id": "Unknown",
+                        "type": "Operating System",
+                        "arch": "?",
+                        "build": "10.0.0.0",
+                        "lang": "N/A",
+                        "size": 281933802
+                    },
+                    {
+                        "index": 2,
+                        "name": "Windows Setup / PE Environment",
+                        "edition_id": "WindowsPE",
+                        "type": "Boot / Setup Media",
+                        "arch": "ARM64",
+                        "build": "26100.9457",
+                        "lang": "zh-CN",
+                        "size": 2731573686
+                    },
+                    {
+                        "index": 3,
+                        "name": "Windows Setup / PE Environment",
+                        "edition_id": "WindowsPE",
+                        "type": "Boot / Setup Media",
+                        "arch": "ARM64",
+                        "build": "26100.9457",
+                        "lang": "zh-CN",
+                        "size": 2858789688
+                    },
+                    {
+                        "index": 4,
+                        "name": "Windows 11 Home",
+                        "edition_id": "Core",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "zh-CN",
+                        "size": 28238083320
+                    },
+                    {
+                        "index": 5,
+                        "name": "Windows 11 Home Single Language",
+                        "edition_id": "CoreSingleLanguage",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "zh-CN",
+                        "size": 28216935106
+                    },
+                    {
+                        "index": 6,
+                        "name": "Windows 11 Pro",
+                        "edition_id": "Professional",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "zh-CN",
+                        "size": 29038925298
+                    }
+                ]
+            },
+            "Dutch (Netherlands)": {
+                "esd": "http://dl.delivery.mp.microsoft.com/filestreamingservice/files/f7ec4967-f4a9-4fa4-8f8a-f048b439a3d0/26300.9457.260913-1737.26h2_ge_release_svc_refresh_CLIENTCONSUMER_RET_A64FRE_nl-nl.esd",
+                "size": 5946481382,
+                "sha256": "4d5a15d051419211365fc0ed5b32340d8788fe63074bc69717aa341a1bd0704e",
+                "all_indexes": [
+                    {
+                        "index": 1,
+                        "name": "Windows Setup Media",
+                        "edition_id": "Unknown",
+                        "type": "Operating System",
+                        "arch": "?",
+                        "build": "10.0.0.0",
+                        "lang": "N/A",
+                        "size": 283473334
+                    },
+                    {
+                        "index": 2,
+                        "name": "Windows Setup / PE Environment",
+                        "edition_id": "WindowsPE",
+                        "type": "Boot / Setup Media",
+                        "arch": "ARM64",
+                        "build": "26100.9457",
+                        "lang": "nl-NL",
+                        "size": 2514071448
+                    },
+                    {
+                        "index": 3,
+                        "name": "Windows Setup / PE Environment",
+                        "edition_id": "WindowsPE",
+                        "type": "Boot / Setup Media",
+                        "arch": "ARM64",
+                        "build": "26100.9457",
+                        "lang": "nl-NL",
+                        "size": 2641731919
+                    },
+                    {
+                        "index": 4,
+                        "name": "Windows 11 Home",
+                        "edition_id": "Core",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "nl-NL",
+                        "size": 27324915139
+                    },
+                    {
+                        "index": 5,
+                        "name": "Windows 11 Pro",
+                        "edition_id": "Professional",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "nl-NL",
+                        "size": 28120242201
+                    }
+                ]
+            },
+            "Croatian (Croatia)": {
+                "esd": "http://dl.delivery.mp.microsoft.com/filestreamingservice/files/6ce8ab10-f396-43a5-96d3-037d2f39efb5/26300.9457.260913-1737.26h2_ge_release_svc_refresh_CLIENTCONSUMER_RET_A64FRE_hr-hr.esd",
+                "size": 5927852549,
+                "sha256": "4f59fe7990ab9965ee491f9fcb40cc1c8544f66aa8659cf8e38d2c461b78a87c",
+                "all_indexes": [
+                    {
+                        "index": 1,
+                        "name": "Windows Setup Media",
+                        "edition_id": "Unknown",
+                        "type": "Operating System",
+                        "arch": "?",
+                        "build": "10.0.0.0",
+                        "lang": "N/A",
+                        "size": 283246106
+                    },
+                    {
+                        "index": 2,
+                        "name": "Windows Setup / PE Environment",
+                        "edition_id": "WindowsPE",
+                        "type": "Boot / Setup Media",
+                        "arch": "ARM64",
+                        "build": "26100.9457",
+                        "lang": "hr-HR",
+                        "size": 2513425677
+                    },
+                    {
+                        "index": 3,
+                        "name": "Windows Setup / PE Environment",
+                        "edition_id": "WindowsPE",
+                        "type": "Boot / Setup Media",
+                        "arch": "ARM64",
+                        "build": "26100.9457",
+                        "lang": "hr-HR",
+                        "size": 2638614825
+                    },
+                    {
+                        "index": 4,
+                        "name": "Windows 11 Home",
+                        "edition_id": "Core",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "hr-HR",
+                        "size": 27166871891
+                    },
+                    {
+                        "index": 5,
+                        "name": "Windows 11 Pro",
+                        "edition_id": "Professional",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "hr-HR",
+                        "size": 27977553809
+                    }
+                ]
+            },
+            "Russian (Russia)": {
+                "esd": "http://dl.delivery.mp.microsoft.com/filestreamingservice/files/be06dee7-6f2a-43ae-ab5b-494d173841ed/26300.9457.260913-1737.26h2_ge_release_svc_refresh_CLIENTCONSUMER_RET_A64FRE_ru-ru.esd",
+                "size": 6015404121,
+                "sha256": "7411c720a5e72b34d49f12b58cde46b8fb3218ac268faf984d7bb69549e06960",
+                "all_indexes": [
+                    {
+                        "index": 1,
+                        "name": "Windows Setup Media",
+                        "edition_id": "Unknown",
+                        "type": "Operating System",
+                        "arch": "?",
+                        "build": "10.0.0.0",
+                        "lang": "N/A",
+                        "size": 283460687
+                    },
+                    {
+                        "index": 2,
+                        "name": "Windows Setup / PE Environment",
+                        "edition_id": "WindowsPE",
+                        "type": "Boot / Setup Media",
+                        "arch": "ARM64",
+                        "build": "26100.9457",
+                        "lang": "ru-RU",
+                        "size": 2563211202
+                    },
+                    {
+                        "index": 3,
+                        "name": "Windows Setup / PE Environment",
+                        "edition_id": "WindowsPE",
+                        "type": "Boot / Setup Media",
+                        "arch": "ARM64",
+                        "build": "26100.9457",
+                        "lang": "ru-RU",
+                        "size": 2688635613
+                    },
+                    {
+                        "index": 4,
+                        "name": "Windows 11 Home",
+                        "edition_id": "Core",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "ru-RU",
+                        "size": 27503272604
+                    },
+                    {
+                        "index": 5,
+                        "name": "Windows 11 Home Single Language",
+                        "edition_id": "CoreSingleLanguage",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "ru-RU",
+                        "size": 27482525798
+                    },
+                    {
+                        "index": 6,
+                        "name": "Windows 11 Pro",
+                        "edition_id": "Professional",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "ru-RU",
+                        "size": 28300155199
+                    }
+                ]
+            },
+            "Spanish (Mexico)": {
+                "esd": "http://dl.delivery.mp.microsoft.com/filestreamingservice/files/55c59351-ae3d-4a82-8ef1-c40a1a6db70c/26300.9457.260913-1737.26h2_ge_release_svc_refresh_CLIENTCONSUMER_RET_A64FRE_es-mx.esd",
+                "size": 6016109399,
+                "sha256": "9f0f0c2baa6c634e3b7efb9d54f63d3c7730fb005a98e5f16bfcd87750fbaaad",
+                "all_indexes": [
+                    {
+                        "index": 1,
+                        "name": "Windows Setup Media",
+                        "edition_id": "Unknown",
+                        "type": "Operating System",
+                        "arch": "?",
+                        "build": "10.0.0.0",
+                        "lang": "N/A",
+                        "size": 283274081
+                    },
+                    {
+                        "index": 2,
+                        "name": "Windows Setup / PE Environment",
+                        "edition_id": "WindowsPE",
+                        "type": "Boot / Setup Media",
+                        "arch": "ARM64",
+                        "build": "26100.9457",
+                        "lang": "es-MX",
+                        "size": 2554644773
+                    },
+                    {
+                        "index": 3,
+                        "name": "Windows Setup / PE Environment",
+                        "edition_id": "WindowsPE",
+                        "type": "Boot / Setup Media",
+                        "arch": "ARM64",
+                        "build": "26100.9457",
+                        "lang": "es-MX",
+                        "size": 2679806395
+                    },
+                    {
+                        "index": 4,
+                        "name": "Windows 11 Home",
+                        "edition_id": "Core",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "es-MX",
+                        "size": 27466308297
+                    },
+                    {
+                        "index": 5,
+                        "name": "Windows 11 Home Single Language",
+                        "edition_id": "CoreSingleLanguage",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "es-MX",
+                        "size": 27426799763
+                    },
+                    {
+                        "index": 6,
+                        "name": "Windows 11 Pro",
+                        "edition_id": "Professional",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "es-MX",
+                        "size": 28278407633
+                    }
+                ]
+            },
+            "Polish (Poland)": {
+                "esd": "http://dl.delivery.mp.microsoft.com/filestreamingservice/files/2ea229bf-816b-4e0a-a594-1bc4c6e85144/26300.9457.260913-1737.26h2_ge_release_svc_refresh_CLIENTCONSUMER_RET_A64FRE_pl-pl.esd",
+                "size": 5974384773,
+                "sha256": "bb14c5a8694ccecb43df1d460c0034827846d7fbb89638047f2c14d880fc0b1c",
+                "all_indexes": [
+                    {
+                        "index": 1,
+                        "name": "Windows Setup Media",
+                        "edition_id": "Unknown",
+                        "type": "Operating System",
+                        "arch": "?",
+                        "build": "10.0.0.0",
+                        "lang": "N/A",
+                        "size": 283522513
+                    },
+                    {
+                        "index": 2,
+                        "name": "Windows Setup / PE Environment",
+                        "edition_id": "WindowsPE",
+                        "type": "Boot / Setup Media",
+                        "arch": "ARM64",
+                        "build": "26100.9457",
+                        "lang": "pl-PL",
+                        "size": 2542664488
+                    },
+                    {
+                        "index": 3,
+                        "name": "Windows Setup / PE Environment",
+                        "edition_id": "WindowsPE",
+                        "type": "Boot / Setup Media",
+                        "arch": "ARM64",
+                        "build": "26100.9457",
+                        "lang": "pl-PL",
+                        "size": 2667796329
+                    },
+                    {
+                        "index": 4,
+                        "name": "Windows 11 Home",
+                        "edition_id": "Core",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "pl-PL",
+                        "size": 27323767405
+                    },
+                    {
+                        "index": 5,
+                        "name": "Windows 11 Pro",
+                        "edition_id": "Professional",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "pl-PL",
+                        "size": 28135155117
+                    }
+                ]
+            },
+            "French (Canada)": {
+                "esd": "http://dl.delivery.mp.microsoft.com/filestreamingservice/files/c6ec2fbe-ad3c-46b1-ae61-6253b1252210/26300.9457.260913-1737.26h2_ge_release_svc_refresh_CLIENTCONSUMER_RET_A64FRE_fr-ca.esd",
+                "size": 6007125884,
+                "sha256": "6d98c58c907139fb50eee831a601442d1fc62bf72e8a189e54abe71860046f49",
+                "all_indexes": [
+                    {
+                        "index": 1,
+                        "name": "Windows Setup Media",
+                        "edition_id": "Unknown",
+                        "type": "Operating System",
+                        "arch": "?",
+                        "build": "10.0.0.0",
+                        "lang": "N/A",
+                        "size": 283327841
+                    },
+                    {
+                        "index": 2,
+                        "name": "Windows Setup / PE Environment",
+                        "edition_id": "WindowsPE",
+                        "type": "Boot / Setup Media",
+                        "arch": "ARM64",
+                        "build": "26100.9457",
+                        "lang": "fr-CA",
+                        "size": 2546680929
+                    },
+                    {
+                        "index": 3,
+                        "name": "Windows Setup / PE Environment",
+                        "edition_id": "WindowsPE",
+                        "type": "Boot / Setup Media",
+                        "arch": "ARM64",
+                        "build": "26100.9457",
+                        "lang": "fr-CA",
+                        "size": 2674362195
+                    },
+                    {
+                        "index": 4,
+                        "name": "Windows 11 Home",
+                        "edition_id": "Core",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "fr-CA",
+                        "size": 27443326557
+                    },
+                    {
+                        "index": 5,
+                        "name": "Windows 11 Pro",
+                        "edition_id": "Professional",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "fr-CA",
+                        "size": 28230643961
+                    }
+                ]
+            },
+            "Swedish (Sweden)": {
+                "esd": "http://dl.delivery.mp.microsoft.com/filestreamingservice/files/9154982a-4e72-418c-8ff3-9717e0da511d/26300.9457.260913-1737.26h2_ge_release_svc_refresh_CLIENTCONSUMER_RET_A64FRE_sv-se.esd",
+                "size": 5945389329,
+                "sha256": "8a6fb553512ac9b96316982c3a52af3bad3dbe8d37a50dc7b6040c979eb120c3",
+                "all_indexes": [
+                    {
+                        "index": 1,
+                        "name": "Windows Setup Media",
+                        "edition_id": "Unknown",
+                        "type": "Operating System",
+                        "arch": "?",
+                        "build": "10.0.0.0",
+                        "lang": "N/A",
+                        "size": 283292556
+                    },
+                    {
+                        "index": 2,
+                        "name": "Windows Setup / PE Environment",
+                        "edition_id": "WindowsPE",
+                        "type": "Boot / Setup Media",
+                        "arch": "ARM64",
+                        "build": "26100.9457",
+                        "lang": "sv-SE",
+                        "size": 2511824181
+                    },
+                    {
+                        "index": 3,
+                        "name": "Windows Setup / PE Environment",
+                        "edition_id": "WindowsPE",
+                        "type": "Boot / Setup Media",
+                        "arch": "ARM64",
+                        "build": "26100.9457",
+                        "lang": "sv-SE",
+                        "size": 2639435560
+                    },
+                    {
+                        "index": 4,
+                        "name": "Windows 11 Home",
+                        "edition_id": "Core",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "sv-SE",
+                        "size": 27313427484
+                    },
+                    {
+                        "index": 5,
+                        "name": "Windows 11 Pro",
+                        "edition_id": "Professional",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "sv-SE",
+                        "size": 28134371931
+                    }
+                ]
+            },
+            "Finnish (Finland)": {
+                "esd": "http://dl.delivery.mp.microsoft.com/filestreamingservice/files/429b4740-d437-4503-ace9-afe0d51180ef/26300.9457.260913-1737.26h2_ge_release_svc_refresh_CLIENTCONSUMER_RET_A64FRE_fi-fi.esd",
+                "size": 5939668283,
+                "sha256": "37b608d2090138c6cacf5395a7e06ac62f0f718dc65d33552b28486f9f24bc16",
+                "all_indexes": [
+                    {
+                        "index": 1,
+                        "name": "Windows Setup Media",
+                        "edition_id": "Unknown",
+                        "type": "Operating System",
+                        "arch": "?",
+                        "build": "10.0.0.0",
+                        "lang": "N/A",
+                        "size": 283266245
+                    },
+                    {
+                        "index": 2,
+                        "name": "Windows Setup / PE Environment",
+                        "edition_id": "WindowsPE",
+                        "type": "Boot / Setup Media",
+                        "arch": "ARM64",
+                        "build": "26100.9457",
+                        "lang": "fi-FI",
+                        "size": 2511992591
+                    },
+                    {
+                        "index": 3,
+                        "name": "Windows Setup / PE Environment",
+                        "edition_id": "WindowsPE",
+                        "type": "Boot / Setup Media",
+                        "arch": "ARM64",
+                        "build": "26100.9457",
+                        "lang": "fi-FI",
+                        "size": 2639596454
+                    },
+                    {
+                        "index": 4,
+                        "name": "Windows 11 Home",
+                        "edition_id": "Core",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "fi-FI",
+                        "size": 27302131313
+                    },
+                    {
+                        "index": 5,
+                        "name": "Windows 11 Pro",
+                        "edition_id": "Professional",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "fi-FI",
+                        "size": 28123131403
+                    }
+                ]
+            },
+            "Bulgarian (Bulgaria)": {
+                "esd": "http://dl.delivery.mp.microsoft.com/filestreamingservice/files/84cca48d-42b1-4c41-b87f-ff1b7a151719/26300.9457.260913-1737.26h2_ge_release_svc_refresh_CLIENTCONSUMER_RET_A64FRE_bg-bg.esd",
+                "size": 5964468481,
+                "sha256": "1ab518bc22aecc740e43974eda9e669fb768ed59e121b1b4e8a349b72145c162",
+                "all_indexes": [
+                    {
+                        "index": 1,
+                        "name": "Windows Setup Media",
+                        "edition_id": "Unknown",
+                        "type": "Operating System",
+                        "arch": "?",
+                        "build": "10.0.0.0",
+                        "lang": "N/A",
+                        "size": 283337463
+                    },
+                    {
+                        "index": 2,
+                        "name": "Windows Setup / PE Environment",
+                        "edition_id": "WindowsPE",
+                        "type": "Boot / Setup Media",
+                        "arch": "ARM64",
+                        "build": "26100.9457",
+                        "lang": "bg-BG",
+                        "size": 2517253343
+                    },
+                    {
+                        "index": 3,
+                        "name": "Windows Setup / PE Environment",
+                        "edition_id": "WindowsPE",
+                        "type": "Boot / Setup Media",
+                        "arch": "ARM64",
+                        "build": "26100.9457",
+                        "lang": "bg-BG",
+                        "size": 2645235338
+                    },
+                    {
+                        "index": 4,
+                        "name": "Windows 11 Home",
+                        "edition_id": "Core",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "bg-BG",
+                        "size": 27284045455
+                    },
+                    {
+                        "index": 5,
+                        "name": "Windows 11 Pro",
+                        "edition_id": "Professional",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "bg-BG",
+                        "size": 28098293927
+                    }
+                ]
+            },
+            "Turkish (T\u00fcrkiye)": {
+                "esd": "http://dl.delivery.mp.microsoft.com/filestreamingservice/files/2c69a239-2035-4efb-a4ae-d921281fd1be/26300.9457.260913-1737.26h2_ge_release_svc_refresh_CLIENTCONSUMER_RET_A64FRE_tr-tr.esd",
+                "size": 5982343159,
+                "sha256": "c9879e9d7a1f11495122acfb919f3d11db46c66ef539b31762c8c1eebf09a357",
+                "all_indexes": [
+                    {
+                        "index": 1,
+                        "name": "Windows Setup Media",
+                        "edition_id": "Unknown",
+                        "type": "Operating System",
+                        "arch": "?",
+                        "build": "10.0.0.0",
+                        "lang": "N/A",
+                        "size": 283224963
+                    },
+                    {
+                        "index": 2,
+                        "name": "Windows Setup / PE Environment",
+                        "edition_id": "WindowsPE",
+                        "type": "Boot / Setup Media",
+                        "arch": "ARM64",
+                        "build": "26100.9457",
+                        "lang": "tr-TR",
+                        "size": 2511147373
+                    },
+                    {
+                        "index": 3,
+                        "name": "Windows Setup / PE Environment",
+                        "edition_id": "WindowsPE",
+                        "type": "Boot / Setup Media",
+                        "arch": "ARM64",
+                        "build": "26100.9457",
+                        "lang": "tr-TR",
+                        "size": 2638741548
+                    },
+                    {
+                        "index": 4,
+                        "name": "Windows 11 Home",
+                        "edition_id": "Core",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "tr-TR",
+                        "size": 27277902354
+                    },
+                    {
+                        "index": 5,
+                        "name": "Windows 11 Home Single Language",
+                        "edition_id": "CoreSingleLanguage",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "tr-TR",
+                        "size": 27275567068
+                    },
+                    {
+                        "index": 6,
+                        "name": "Windows 11 Pro",
+                        "edition_id": "Professional",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "tr-TR",
+                        "size": 28106050326
+                    }
+                ]
+            },
+            "German (Germany)": {
+                "esd": "http://dl.delivery.mp.microsoft.com/filestreamingservice/files/b80e0886-3067-4be0-82bf-f7d8c2da3462/26300.9457.260913-1737.26h2_ge_release_svc_refresh_CLIENTCONSUMER_RET_A64FRE_de-de.esd",
+                "size": 6100903785,
+                "sha256": "aee141a2151678df71dc0946854b14ecad2e6c4677685701bd5dce6286d62e2e",
+                "all_indexes": [
+                    {
+                        "index": 1,
+                        "name": "Windows Setup Media",
+                        "edition_id": "Unknown",
+                        "type": "Operating System",
+                        "arch": "?",
+                        "build": "10.0.0.0",
+                        "lang": "N/A",
+                        "size": 283616299
+                    },
+                    {
+                        "index": 2,
+                        "name": "Windows Setup / PE Environment",
+                        "edition_id": "WindowsPE",
+                        "type": "Boot / Setup Media",
+                        "arch": "ARM64",
+                        "build": "26100.9457",
+                        "lang": "de-DE",
+                        "size": 2561523594
+                    },
+                    {
+                        "index": 3,
+                        "name": "Windows Setup / PE Environment",
+                        "edition_id": "WindowsPE",
+                        "type": "Boot / Setup Media",
+                        "arch": "ARM64",
+                        "build": "26100.9457",
+                        "lang": "de-DE",
+                        "size": 2689290571
+                    },
+                    {
+                        "index": 4,
+                        "name": "Windows 11 Home",
+                        "edition_id": "Core",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "de-DE",
+                        "size": 27709177992
+                    },
+                    {
+                        "index": 5,
+                        "name": "Windows 11 Pro",
+                        "edition_id": "Professional",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "de-DE",
+                        "size": 28521716274
+                    }
+                ]
+            },
+            "Portuguese (Portugal)": {
+                "esd": "http://dl.delivery.mp.microsoft.com/filestreamingservice/files/4a2aaf02-4321-4b1a-b678-df38a71cd8de/26300.9457.260913-1737.26h2_ge_release_svc_refresh_CLIENTCONSUMER_RET_A64FRE_pt-pt.esd",
+                "size": 5996607336,
+                "sha256": "7e1fc615585c23fcd1a9694104aec3c1bae2bf501ebf541728112f51b7125dd2",
+                "all_indexes": [
+                    {
+                        "index": 1,
+                        "name": "Windows Setup Media",
+                        "edition_id": "Unknown",
+                        "type": "Operating System",
+                        "arch": "?",
+                        "build": "10.0.0.0",
+                        "lang": "N/A",
+                        "size": 283420388
+                    },
+                    {
+                        "index": 2,
+                        "name": "Windows Setup / PE Environment",
+                        "edition_id": "WindowsPE",
+                        "type": "Boot / Setup Media",
+                        "arch": "ARM64",
+                        "build": "26100.9457",
+                        "lang": "pt-PT",
+                        "size": 2537427496
+                    },
+                    {
+                        "index": 3,
+                        "name": "Windows Setup / PE Environment",
+                        "edition_id": "WindowsPE",
+                        "type": "Boot / Setup Media",
+                        "arch": "ARM64",
+                        "build": "26100.9457",
+                        "lang": "pt-PT",
+                        "size": 2665054761
+                    },
+                    {
+                        "index": 4,
+                        "name": "Windows 11 Home",
+                        "edition_id": "Core",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "pt-PT",
+                        "size": 27303511380
+                    },
+                    {
+                        "index": 5,
+                        "name": "Windows 11 Home Single Language",
+                        "edition_id": "CoreSingleLanguage",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "pt-PT",
+                        "size": 27301053214
+                    },
+                    {
+                        "index": 6,
+                        "name": "Windows 11 Pro",
+                        "edition_id": "Professional",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "pt-PT",
+                        "size": 28138492127
+                    }
+                ]
+            },
+            "Chinese (Taiwan)": {
+                "esd": "http://dl.delivery.mp.microsoft.com/filestreamingservice/files/6cb11fbf-147c-444f-acba-d7cfc25e121b/26300.9457.260913-1737.26h2_ge_release_svc_refresh_CLIENTCONSUMER_RET_A64FRE_zh-tw.esd",
+                "size": 6209320845,
+                "sha256": "cc2f5f2b751c846085385843d8cda91538b08fa1ed1122bd9f2312d431b25436",
+                "all_indexes": [
+                    {
+                        "index": 1,
+                        "name": "Windows Setup Media",
+                        "edition_id": "Unknown",
+                        "type": "Operating System",
+                        "arch": "?",
+                        "build": "10.0.0.0",
+                        "lang": "N/A",
+                        "size": 281945698
+                    },
+                    {
+                        "index": 2,
+                        "name": "Windows Setup / PE Environment",
+                        "edition_id": "WindowsPE",
+                        "type": "Boot / Setup Media",
+                        "arch": "ARM64",
+                        "build": "26100.9457",
+                        "lang": "zh-TW",
+                        "size": 2713196752
+                    },
+                    {
+                        "index": 3,
+                        "name": "Windows Setup / PE Environment",
+                        "edition_id": "WindowsPE",
+                        "type": "Boot / Setup Media",
+                        "arch": "ARM64",
+                        "build": "26100.9457",
+                        "lang": "zh-TW",
+                        "size": 2840468484
+                    },
+                    {
+                        "index": 4,
+                        "name": "Windows 11 Home",
+                        "edition_id": "Core",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "zh-TW",
+                        "size": 28027391854
+                    },
+                    {
+                        "index": 5,
+                        "name": "Windows 11 Pro",
+                        "edition_id": "Professional",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "zh-TW",
+                        "size": 28845373749
+                    }
+                ]
+            },
+            "Romanian (Romania)": {
+                "esd": "http://dl.delivery.mp.microsoft.com/filestreamingservice/files/e9b46d68-1795-4004-b5ac-f4af27b343f7/26300.9457.260913-1737.26h2_ge_release_svc_refresh_CLIENTCONSUMER_RET_A64FRE_ro-ro.esd",
+                "size": 5934051839,
+                "sha256": "6abaa4322875882aea6747b10ec171e33df1e51092989a31a690dfc6779596dd",
+                "all_indexes": [
+                    {
+                        "index": 1,
+                        "name": "Windows Setup Media",
+                        "edition_id": "Unknown",
+                        "type": "Operating System",
+                        "arch": "?",
+                        "build": "10.0.0.0",
+                        "lang": "N/A",
+                        "size": 283230599
+                    },
+                    {
+                        "index": 2,
+                        "name": "Windows Setup / PE Environment",
+                        "edition_id": "WindowsPE",
+                        "type": "Boot / Setup Media",
+                        "arch": "ARM64",
+                        "build": "26100.9457",
+                        "lang": "ro-RO",
+                        "size": 2510985589
+                    },
+                    {
+                        "index": 3,
+                        "name": "Windows Setup / PE Environment",
+                        "edition_id": "WindowsPE",
+                        "type": "Boot / Setup Media",
+                        "arch": "ARM64",
+                        "build": "26100.9457",
+                        "lang": "ro-RO",
+                        "size": 2638642014
+                    },
+                    {
+                        "index": 4,
+                        "name": "Windows 11 Home",
+                        "edition_id": "Core",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "ro-RO",
+                        "size": 27165451201
+                    },
+                    {
+                        "index": 5,
+                        "name": "Windows 11 Pro",
+                        "edition_id": "Professional",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "ro-RO",
+                        "size": 27972358742
+                    }
+                ]
+            },
+            "Danish (Denmark)": {
+                "esd": "http://dl.delivery.mp.microsoft.com/filestreamingservice/files/286637e2-71b3-40f2-85ce-6b55d807adbe/26300.9457.260913-1737.26h2_ge_release_svc_refresh_CLIENTCONSUMER_RET_A64FRE_da-dk.esd",
+                "size": 5954868001,
+                "sha256": "5360eed569e4ff4253a334b65c801d9fc28c68867f7c097c513be5da400f55ae",
+                "all_indexes": [
+                    {
+                        "index": 1,
+                        "name": "Windows Setup Media",
+                        "edition_id": "Unknown",
+                        "type": "Operating System",
+                        "arch": "?",
+                        "build": "10.0.0.0",
+                        "lang": "N/A",
+                        "size": 283273335
+                    },
+                    {
+                        "index": 2,
+                        "name": "Windows Setup / PE Environment",
+                        "edition_id": "WindowsPE",
+                        "type": "Boot / Setup Media",
+                        "arch": "ARM64",
+                        "build": "26100.9457",
+                        "lang": "da-DK",
+                        "size": 2514707878
+                    },
+                    {
+                        "index": 3,
+                        "name": "Windows Setup / PE Environment",
+                        "edition_id": "WindowsPE",
+                        "type": "Boot / Setup Media",
+                        "arch": "ARM64",
+                        "build": "26100.9457",
+                        "lang": "da-DK",
+                        "size": 2639831084
+                    },
+                    {
+                        "index": 4,
+                        "name": "Windows 11 Home",
+                        "edition_id": "Core",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "da-DK",
+                        "size": 27393811697
+                    },
+                    {
+                        "index": 5,
+                        "name": "Windows 11 Pro",
+                        "edition_id": "Professional",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "da-DK",
+                        "size": 28194282049
+                    }
+                ]
+            },
+            "Japanese (Japan)": {
+                "esd": "http://dl.delivery.mp.microsoft.com/filestreamingservice/files/6ee5ffe3-a299-46dc-a3db-6fd49093740b/26300.9457.260913-1737.26h2_ge_release_svc_refresh_CLIENTCONSUMER_RET_A64FRE_ja-jp.esd",
+                "size": 6204126652,
+                "sha256": "820ca4e0f7e348f4ebca30399a5b35eedcf8fbfbc2c31f247fadc6571a50c6c6",
+                "all_indexes": [
+                    {
+                        "index": 1,
+                        "name": "Windows Setup Media",
+                        "edition_id": "Unknown",
+                        "type": "Operating System",
+                        "arch": "?",
+                        "build": "10.0.0.0",
+                        "lang": "N/A",
+                        "size": 282427354
+                    },
+                    {
+                        "index": 2,
+                        "name": "Windows Setup / PE Environment",
+                        "edition_id": "WindowsPE",
+                        "type": "Boot / Setup Media",
+                        "arch": "ARM64",
+                        "build": "26100.9457",
+                        "lang": "ja-JP",
+                        "size": 2678963198
+                    },
+                    {
+                        "index": 3,
+                        "name": "Windows Setup / PE Environment",
+                        "edition_id": "WindowsPE",
+                        "type": "Boot / Setup Media",
+                        "arch": "ARM64",
+                        "build": "26100.9457",
+                        "lang": "ja-JP",
+                        "size": 2806354909
+                    },
+                    {
+                        "index": 4,
+                        "name": "Windows 11 Home",
+                        "edition_id": "Core",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "ja-JP",
+                        "size": 28066520075
+                    },
+                    {
+                        "index": 5,
+                        "name": "Windows 11 Pro",
+                        "edition_id": "Professional",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "ja-JP",
+                        "size": 28869355775
+                    }
+                ]
+            },
+            "Korean (Korea)": {
+                "esd": "http://dl.delivery.mp.microsoft.com/filestreamingservice/files/110e4af1-5059-4e0f-81ac-acdd91579e74/26300.9457.260913-1737.26h2_ge_release_svc_refresh_CLIENTCONSUMER_RET_A64FRE_ko-kr.esd",
+                "size": 5989221008,
+                "sha256": "cc99b404920168ef04ac6d45245d48d0679e76882857ff309e2d6eaf11de1797",
+                "all_indexes": [
+                    {
+                        "index": 1,
+                        "name": "Windows Setup Media",
+                        "edition_id": "Unknown",
+                        "type": "Operating System",
+                        "arch": "?",
+                        "build": "10.0.0.0",
+                        "lang": "N/A",
+                        "size": 282301405
+                    },
+                    {
+                        "index": 2,
+                        "name": "Windows Setup / PE Environment",
+                        "edition_id": "WindowsPE",
+                        "type": "Boot / Setup Media",
+                        "arch": "ARM64",
+                        "build": "26100.9457",
+                        "lang": "ko-KR",
+                        "size": 2611554757
+                    },
+                    {
+                        "index": 3,
+                        "name": "Windows Setup / PE Environment",
+                        "edition_id": "WindowsPE",
+                        "type": "Boot / Setup Media",
+                        "arch": "ARM64",
+                        "build": "26100.9457",
+                        "lang": "ko-KR",
+                        "size": 2736385457
+                    },
+                    {
+                        "index": 4,
+                        "name": "Windows 11 Home",
+                        "edition_id": "Core",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "ko-KR",
+                        "size": 27517211969
+                    },
+                    {
+                        "index": 5,
+                        "name": "Windows 11 Pro",
+                        "edition_id": "Professional",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "ko-KR",
+                        "size": 28335893106
+                    }
+                ]
+            },
+            "Hebrew (Israel)": {
+                "esd": "http://dl.delivery.mp.microsoft.com/filestreamingservice/files/365808e9-8a5d-43fc-baa7-37bfd532b9db/26300.9457.260913-1737.26h2_ge_release_svc_refresh_CLIENTCONSUMER_RET_A64FRE_he-il.esd",
+                "size": 6005625470,
+                "sha256": "727d5e3b3894934a69dc0059ac67a22255f98924d9c6d4fdca5a97f7795cbda1",
+                "all_indexes": [
+                    {
+                        "index": 1,
+                        "name": "Windows Setup Media",
+                        "edition_id": "Unknown",
+                        "type": "Operating System",
+                        "arch": "?",
+                        "build": "10.0.0.0",
+                        "lang": "N/A",
+                        "size": 283094326
+                    },
+                    {
+                        "index": 2,
+                        "name": "Windows Setup / PE Environment",
+                        "edition_id": "WindowsPE",
+                        "type": "Boot / Setup Media",
+                        "arch": "ARM64",
+                        "build": "26100.9457",
+                        "lang": "he-IL",
+                        "size": 2515625878
+                    },
+                    {
+                        "index": 3,
+                        "name": "Windows Setup / PE Environment",
+                        "edition_id": "WindowsPE",
+                        "type": "Boot / Setup Media",
+                        "arch": "ARM64",
+                        "build": "26100.9457",
+                        "lang": "he-IL",
+                        "size": 2643498637
+                    },
+                    {
+                        "index": 4,
+                        "name": "Windows 11 Home",
+                        "edition_id": "Core",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "he-IL",
+                        "size": 27531973758
+                    },
+                    {
+                        "index": 5,
+                        "name": "Windows 11 Pro",
+                        "edition_id": "Professional",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "he-IL",
+                        "size": 28343281498
+                    }
+                ]
+            },
+            "Hungarian (Hungary)": {
+                "esd": "http://dl.delivery.mp.microsoft.com/filestreamingservice/files/e147678c-d811-4e4f-85b4-7fad1ddd3a0c/26300.9457.260913-1737.26h2_ge_release_svc_refresh_CLIENTCONSUMER_RET_A64FRE_hu-hu.esd",
+                "size": 5936122263,
+                "sha256": "f7b61e153a87f196e985b46dd6979ecfafbea1232b6cd7406273f0b1f3281850",
+                "all_indexes": [
+                    {
+                        "index": 1,
+                        "name": "Windows Setup Media",
+                        "edition_id": "Unknown",
+                        "type": "Operating System",
+                        "arch": "?",
+                        "build": "10.0.0.0",
+                        "lang": "N/A",
+                        "size": 283426559
+                    },
+                    {
+                        "index": 2,
+                        "name": "Windows Setup / PE Environment",
+                        "edition_id": "WindowsPE",
+                        "type": "Boot / Setup Media",
+                        "arch": "ARM64",
+                        "build": "26100.9457",
+                        "lang": "hu-HU",
+                        "size": 2513305027
+                    },
+                    {
+                        "index": 3,
+                        "name": "Windows Setup / PE Environment",
+                        "edition_id": "WindowsPE",
+                        "type": "Boot / Setup Media",
+                        "arch": "ARM64",
+                        "build": "26100.9457",
+                        "lang": "hu-HU",
+                        "size": 2640938638
+                    },
+                    {
+                        "index": 4,
+                        "name": "Windows 11 Home",
+                        "edition_id": "Core",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "hu-HU",
+                        "size": 27269835213
+                    },
+                    {
+                        "index": 5,
+                        "name": "Windows 11 Pro",
+                        "edition_id": "Professional",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "hu-HU",
+                        "size": 28096851189
+                    }
+                ]
+            },
+            "Lithuanian (Lithuania)": {
+                "esd": "http://dl.delivery.mp.microsoft.com/filestreamingservice/files/e84df34b-c36c-4b41-ac53-aa9cd87d87f2/26300.9457.260913-1737.26h2_ge_release_svc_refresh_CLIENTCONSUMER_RET_A64FRE_lt-lt.esd",
+                "size": 5936288466,
+                "sha256": "0e77712c8ff95a06986da7a8a41849c7bb9cd2950471167c52c46d33911bc8c7",
+                "all_indexes": [
+                    {
+                        "index": 1,
+                        "name": "Windows Setup Media",
+                        "edition_id": "Unknown",
+                        "type": "Operating System",
+                        "arch": "?",
+                        "build": "10.0.0.0",
+                        "lang": "N/A",
+                        "size": 283199313
+                    },
+                    {
+                        "index": 2,
+                        "name": "Windows Setup / PE Environment",
+                        "edition_id": "WindowsPE",
+                        "type": "Boot / Setup Media",
+                        "arch": "ARM64",
+                        "build": "26100.9457",
+                        "lang": "lt-LT",
+                        "size": 2510795256
+                    },
+                    {
+                        "index": 3,
+                        "name": "Windows Setup / PE Environment",
+                        "edition_id": "WindowsPE",
+                        "type": "Boot / Setup Media",
+                        "arch": "ARM64",
+                        "build": "26100.9457",
+                        "lang": "lt-LT",
+                        "size": 2638367726
+                    },
+                    {
+                        "index": 4,
+                        "name": "Windows 11 Home",
+                        "edition_id": "Core",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "lt-LT",
+                        "size": 27150334050
+                    },
+                    {
+                        "index": 5,
+                        "name": "Windows 11 Pro",
+                        "edition_id": "Professional",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "lt-LT",
+                        "size": 27962249009
+                    }
+                ]
+            },
+            "Serbian (Latin, Serbia)": {
+                "esd": "http://dl.delivery.mp.microsoft.com/filestreamingservice/files/6b08c81e-fb64-4bcd-8012-d08ff8687d39/26300.9457.260913-1737.26h2_ge_release_svc_refresh_CLIENTCONSUMER_RET_A64FRE_sr-latn-rs.esd",
+                "size": 5952935524,
+                "sha256": "4f2046ee611a8b922384c7d7f2fafac93a6917a49f3cec8e664b9e5461f9faf1",
+                "all_indexes": [
+                    {
+                        "index": 1,
+                        "name": "Windows Setup Media",
+                        "edition_id": "Unknown",
+                        "type": "Operating System",
+                        "arch": "?",
+                        "build": "10.0.0.0",
+                        "lang": "N/A",
+                        "size": 283256676
+                    },
+                    {
+                        "index": 2,
+                        "name": "Windows Setup / PE Environment",
+                        "edition_id": "WindowsPE",
+                        "type": "Boot / Setup Media",
+                        "arch": "ARM64",
+                        "build": "26100.9457",
+                        "lang": "sr-Latn-RS",
+                        "size": 2510809482
+                    },
+                    {
+                        "index": 3,
+                        "name": "Windows Setup / PE Environment",
+                        "edition_id": "WindowsPE",
+                        "type": "Boot / Setup Media",
+                        "arch": "ARM64",
+                        "build": "26100.9457",
+                        "lang": "sr-Latn-RS",
+                        "size": 2638432494
+                    },
+                    {
+                        "index": 4,
+                        "name": "Windows 11 Home",
+                        "edition_id": "Core",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "sr-Latn-RS",
+                        "size": 27174280620
+                    },
+                    {
+                        "index": 5,
+                        "name": "Windows 11 Home Single Language",
+                        "edition_id": "CoreSingleLanguage",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "sr-Latn-RS",
+                        "size": 27153091446
+                    },
+                    {
+                        "index": 6,
+                        "name": "Windows 11 Pro",
+                        "edition_id": "Professional",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "sr-Latn-RS",
+                        "size": 27972484054
+                    }
+                ]
+            },
+            "Spanish (Spain)": {
+                "esd": "http://dl.delivery.mp.microsoft.com/filestreamingservice/files/078599d1-6f5e-4dad-ae15-25775f2deea4/26300.9457.260913-1737.26h2_ge_release_svc_refresh_CLIENTCONSUMER_RET_A64FRE_es-es.esd",
+                "size": 6055260435,
+                "sha256": "e4c1ac96e4a822839ad858644be0892a798ae5294bd5e44d24e4abbf52c67b09",
+                "all_indexes": [
+                    {
+                        "index": 1,
+                        "name": "Windows Setup Media",
+                        "edition_id": "Unknown",
+                        "type": "Operating System",
+                        "arch": "?",
+                        "build": "10.0.0.0",
+                        "lang": "N/A",
+                        "size": 283515754
+                    },
+                    {
+                        "index": 2,
+                        "name": "Windows Setup / PE Environment",
+                        "edition_id": "WindowsPE",
+                        "type": "Boot / Setup Media",
+                        "arch": "ARM64",
+                        "build": "26100.9457",
+                        "lang": "es-ES",
+                        "size": 2556890267
+                    },
+                    {
+                        "index": 3,
+                        "name": "Windows Setup / PE Environment",
+                        "edition_id": "WindowsPE",
+                        "type": "Boot / Setup Media",
+                        "arch": "ARM64",
+                        "build": "26100.9457",
+                        "lang": "es-ES",
+                        "size": 2682166401
+                    },
+                    {
+                        "index": 4,
+                        "name": "Windows 11 Home",
+                        "edition_id": "Core",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "es-ES",
+                        "size": 27616374594
+                    },
+                    {
+                        "index": 5,
+                        "name": "Windows 11 Home Single Language",
+                        "edition_id": "CoreSingleLanguage",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "es-ES",
+                        "size": 27595250956
+                    },
+                    {
+                        "index": 6,
+                        "name": "Windows 11 Pro",
+                        "edition_id": "Professional",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "es-ES",
+                        "size": 28436373419
+                    }
+                ]
+            },
+            "Ukrainian (Ukraine)": {
+                "esd": "http://dl.delivery.mp.microsoft.com/filestreamingservice/files/34c60059-ee18-4474-9afd-b84400f98f1e/26300.9457.260913-1737.26h2_ge_release_svc_refresh_CLIENTCONSUMER_RET_A64FRE_uk-ua.esd",
+                "size": 5980021167,
+                "sha256": "c593f1867a7394a8e16d0f607513554a0ffc96dc3ee04872d5e32844b7ce5dab",
+                "all_indexes": [
+                    {
+                        "index": 1,
+                        "name": "Windows Setup Media",
+                        "edition_id": "Unknown",
+                        "type": "Operating System",
+                        "arch": "?",
+                        "build": "10.0.0.0",
+                        "lang": "N/A",
+                        "size": 283287369
+                    },
+                    {
+                        "index": 2,
+                        "name": "Windows Setup / PE Environment",
+                        "edition_id": "WindowsPE",
+                        "type": "Boot / Setup Media",
+                        "arch": "ARM64",
+                        "build": "26100.9457",
+                        "lang": "uk-UA",
+                        "size": 2517221748
+                    },
+                    {
+                        "index": 3,
+                        "name": "Windows Setup / PE Environment",
+                        "edition_id": "WindowsPE",
+                        "type": "Boot / Setup Media",
+                        "arch": "ARM64",
+                        "build": "26100.9457",
+                        "lang": "uk-UA",
+                        "size": 2645143514
+                    },
+                    {
+                        "index": 4,
+                        "name": "Windows 11 Home",
+                        "edition_id": "Core",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "uk-UA",
+                        "size": 27248854545
+                    },
+                    {
+                        "index": 5,
+                        "name": "Windows 11 Home Single Language",
+                        "edition_id": "CoreSingleLanguage",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "uk-UA",
+                        "size": 27246334939
+                    },
+                    {
+                        "index": 6,
+                        "name": "Windows 11 Pro",
+                        "edition_id": "Professional",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "uk-UA",
+                        "size": 28057428147
+                    }
+                ]
+            },
+            "Italian (Italy)": {
+                "esd": "http://dl.delivery.mp.microsoft.com/filestreamingservice/files/b99920e9-7ebd-4e66-824e-e2e5d9fe3b51/26300.9457.260913-1737.26h2_ge_release_svc_refresh_CLIENTCONSUMER_RET_A64FRE_it-it.esd",
+                "size": 5984009055,
+                "sha256": "19fe4211192928c9d8594642ee85f25aea8098e1e53021c5c3cd0c2a1a6ff409",
+                "all_indexes": [
+                    {
+                        "index": 1,
+                        "name": "Windows Setup Media",
+                        "edition_id": "Unknown",
+                        "type": "Operating System",
+                        "arch": "?",
+                        "build": "10.0.0.0",
+                        "lang": "N/A",
+                        "size": 283558295
+                    },
+                    {
+                        "index": 2,
+                        "name": "Windows Setup / PE Environment",
+                        "edition_id": "WindowsPE",
+                        "type": "Boot / Setup Media",
+                        "arch": "ARM64",
+                        "build": "26100.9457",
+                        "lang": "it-IT",
+                        "size": 2547888265
+                    },
+                    {
+                        "index": 3,
+                        "name": "Windows Setup / PE Environment",
+                        "edition_id": "WindowsPE",
+                        "type": "Boot / Setup Media",
+                        "arch": "ARM64",
+                        "build": "26100.9457",
+                        "lang": "it-IT",
+                        "size": 2675585076
+                    },
+                    {
+                        "index": 4,
+                        "name": "Windows 11 Home",
+                        "edition_id": "Core",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "it-IT",
+                        "size": 27435071702
+                    },
+                    {
+                        "index": 5,
+                        "name": "Windows 11 Pro",
+                        "edition_id": "Professional",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "it-IT",
+                        "size": 28234798804
+                    }
+                ]
+            },
+            "Estonian (Estonia)": {
+                "esd": "http://dl.delivery.mp.microsoft.com/filestreamingservice/files/d5155af8-5751-4f92-b51e-78bcac5ffce9/26300.9457.260913-1737.26h2_ge_release_svc_refresh_CLIENTCONSUMER_RET_A64FRE_et-ee.esd",
+                "size": 5919836379,
+                "sha256": "6b6153d98d9f65653b230bc3a5109cb7d98a661a45b302f289d5ca3cec029051",
+                "all_indexes": [
+                    {
+                        "index": 1,
+                        "name": "Windows Setup Media",
+                        "edition_id": "Unknown",
+                        "type": "Operating System",
+                        "arch": "?",
+                        "build": "10.0.0.0",
+                        "lang": "N/A",
+                        "size": 283153785
+                    },
+                    {
+                        "index": 2,
+                        "name": "Windows Setup / PE Environment",
+                        "edition_id": "WindowsPE",
+                        "type": "Boot / Setup Media",
+                        "arch": "ARM64",
+                        "build": "26100.9457",
+                        "lang": "et-EE",
+                        "size": 2510264411
+                    },
+                    {
+                        "index": 3,
+                        "name": "Windows Setup / PE Environment",
+                        "edition_id": "WindowsPE",
+                        "type": "Boot / Setup Media",
+                        "arch": "ARM64",
+                        "build": "26100.9457",
+                        "lang": "et-EE",
+                        "size": 2637825679
+                    },
+                    {
+                        "index": 4,
+                        "name": "Windows 11 Home",
+                        "edition_id": "Core",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "et-EE",
+                        "size": 27113129475
+                    },
+                    {
+                        "index": 5,
+                        "name": "Windows 11 Pro",
+                        "edition_id": "Professional",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "et-EE",
+                        "size": 27921789913
+                    }
+                ]
+            },
+            "Slovak (Slovakia)": {
+                "esd": "http://dl.delivery.mp.microsoft.com/filestreamingservice/files/c4daffa1-73f5-4716-8d9c-6446072b74eb/26300.9457.260913-1737.26h2_ge_release_svc_refresh_CLIENTCONSUMER_RET_A64FRE_sk-sk.esd",
+                "size": 5942575613,
+                "sha256": "dfd756724e7ff19d19d62565e52d16fb3363f398ba7c77bf73ca1420da543c54",
+                "all_indexes": [
+                    {
+                        "index": 1,
+                        "name": "Windows Setup Media",
+                        "edition_id": "Unknown",
+                        "type": "Operating System",
+                        "arch": "?",
+                        "build": "10.0.0.0",
+                        "lang": "N/A",
+                        "size": 283236916
+                    },
+                    {
+                        "index": 2,
+                        "name": "Windows Setup / PE Environment",
+                        "edition_id": "WindowsPE",
+                        "type": "Boot / Setup Media",
+                        "arch": "ARM64",
+                        "build": "26100.9457",
+                        "lang": "sk-SK",
+                        "size": 2513521462
+                    },
+                    {
+                        "index": 3,
+                        "name": "Windows Setup / PE Environment",
+                        "edition_id": "WindowsPE",
+                        "type": "Boot / Setup Media",
+                        "arch": "ARM64",
+                        "build": "26100.9457",
+                        "lang": "sk-SK",
+                        "size": 2638629409
+                    },
+                    {
+                        "index": 4,
+                        "name": "Windows 11 Home",
+                        "edition_id": "Core",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "sk-SK",
+                        "size": 27202102238
+                    },
+                    {
+                        "index": 5,
+                        "name": "Windows 11 Pro",
+                        "edition_id": "Professional",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "sk-SK",
+                        "size": 27994473437
+                    }
+                ]
+            },
+            "Norwegian Bokm\u00e5l (Norway)": {
+                "esd": "http://dl.delivery.mp.microsoft.com/filestreamingservice/files/405f213f-e16e-4f80-8e35-5cdab4a69a06/26300.9457.260913-1737.26h2_ge_release_svc_refresh_CLIENTCONSUMER_RET_A64FRE_nb-no.esd",
+                "size": 5939041163,
+                "sha256": "05bc750b47d3cc3ce8c9fb8ba261b52d229b8a76741b5a4d848a8cd117063ea8",
+                "all_indexes": [
+                    {
+                        "index": 1,
+                        "name": "Windows Setup Media",
+                        "edition_id": "Unknown",
+                        "type": "Operating System",
+                        "arch": "?",
+                        "build": "10.0.0.0",
+                        "lang": "N/A",
+                        "size": 283254891
+                    },
+                    {
+                        "index": 2,
+                        "name": "Windows Setup / PE Environment",
+                        "edition_id": "WindowsPE",
+                        "type": "Boot / Setup Media",
+                        "arch": "ARM64",
+                        "build": "26100.9457",
+                        "lang": "nb-NO",
+                        "size": 2511459229
+                    },
+                    {
+                        "index": 3,
+                        "name": "Windows Setup / PE Environment",
+                        "edition_id": "WindowsPE",
+                        "type": "Boot / Setup Media",
+                        "arch": "ARM64",
+                        "build": "26100.9457",
+                        "lang": "nb-NO",
+                        "size": 2639074491
+                    },
+                    {
+                        "index": 4,
+                        "name": "Windows 11 Home",
+                        "edition_id": "Core",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "nb-NO",
+                        "size": 27297344938
+                    },
+                    {
+                        "index": 5,
+                        "name": "Windows 11 Pro",
+                        "edition_id": "Professional",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "nb-NO",
+                        "size": 28089956763
+                    }
+                ]
+            },
+            "Portuguese (Brazil)": {
+                "esd": "http://dl.delivery.mp.microsoft.com/filestreamingservice/files/9207f699-7b8c-426a-8b0d-b53f239d7713/26300.9457.260913-1737.26h2_ge_release_svc_refresh_CLIENTCONSUMER_RET_A64FRE_pt-br.esd",
+                "size": 6003638474,
+                "sha256": "5902e10a1778ae39122929b0452c1a2f66f96b865c75f4fee92ec8bafc10d75c",
+                "all_indexes": [
+                    {
+                        "index": 1,
+                        "name": "Windows Setup Media",
+                        "edition_id": "Unknown",
+                        "type": "Operating System",
+                        "arch": "?",
+                        "build": "10.0.0.0",
+                        "lang": "N/A",
+                        "size": 283394315
+                    },
+                    {
+                        "index": 2,
+                        "name": "Windows Setup / PE Environment",
+                        "edition_id": "WindowsPE",
+                        "type": "Boot / Setup Media",
+                        "arch": "ARM64",
+                        "build": "26100.9457",
+                        "lang": "pt-BR",
+                        "size": 2540505576
+                    },
+                    {
+                        "index": 3,
+                        "name": "Windows Setup / PE Environment",
+                        "edition_id": "WindowsPE",
+                        "type": "Boot / Setup Media",
+                        "arch": "ARM64",
+                        "build": "26100.9457",
+                        "lang": "pt-BR",
+                        "size": 2665661103
+                    },
+                    {
+                        "index": 4,
+                        "name": "Windows 11 Home",
+                        "edition_id": "Core",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "pt-BR",
+                        "size": 27440581907
+                    },
+                    {
+                        "index": 5,
+                        "name": "Windows 11 Home Single Language",
+                        "edition_id": "CoreSingleLanguage",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "pt-BR",
+                        "size": 27401069277
+                    },
+                    {
+                        "index": 6,
+                        "name": "Windows 11 Pro",
+                        "edition_id": "Professional",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "pt-BR",
+                        "size": 28253983722
+                    }
+                ]
+            },
+            "Latvian (Latvia)": {
+                "esd": "http://dl.delivery.mp.microsoft.com/filestreamingservice/files/12787911-8331-492b-9316-fc023736a61a/26300.9457.260913-1737.26h2_ge_release_svc_refresh_CLIENTCONSUMER_RET_A64FRE_lv-lv.esd",
+                "size": 5912543789,
+                "sha256": "9a4ca465f2d77ead36b296ef0f2176406f557b1e2f1a9d83a662bb07b61bb86f",
+                "all_indexes": [
+                    {
+                        "index": 1,
+                        "name": "Windows Setup Media",
+                        "edition_id": "Unknown",
+                        "type": "Operating System",
+                        "arch": "?",
+                        "build": "10.0.0.0",
+                        "lang": "N/A",
+                        "size": 283202307
+                    },
+                    {
+                        "index": 2,
+                        "name": "Windows Setup / PE Environment",
+                        "edition_id": "WindowsPE",
+                        "type": "Boot / Setup Media",
+                        "arch": "ARM64",
+                        "build": "26100.9457",
+                        "lang": "lv-LV",
+                        "size": 2510663112
+                    },
+                    {
+                        "index": 3,
+                        "name": "Windows Setup / PE Environment",
+                        "edition_id": "WindowsPE",
+                        "type": "Boot / Setup Media",
+                        "arch": "ARM64",
+                        "build": "26100.9457",
+                        "lang": "lv-LV",
+                        "size": 2638253484
+                    },
+                    {
+                        "index": 4,
+                        "name": "Windows 11 Home",
+                        "edition_id": "Core",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "lv-LV",
+                        "size": 27159426891
+                    },
+                    {
+                        "index": 5,
+                        "name": "Windows 11 Pro",
+                        "edition_id": "Professional",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "lv-LV",
+                        "size": 27938325679
+                    }
+                ]
+            },
+            "Arabic (Saudi Arabia)": {
+                "esd": "http://dl.delivery.mp.microsoft.com/filestreamingservice/files/b4e65938-a61d-4c17-9cee-d7f1f905c411/26300.9457.260913-1737.26h2_ge_release_svc_refresh_CLIENTCONSUMER_RET_A64FRE_ar-sa.esd",
+                "size": 6041726493,
+                "sha256": "5c9da57b84fc4533606607317596c5d9692ea0fab7009f9d1587bd1f49a857b5",
+                "all_indexes": [
+                    {
+                        "index": 1,
+                        "name": "Windows Setup Media",
+                        "edition_id": "Unknown",
+                        "type": "Operating System",
+                        "arch": "?",
+                        "build": "10.0.0.0",
+                        "lang": "N/A",
+                        "size": 283177362
+                    },
+                    {
+                        "index": 2,
+                        "name": "Windows Setup / PE Environment",
+                        "edition_id": "WindowsPE",
+                        "type": "Boot / Setup Media",
+                        "arch": "ARM64",
+                        "build": "26100.9457",
+                        "lang": "ar-SA",
+                        "size": 2516074833
+                    },
+                    {
+                        "index": 3,
+                        "name": "Windows Setup / PE Environment",
+                        "edition_id": "WindowsPE",
+                        "type": "Boot / Setup Media",
+                        "arch": "ARM64",
+                        "build": "26100.9457",
+                        "lang": "ar-SA",
+                        "size": 2643990536
+                    },
+                    {
+                        "index": 4,
+                        "name": "Windows 11 Home",
+                        "edition_id": "Core",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "ar-SA",
+                        "size": 27588299920
+                    },
+                    {
+                        "index": 5,
+                        "name": "Windows 11 Home Single Language",
+                        "edition_id": "CoreSingleLanguage",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "ar-SA",
+                        "size": 27548821082
+                    },
+                    {
+                        "index": 6,
+                        "name": "Windows 11 Pro",
+                        "edition_id": "Professional",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "ar-SA",
+                        "size": 28390065743
+                    }
+                ]
+            },
+            "Czech (Czechia)": {
+                "esd": "http://dl.delivery.mp.microsoft.com/filestreamingservice/files/47787591-36af-4939-adeb-f88c1e2cc394/26300.9457.260913-1737.26h2_ge_release_svc_refresh_CLIENTCONSUMER_RET_A64FRE_cs-cz.esd",
+                "size": 5926277017,
+                "sha256": "b2da14f2b796d548e4cb990cf37a4c1da5c882769426f8ba1c7b45627d7a48b6",
+                "all_indexes": [
+                    {
+                        "index": 1,
+                        "name": "Windows Setup Media",
+                        "edition_id": "Unknown",
+                        "type": "Operating System",
+                        "arch": "?",
+                        "build": "10.0.0.0",
+                        "lang": "N/A",
+                        "size": 283329524
+                    },
+                    {
+                        "index": 2,
+                        "name": "Windows Setup / PE Environment",
+                        "edition_id": "WindowsPE",
+                        "type": "Boot / Setup Media",
+                        "arch": "ARM64",
+                        "build": "26100.9457",
+                        "lang": "cs-CZ",
+                        "size": 2512183003
+                    },
+                    {
+                        "index": 3,
+                        "name": "Windows Setup / PE Environment",
+                        "edition_id": "WindowsPE",
+                        "type": "Boot / Setup Media",
+                        "arch": "ARM64",
+                        "build": "26100.9457",
+                        "lang": "cs-CZ",
+                        "size": 2639806708
+                    },
+                    {
+                        "index": 4,
+                        "name": "Windows 11 Home",
+                        "edition_id": "Core",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "cs-CZ",
+                        "size": 27273108095
+                    },
+                    {
+                        "index": 5,
+                        "name": "Windows 11 Pro",
+                        "edition_id": "Professional",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "cs-CZ",
+                        "size": 28088024082
+                    }
+                ]
+            },
+            "Thai (Thailand)": {
+                "esd": "http://dl.delivery.mp.microsoft.com/filestreamingservice/files/c058e6e2-68ea-4d22-830f-826b3129a60b/26300.9457.260913-1737.26h2_ge_release_svc_refresh_CLIENTCONSUMER_RET_A64FRE_th-th.esd",
+                "size": 5982364983,
+                "sha256": "875c3f7f08fa0b78abdb811c78629b7d734c6f9254c6ea6904a769ef0ab316f4",
+                "all_indexes": [
+                    {
+                        "index": 1,
+                        "name": "Windows Setup Media",
+                        "edition_id": "Unknown",
+                        "type": "Operating System",
+                        "arch": "?",
+                        "build": "10.0.0.0",
+                        "lang": "N/A",
+                        "size": 283240072
+                    },
+                    {
+                        "index": 2,
+                        "name": "Windows Setup / PE Environment",
+                        "edition_id": "WindowsPE",
+                        "type": "Boot / Setup Media",
+                        "arch": "ARM64",
+                        "build": "26100.9457",
+                        "lang": "th-TH",
+                        "size": 2536573813
+                    },
+                    {
+                        "index": 3,
+                        "name": "Windows Setup / PE Environment",
+                        "edition_id": "WindowsPE",
+                        "type": "Boot / Setup Media",
+                        "arch": "ARM64",
+                        "build": "26100.9457",
+                        "lang": "th-TH",
+                        "size": 2664483181
+                    },
+                    {
+                        "index": 4,
+                        "name": "Windows 11 Home",
+                        "edition_id": "Core",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "th-TH",
+                        "size": 27266073838
+                    },
+                    {
+                        "index": 5,
+                        "name": "Windows 11 Home Single Language",
+                        "edition_id": "CoreSingleLanguage",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "th-TH",
+                        "size": 27263578808
+                    },
+                    {
+                        "index": 6,
+                        "name": "Windows 11 Pro",
+                        "edition_id": "Professional",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "th-TH",
+                        "size": 28062298643
+                    }
+                ]
+            },
+            "English (United Kingdom)": {
+                "esd": "http://dl.delivery.mp.microsoft.com/filestreamingservice/files/43b4ef43-2ad3-4b98-b272-2fd03e8cdfd1/26300.9457.260913-1737.26h2_ge_release_svc_refresh_CLIENTCONSUMER_RET_A64FRE_en-gb.esd",
+                "size": 6073987369,
+                "sha256": "7d5183f8688b5f9f773f5b609f7558f2f52c1b1ea317853a380561b9bc301257",
+                "all_indexes": [
+                    {
+                        "index": 1,
+                        "name": "Windows Setup Media",
+                        "edition_id": "Unknown",
+                        "type": "Operating System",
+                        "arch": "?",
+                        "build": "10.0.0.0",
+                        "lang": "N/A",
+                        "size": 283123412
+                    },
+                    {
+                        "index": 2,
+                        "name": "Windows Setup / PE Environment",
+                        "edition_id": "WindowsPE",
+                        "type": "Boot / Setup Media",
+                        "arch": "ARM64",
+                        "build": "26100.9457",
+                        "lang": "en-GB",
+                        "size": 2530215758
+                    },
+                    {
+                        "index": 3,
+                        "name": "Windows Setup / PE Environment",
+                        "edition_id": "WindowsPE",
+                        "type": "Boot / Setup Media",
+                        "arch": "ARM64",
+                        "build": "26100.9457",
+                        "lang": "en-GB",
+                        "size": 2657764144
+                    },
+                    {
+                        "index": 4,
+                        "name": "Windows 11 Home",
+                        "edition_id": "Core",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "en-GB",
+                        "size": 27521339225
+                    },
+                    {
+                        "index": 5,
+                        "name": "Windows 11 Home Single Language",
+                        "edition_id": "CoreSingleLanguage",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "en-GB",
+                        "size": 27518836003
+                    },
+                    {
+                        "index": 6,
+                        "name": "Windows 11 Pro",
+                        "edition_id": "Professional",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "en-GB",
+                        "size": 28330401277
+                    }
+                ]
+            },
+            "English (United States)": {
+                "esd": "http://dl.delivery.mp.microsoft.com/filestreamingservice/files/e7565db2-d2e0-4b1e-8f8b-20d47f4718dc/26300.9457.260913-1737.26h2_ge_release_svc_refresh_CLIENTCONSUMER_RET_A64FRE_en-us.esd",
+                "size": 6069845120,
+                "sha256": "d9d3fa042db67f37bcd0c3666c6d8f604021ec14ec160bcff8721d1bdd209df4",
+                "all_indexes": [
+                    {
+                        "index": 1,
+                        "name": "Windows Setup Media",
+                        "edition_id": "Unknown",
+                        "type": "Operating System",
+                        "arch": "?",
+                        "build": "10.0.0.0",
+                        "lang": "N/A",
+                        "size": 280244881
+                    },
+                    {
+                        "index": 2,
+                        "name": "Windows Setup / PE Environment",
+                        "edition_id": "WindowsPE",
+                        "type": "Boot / Setup Media",
+                        "arch": "ARM64",
+                        "build": "26100.9457",
+                        "lang": "en-US",
+                        "size": 2508721366
+                    },
+                    {
+                        "index": 3,
+                        "name": "Windows Setup / PE Environment",
+                        "edition_id": "WindowsPE",
+                        "type": "Boot / Setup Media",
+                        "arch": "ARM64",
+                        "build": "26100.9457",
+                        "lang": "en-US",
+                        "size": 2636294384
+                    },
+                    {
+                        "index": 4,
+                        "name": "Windows 11 Home",
+                        "edition_id": "Core",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "en-US",
+                        "size": 27525593511
+                    },
+                    {
+                        "index": 5,
+                        "name": "Windows 11 Home Single Language",
+                        "edition_id": "CoreSingleLanguage",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "en-US",
+                        "size": 27504599921
+                    },
+                    {
+                        "index": 6,
+                        "name": "Windows 11 Pro",
+                        "edition_id": "Professional",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "en-US",
+                        "size": 28309896584
+                    }
+                ]
+            },
+            "Greek (Greece)": {
+                "esd": "http://dl.delivery.mp.microsoft.com/filestreamingservice/files/a76f9cf9-1dc0-4cfc-8299-0f5ccd7d04fb/26300.9457.260913-1737.26h2_ge_release_svc_refresh_CLIENTCONSUMER_RET_A64FRE_el-gr.esd",
+                "size": 5963219325,
+                "sha256": "5e5157d34d70cf74ebe2ec16de57ca6a241726ed1994b395794e9a526b01011f",
+                "all_indexes": [
+                    {
+                        "index": 1,
+                        "name": "Windows Setup Media",
+                        "edition_id": "Unknown",
+                        "type": "Operating System",
+                        "arch": "?",
+                        "build": "10.0.0.0",
+                        "lang": "N/A",
+                        "size": 283756652
+                    },
+                    {
+                        "index": 2,
+                        "name": "Windows Setup / PE Environment",
+                        "edition_id": "WindowsPE",
+                        "type": "Boot / Setup Media",
+                        "arch": "ARM64",
+                        "build": "26100.9457",
+                        "lang": "el-GR",
+                        "size": 2534287712
+                    },
+                    {
+                        "index": 3,
+                        "name": "Windows Setup / PE Environment",
+                        "edition_id": "WindowsPE",
+                        "type": "Boot / Setup Media",
+                        "arch": "ARM64",
+                        "build": "26100.9457",
+                        "lang": "el-GR",
+                        "size": 2659888251
+                    },
+                    {
+                        "index": 4,
+                        "name": "Windows 11 Home",
+                        "edition_id": "Core",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "el-GR",
+                        "size": 27431688035
+                    },
+                    {
+                        "index": 5,
+                        "name": "Windows 11 Pro",
+                        "edition_id": "Professional",
+                        "type": "Operating System",
+                        "arch": "ARM64",
+                        "build": "26300.9457",
+                        "lang": "el-GR",
+                        "size": 28240292045
+                    }
+                ]
+            }
+        }
+    },
     "25h2": {
         "Professional": {
             "Italian (Italy)": {
@@ -813,7 +3307,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 277177582
                     },
@@ -870,7 +3364,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 275564937
                     },
@@ -927,7 +3421,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 275920684
                     },
@@ -984,7 +3478,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 276865380
                     },
@@ -1041,7 +3535,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 273930659
                     },
@@ -1108,7 +3602,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 277231915
                     },
@@ -1175,7 +3669,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 277013034
                     },
@@ -1242,7 +3736,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 276046673
                     },
@@ -1299,7 +3793,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 277045825
                     },
@@ -1356,7 +3850,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 276742722
                     },
@@ -1423,7 +3917,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 276856812
                     },
@@ -1480,7 +3974,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 276948806
                     },
@@ -1537,7 +4031,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 276885519
                     },
@@ -1587,7 +4081,6 @@ const editions = {
                 "esd": "http://dl.delivery.mp.microsoft.com/filestreamingservice/files/ce644b26-ab8e-4014-9fdf-8e9a69da3a34/26200.6899.251011-1532.25h2_ge_release_svc_refresh_CLIENTCONSUMER_RET_A64FRE_lv-lv.esd",
                 "size": 4952402593,
                 "sha256": "95e4d3ab703649f6c98d166f3bafd2342ffee9abf3b6148ead4abf6b3fe06c99",
-                "more_info": "Verified",
                 "all_indexes": [
                     {
                         "index": 1,
@@ -1595,7 +4088,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 276821589
                     },
@@ -1652,7 +4145,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 277235570
                     },
@@ -1709,7 +4202,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 276713773
                     },
@@ -1766,7 +4259,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 276859362
                     },
@@ -1833,7 +4326,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 276906518
                     },
@@ -1900,7 +4393,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 276873724
                     },
@@ -1967,7 +4460,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 276844245
                     },
@@ -2034,7 +4527,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 277375950
                     },
@@ -2091,7 +4584,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 276796769
                     },
@@ -2158,7 +4651,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 276856238
                     },
@@ -2215,7 +4708,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 276947261
                     },
@@ -2272,7 +4765,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 277134521
                     },
@@ -2339,7 +4832,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 276956745
                     },
@@ -2396,7 +4889,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 276911830
                     },
@@ -2453,7 +4946,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 277039848
                     },
@@ -2520,7 +5013,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 276849881
                     },
@@ -2577,7 +5070,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 275553097
                     },
@@ -2644,7 +5137,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 277092600
                     },
@@ -2701,7 +5194,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 276893533
                     },
@@ -2768,7 +5261,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 276773083
                     },
@@ -2825,7 +5318,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 276892073
                     },
@@ -2882,7 +5375,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 276818635
                     },
@@ -2939,7 +5432,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 276874173
                     },
@@ -2996,7 +5489,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 277079958
                     },
@@ -3063,7 +5556,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 277141787
                     },
@@ -3124,7 +5617,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 276769147
                     },
@@ -3181,7 +5674,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 276673263
                     },
@@ -3238,7 +5731,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 276999412
                     },
@@ -3295,7 +5788,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 276683768
                     },
@@ -3362,7 +5855,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 276708405
                     },
@@ -3419,7 +5912,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 276680194
                     },
@@ -3476,7 +5969,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 276698067
                     },
@@ -3533,7 +6026,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 276964161
                     },
@@ -3590,7 +6083,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 276697122
                     },
@@ -3657,7 +6150,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 276538667
                     },
@@ -3714,7 +6207,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 275394991
                     },
@@ -3771,7 +6264,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 276780143
                     },
@@ -3828,7 +6321,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 276836456
                     },
@@ -3895,7 +6388,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 276688722
                     },
@@ -3952,7 +6445,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 276680108
                     },
@@ -4009,7 +6502,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 276566600
                     },
@@ -4076,7 +6569,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 276642513
                     },
@@ -4133,7 +6626,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 276715983
                     },
@@ -4190,7 +6683,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 276772740
                     },
@@ -4247,7 +6740,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 276667667
                     },
@@ -4314,7 +6807,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 276903340
                     },
@@ -4381,7 +6874,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 277057408
                     },
@@ -4438,7 +6931,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 276596993
                     },
@@ -4495,7 +6988,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 276956855
                     },
@@ -4562,7 +7055,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 277053801
                     },
@@ -4629,7 +7122,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 277196748
                     },
@@ -4686,7 +7179,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 276621175
                     },
@@ -4753,7 +7246,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 275383103
                     },
@@ -4820,7 +7313,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 276914974
                     },
@@ -4877,7 +7370,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 276716899
                     },
@@ -4944,7 +7437,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 275874111
                     },
@@ -5001,7 +7494,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 276730388
                     },
@@ -5068,7 +7561,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 276868199
                     },
@@ -5125,7 +7618,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 276645483
                     },
@@ -5175,7 +7668,6 @@ const editions = {
                 "esd": "http://dl.delivery.mp.microsoft.com/filestreamingservice/files/f4638aae-3f07-425c-918f-4bc8e8a6e453/26100.4349.250607-1500.ge_release_svc_refresh_CLIENTCONSUMER_RET_A64FRE_ko-kr.esd",
                 "size": 4478929731,
                 "sha1": "4a8ec82a9bce812c0234b1683ea83cbcbd4994ec",
-                "more_info": "Verified",
                 "all_indexes": [
                     {
                         "index": 1,
@@ -5183,7 +7675,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 275748130
                     },
@@ -5240,7 +7732,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 276735236
                     },
@@ -5297,7 +7789,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 276862702
                     },
@@ -5364,7 +7856,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 273754537
                     },
@@ -5435,7 +7927,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 258571712
                     },
@@ -5492,7 +7984,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 258590913
                     },
@@ -5549,7 +8041,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 258458013
                     },
@@ -5606,7 +8098,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 258583074
                     },
@@ -5673,7 +8165,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 258682215
                     },
@@ -5730,7 +8222,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 258468751
                     },
@@ -5787,7 +8279,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 258471990
                     },
@@ -5844,7 +8336,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 258509046
                     },
@@ -5911,7 +8403,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 258563056
                     },
@@ -5968,7 +8460,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 258469588
                     },
@@ -6025,7 +8517,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 258436435
                     },
@@ -6082,7 +8574,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 258463450
                     },
@@ -6149,7 +8641,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 258458179
                     },
@@ -6206,7 +8698,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 258478235
                     },
@@ -6273,7 +8765,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 258468102
                     },
@@ -6330,7 +8822,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 258447689
                     },
@@ -6387,7 +8879,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 258595133
                     },
@@ -6454,7 +8946,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 258495708
                     },
@@ -6511,7 +9003,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 258239790
                     },
@@ -6568,7 +9060,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 258525993
                     },
@@ -6635,7 +9127,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 258196306
                     },
@@ -6692,7 +9184,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 258482935
                     },
@@ -6749,7 +9241,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 258065421
                     },
@@ -6806,7 +9298,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 258543131
                     },
@@ -6863,7 +9355,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 258463498
                     },
@@ -6920,7 +9412,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 258539715
                     },
@@ -6977,7 +9469,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 258478903
                     },
@@ -7044,7 +9536,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 258470394
                     },
@@ -7111,7 +9603,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 258474363
                     },
@@ -7168,7 +9660,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 258560446
                     },
@@ -7235,7 +9727,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 258527772
                     },
@@ -7302,7 +9794,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 258522559
                     },
@@ -7369,7 +9861,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 258475357
                     },
@@ -7426,7 +9918,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 258510103
                     },
@@ -7493,7 +9985,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 258504782
                     },
@@ -7550,7 +10042,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 258058683
                     },
@@ -7617,7 +10109,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 258534538
                     },
@@ -7674,7 +10166,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 258425325
                     },
@@ -7745,7 +10237,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 257768602
                     },
@@ -7812,7 +10304,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 257666169
                     },
@@ -7869,7 +10361,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 257686391
                     },
@@ -7936,7 +10428,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 257267351
                     },
@@ -8003,7 +10495,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 257712938
                     },
@@ -8060,7 +10552,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 257779868
                     },
@@ -8117,7 +10609,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 257691091
                     },
@@ -8174,7 +10666,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 257703864
                     },
@@ -8231,7 +10723,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 257676907
                     },
@@ -8288,7 +10780,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 257672166
                     },
@@ -8345,7 +10837,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 257748383
                     },
@@ -8402,7 +10894,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 257683513
                     },
@@ -8459,7 +10951,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 257404974
                     },
@@ -8516,7 +11008,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 257791230
                     },
@@ -8583,7 +11075,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 257676258
                     },
@@ -8640,7 +11132,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 257736440
                     },
@@ -8707,7 +11199,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 257734149
                     },
@@ -8774,7 +11266,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 257448458
                     },
@@ -8831,7 +11323,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 257771212
                     },
@@ -8888,7 +11380,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 257799069
                     },
@@ -8945,7 +11437,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 257680146
                     },
@@ -9002,7 +11494,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 257751287
                     },
@@ -9059,7 +11551,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 257687059
                     },
@@ -9126,7 +11618,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 257742694
                     },
@@ -9183,7 +11675,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 257731227
                     },
@@ -9250,7 +11742,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 257678256
                     },
@@ -9307,7 +11799,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 257274089
                     },
@@ -9364,7 +11856,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 257682519
                     },
@@ -9421,7 +11913,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 257890371
                     },
@@ -9478,7 +11970,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 257803289
                     },
@@ -9545,7 +12037,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 257655845
                     },
@@ -9602,7 +12094,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 257671606
                     },
@@ -9669,7 +12161,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 257678550
                     },
@@ -9736,7 +12228,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 257666335
                     },
@@ -9793,7 +12285,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 257717202
                     },
@@ -9860,7 +12352,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 257633481
                     },
@@ -9927,7 +12419,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 257644591
                     },
@@ -9984,7 +12476,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 257718259
                     },
@@ -10055,7 +12547,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 268936554
                     },
@@ -10122,7 +12614,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 269325134
                     },
@@ -10179,7 +12671,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 268940744
                     },
@@ -10236,7 +12728,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 269357623
                     },
@@ -10303,7 +12795,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 269298041
                     },
@@ -10360,7 +12852,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 269327827
                     },
@@ -10427,7 +12919,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 269397185
                     },
@@ -10494,7 +12986,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 269346774
                     },
@@ -10551,7 +13043,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 269274730
                     },
@@ -10618,7 +13110,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 269328415
                     },
@@ -10685,7 +13177,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 269346469
                     },
@@ -10742,7 +13234,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 269530648
                     },
@@ -10799,7 +13291,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 269386364
                     },
@@ -10856,7 +13348,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 269308933
                     },
@@ -10913,7 +13405,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 269328720
                     },
@@ -10970,7 +13462,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 269431200
                     },
@@ -11037,7 +13529,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 269362954
                     },
@@ -11104,7 +13596,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 269315536
                     },
@@ -11161,7 +13653,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 269104619
                     },
@@ -11218,7 +13710,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 269310803
                     },
@@ -11285,7 +13777,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 269286829
                     },
@@ -11342,7 +13834,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 269410839
                     },
@@ -11399,7 +13891,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 269376288
                     },
@@ -11456,7 +13948,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 269363380
                     },
@@ -11523,7 +14015,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 269425866
                     },
@@ -11580,7 +14072,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 269374870
                     },
@@ -11647,7 +14139,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 269318160
                     },
@@ -11704,7 +14196,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 269389189
                     },
@@ -11761,7 +14253,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 269366969
                     },
@@ -11828,7 +14320,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 269320928
                     },
@@ -11885,7 +14377,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 269065571
                     },
@@ -11942,7 +14434,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 269319151
                     },
@@ -11999,7 +14491,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 269427361
                     },
@@ -12066,7 +14558,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 269279844
                     },
@@ -12123,7 +14615,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 269318557
                     },
@@ -12190,7 +14682,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 269404209
                     },
@@ -12247,7 +14739,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 269320179
                     },
@@ -12304,7 +14796,7 @@ const editions = {
                         "edition_id": "Unknown",
                         "type": "Operating System",
                         "arch": "?",
-                        "build": "0.0",
+                        "build": "10.0.0.0",
                         "lang": "N/A",
                         "size": 269325298
                     },
