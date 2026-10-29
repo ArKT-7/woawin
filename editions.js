@@ -30,7 +30,7 @@ const editionsmeta = {
         "selected": false
     },
     "24h2-ltsc": {
-        "buildNumber": "26100.9550",
+        "buildNumber": "26100.9725",
         "label": "(24H2) LTSC",
         "warn": true,
         "selected": false
@@ -425,11 +425,11 @@ const editions = {
     "24h2-ltsc": {
         "Professional": {
             "English (United States)": {
-                "esd": "https://drive.google.com/file/d/1AF_jApX2zPka-GYp-KrI0b56mTe_2630/view?usp=drivesdk",
-                "iso": "https://drive.google.com/file/d/1C-KpeGv5w3cJZklZczfL4a1dObRrrhzV/view?usp=drivesdk",
-                "git": "https://github.com/ArKT-7/woawin/releases/tag/2026-09-28_101753",
-                "size": 5178545616,
-                "sha256": "b1a4e132956d25210422a6c3c16f7975a2880cfac7d29e06633e87cc748b2916",
+                "esd": "https://drive.google.com/file/d/111ccOFRn83iKaLYaJgPA4X3dWsy8gZsB/view?usp=drivesdk",
+                "iso": "https://drive.google.com/file/d/1yA3atUuQDBboqNgUXHLns70q3cGAZWAl/view?usp=drivesdk",
+                "git": "https://github.com/ArKT-7/woawin/releases/tag/2026-10-29_132252",
+                "size": 5257466666,
+                "sha256": "f9e28c2b2c867ae376fbdb0952ccbcf31d3757907359b530a0c758456673260d",
                 "all_indexes": [
                     {
                         "index": 1,
@@ -437,9 +437,9 @@ const editions = {
                         "edition_id": "IoTEnterpriseS",
                         "type": "Operating System",
                         "arch": "ARM64",
-                        "build": "26100.9550",
+                        "build": "26100.9725",
                         "lang": "en-US",
-                        "size": 27087177987
+                        "size": 27405931441
                     },
                     {
                         "index": 2,
@@ -447,9 +447,9 @@ const editions = {
                         "edition_id": "IoTEnterpriseS",
                         "type": "Operating System",
                         "arch": "ARM64",
-                        "build": "26100.9550",
+                        "build": "26100.9725",
                         "lang": "en-US",
-                        "size": 27087177987
+                        "size": 27405931441
                     },
                     {
                         "index": 3,
@@ -457,9 +457,9 @@ const editions = {
                         "edition_id": "IoTEnterpriseS",
                         "type": "Operating System",
                         "arch": "ARM64",
-                        "build": "26100.9550",
+                        "build": "26100.9725",
                         "lang": "en-US",
-                        "size": 27087177987
+                        "size": 27405931441
                     },
                     {
                         "index": 4,
@@ -467,9 +467,9 @@ const editions = {
                         "edition_id": "EnterpriseS",
                         "type": "Operating System",
                         "arch": "ARM64",
-                        "build": "26100.9550",
+                        "build": "26100.9725",
                         "lang": "en-US",
-                        "size": 27081971818
+                        "size": 27402302217
                     },
                     {
                         "index": 5,
@@ -477,9 +477,9 @@ const editions = {
                         "edition_id": "IoTEnterpriseS",
                         "type": "Operating System",
                         "arch": "ARM64",
-                        "build": "26100.9550",
+                        "build": "26100.9725",
                         "lang": "en-US",
-                        "size": 27087177987
+                        "size": 27405931441
                     },
                     {
                         "index": 6,
@@ -487,9 +487,9 @@ const editions = {
                         "edition_id": "IoTEnterpriseS",
                         "type": "Operating System",
                         "arch": "ARM64",
-                        "build": "26100.9550",
+                        "build": "26100.9725",
                         "lang": "en-US",
-                        "size": 27087177987
+                        "size": 27405931441
                     }
                 ]
             }
