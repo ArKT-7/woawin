@@ -10,7 +10,7 @@
 - **26300.9550 (26H2) `LTSC` - EN-US**
 - **26200.9550 (25H2) Latest - EN-US, RU-RU and ZH-CN**
 - **26200.9550 (25H2) `LTSC` - EN-US**
-- **26100.9550 (24H2) Latest - EN-US, RU-RU and ZH-CN**
+- **26100.9725 (24H2) Latest - EN-US, RU-RU and ZH-CN**
 - **26100.9550 (24H2) `LTSC` - EN-US**
 - **22631.7654 (23H2) Latest - EN-US, RU-RU and ZH-CN**
 - **26300.9457 (26H2) - All Languages**
