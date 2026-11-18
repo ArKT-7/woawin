@@ -62,7 +62,7 @@ set SkipWebView=0
 :: install Enablement Package for LTSC editions (EnterpriseS variants, or Server)
 :: change to 1 to install applicable EP (for builds 26100 and later)
 :: change to 2 to force install inapplicable EP (e.g. for LTSC 2021)
-set LtscAddEP=0
+set LtscAddEP=1
 
 :: optional, set directory for temporary extracted files (default is on the same drive as the script)
 set "_CabDir=W10UItemp"
